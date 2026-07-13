@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Globe } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function LanguageSwitcher() {
-  const { i18n } = useTranslation();
+  const { language, changeLanguage } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -26,10 +26,6 @@ export default function LanguageSwitcher() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  useEffect(() => {
-    document.documentElement.dir = i18n.language === 'ar' ? 'rtl' : 'ltr';
-  }, [i18n.language]);
-
   return (
     <div className="relative" ref={dropdownRef}>
       <button 
@@ -46,11 +42,11 @@ export default function LanguageSwitcher() {
             <button
               key={lng.code}
               onClick={() => {
-                i18n.changeLanguage(lng.code);
+                changeLanguage(lng.code);
                 setIsOpen(false);
               }}
               className={`text-left px-6 py-2.5 text-[11px] tracking-[0.15em] uppercase transition-colors ${
-                i18n.language === lng.code || i18n.language?.startsWith(lng.code)
+                language === lng.code || language?.startsWith(lng.code)
                   ? 'text-white bg-white/10' 
                   : 'text-white/60 hover:text-white hover:bg-white/5'
               }`}

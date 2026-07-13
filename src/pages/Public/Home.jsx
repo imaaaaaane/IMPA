@@ -14,7 +14,7 @@ const Home = () => {
       <div className="sticky top-0 h-screen w-full z-0 overflow-hidden">
         <Hero />
       </div>
-      <div className="relative z-10 bg-white dark:bg-[#1A1A1C] transition-colors duration-500">
+      <div className="relative z-10 bg-white dark:bg-[#111111] transition-colors duration-500">
         <HakkimizdaHome />
         <Projeler />
         <Urunler />

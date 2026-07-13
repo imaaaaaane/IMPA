@@ -1,40 +1,43 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { productsData } from '../services/productsdata';
 import CoreExpertise from './CoreExpertise';
 
 const Urunler = () => {
+  const { t } = useTranslation();
+
   return (
     <>
-      <section className="py-24 bg-[#FAF9F6] overflow-hidden">
+      <section className="py-24 bg-[#FAF9F6] dark:bg-[#1A1A1C] transition-colors duration-500 overflow-hidden">
 
 
       <div className="max-w-[90rem] mx-auto px-8 md:px-16 mb-12">
-        <span className="text-amber-600 font-semibold tracking-[0.3em] uppercase text-xs mb-4 block">
-          Koleksiyon
+        <span className="text-amber-600 dark:text-stone-400 font-semibold tracking-[0.3em] uppercase text-xs mb-4 block transition-colors duration-500">
+          {t('collection.subtitle')}
         </span>
-        <h2 className="text-3xl md:text-4xl font-serif text-[#1A1A1C] uppercase tracking-wide">
-          Sizin İçin Seçtiklerimiz
+        <h2 className="text-3xl md:text-4xl font-serif text-[#1A1A1C] dark:text-white uppercase tracking-wide transition-colors duration-500">
+          {t('collection.title')}
         </h2>
       </div>
 
 
       <div className="max-w-[90rem] mx-auto px-4 md:px-16">
-        <div className="flex gap-6 md:gap-10 overflow-x-auto pb-16 pt-4 px-4 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        <div className="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide py-12 px-4 transform-gpu antialiased">
 
 
           {productsData.map((product) => (
             <div
               key={product.id}
-              className="snap-start shrink-0 w-[260px] md:w-[300px] group bg-transparent p-4 transition-all duration-500 hover:-translate-y-3 cursor-pointer flex flex-col justify-between items-center"
+              className="flex-none w-[300px] h-[400px] bg-[#FAF9F6] dark:bg-stone-900 rounded-2xl snap-center flex flex-col items-center justify-between p-8 relative overflow-hidden group border border-transparent dark:border-stone-800"
             >
 
-              <div className="w-full aspect-square mb-8 flex items-center justify-center relative">
+              <div className="w-full flex items-center justify-center relative mb-4">
                 <img
 
                   src={product.image}
                   alt={product.title}
-                  className="w-[95%] h-[95%] object-contain transition-transform duration-700 group-hover:scale-110 drop-shadow-[0_15px_25px_rgba(0,0,0,0.12)]"
+                  className="w-full h-48 object-contain mix-blend-multiply dark:mix-blend-normal transition-transform duration-700 ease-out group-hover:scale-110"
                 />
 
 
@@ -47,8 +50,8 @@ const Urunler = () => {
 
 
               <div className="text-center mt-auto">
-                <h3 className="text-sm font-medium text-[#1A1A1C] uppercase tracking-wider mb-2">
-                  {product.title}
+                <h3 className="text-sm font-medium text-[#1A1A1C] dark:text-stone-200 uppercase tracking-wider mb-2 transition-colors duration-500">
+                  {t(`productsData.${product.id}.title`)}
                 </h3>
               </div>
 

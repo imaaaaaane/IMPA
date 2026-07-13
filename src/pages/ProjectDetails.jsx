@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { projectsData } from '../data/projectsData';
+import { useTranslation } from 'react-i18next';
 
 const ProjeDetayi = () => {
+    const { t } = useTranslation();
     const { id } = useParams();
     const navigate = useNavigate();
 
@@ -15,7 +17,7 @@ const ProjeDetayi = () => {
     }, []);
 
     if (!project) {
-        return <div className="min-h-screen flex items-center justify-center text-2xl">Proje bulunamadı!</div>;
+        return <div className="min-h-screen flex items-center justify-center text-2xl">{t('projectNotFound')}</div>;
     }
 
     return (
@@ -27,16 +29,16 @@ const ProjeDetayi = () => {
                     onClick={() => navigate(-1)}
                     className="mb-12 flex items-center gap-4 text-xs tracking-widest uppercase text-[#1A1A1C]/60 hover:text-amber-600 dark:text-white/60 dark:hover:text-amber-500 transition-colors"
                 >
-                    <span className="text-xl">←</span> Geri Dön
+                    <span className="text-xl">←</span> {t('goBack')}
                 </button>
 
                 {/* L-Header dyal L-Projet */}
                 <div className="mb-12">
                     <span className="text-amber-600 dark:text-amber-500 font-medium tracking-[0.3em] uppercase text-xs mb-4 block">
-                        {project.category}
+                        {t(`projectsData.${project.id}.category`)}
                     </span>
                     <h1 className="text-4xl md:text-6xl font-serif text-[#1A1A1C] dark:text-[#FAF9F6]">
-                        {project.title}
+                        {t(`projectsData.${project.id}.title`)}
                     </h1>
                 </div>
 
@@ -57,11 +59,10 @@ const ProjeDetayi = () => {
                     )}
                 </div>
 
-                {/* Ch-Cher7 dyal l-projet */}
                 <div className="max-w-3xl mx-auto text-center">
                     <div className="w-12 h-[1px] bg-amber-500 mx-auto mb-8"></div>
                     <p className="text-[#1A1A1C]/80 dark:text-white/80 text-lg md:text-xl leading-relaxed font-light">
-                        {project.description}
+                        {t(`projectsData.${project.id}.description`)}
                     </p>
                 </div>
 

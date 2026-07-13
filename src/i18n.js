@@ -5,6 +5,13 @@ const resources = {
   tr: {
     translation: {
       activities: { raw: { title: "HAMMADDE & ORMAN ÜRÜNLERİ", desc: "Doğanın en saf halini, sürdürülebilir yöntemlerle işliyoruz." }, mdf: { title: "ENDÜSTRİYEL MDF ÜRETİMİ", desc: "Dayanıklılık ve estetiği birleştiren yüksek kapasiteli üretim." }, modular: { title: "MODÜLER MOBİLYA ÇÖZÜMLERİ", desc: "Modern yaşam alanları için esnek ve şık tasarımlar." }, surface: { title: "LAKE VE YÜZEY TEKNOLOJİLERİ", desc: "Kusursuz dokunuşlar ve pürüzsüz yüzey bitişleri." } },
+      coreExpertise: { subtitle: "ÜRETİM MÜKEMMELİYETİ", title: "İMPA UZMANLIĞI", btnDetails: "Detaylı Bilgi", moduler: { title: "İMPA MODÜLER", subtitle: "Güç ve Hassasiyet", desc: "Fabrika tabanlı hassas üretim gücümüzle, toplu konut ve kamu projelerinizde sınırsız konfigürasyonlar sunan modüler sistemler geliştiriyoruz. Mimari vizyonunuzu, endüstriyel kalitede gerçeğe dönüştürüyoruz.", feature1: "Toplu Konut & Proje Ölçekli Üretim", feature2: "Fabrika Tabanlı Hassas Üretim", feature3: "Sınırsız Modüler Sistemler", feature4: "Estetik, Fonksiyonel & Dayanıklı Çözümler" }, surface: { title: "İMPA SURFACE", subtitle: "Yüzeyde Mükemmeliyet", desc: "Son teknoloji üretim hatlarımızla, kusursuz yüzey kalitesine sahip lake kapı ve kapak uzmanlığımızı Türkiye'nin dört bir yanına taşıyoruz. Yüzeyde mükemmeliyet, üretimde sarsılmaz güven.", feature1: "Kusursuz Yüzey Kalitesi", feature2: "Lake Kapı & Kapak Uzmanlığı", feature3: "Uzun Ömürlü Kullanım & Dayanıklılık", feature4: "Estetik & Modern Tasarımlar" } },
+      collection: { subtitle: "Koleksiyon", title: "Sizin İçin Seçtiklerimiz" },
+      navbarMega: { products: "ÜRÜNLER", seating: { title: "Oturma Grupları", sofas: "Kanepeler & Koltuklar", lSofas: "L Koltuklar", armchairs: "Berjerler", tables: "Orta & Yan Sehpalar" }, dining: { title: "Yemek Odası", tables: "Yemek Masaları", chairs: "Sandalyeler", sideboards: "Konsol & Büfeler" }, bedroom: { title: "Yatak Odası", beds: "Karyola & Yataklar", wardrobes: "Gardıroplar", nightstands: "Komodinler" }, promo1: { badge: "İNDİR", title: "İMPA Katalog '26" }, promo2: { badge: "KEŞFET", title: "Yeni Koleksiyon" } },
+      footerArchitect: { title1: "İç Mimarımızla", title2: "Hayalinizdeki Alanı", title3: "Tasarlayın.", process: "Sürecimiz Nasıl İşliyor?", step1Title: "Tanışma & Keşif", step1Desc: "Beklentilerinizi dinliyor, alanınızı analiz ediyoruz.", step2Title: "3D Tasarım", step2Desc: "Hayalinizdeki mekanı 3 boyutlu olarak modelliyoruz.", step3Title: "Üretim & Kurulum", step3Desc: "Kendi fabrikamızda üretiyor ve teslim ediyoruz.", btnSelect: "Alanınızı Seçin", address1: "Organize Sanayi Bölgesi", address2: "Batman, Türkiye", copyright: "© 2003–2026 İMPA ORMAN ÜRÜNLERİ." },
+      projeler: { badge: "Projelerimiz", title: "Ahşabın Zamansız Zarafeti.", desc: "Ustalıkla işlenmiş doğal ahşap dokuları, modern tasarım anlayışıyla birleştirerek yaşam alanlarına ruh katan benzersiz mobilya projelerimiz.", btn: "Detayları İncele" },
+      about: { subtitle: "KURUMSAL TANITIM | İMPA ORMAN ÜRÜNLERİ", title: "Güvenle Büyüyen, Kaliteyle Üreten.", intro1: "2003 yılında Batman'da kurulan İMPA Orman Ürünleri, mobilya ve orman ürünleri sektöründe kalite, güven ve müşteri memnuniyetini esas alan hizmet anlayışıyla faaliyetlerine başlamıştır. Yirmi yılı aşkın deneyimi boyunca istikrarlı büyümesini sürdüren şirketimiz; güçlü tedarik ağı, geniş ürün yelpazesi ve sürekli yatırım anlayışıyla sektörünün güvenilir ve saygın firmalarından biri hâline gelmiştir.", intro2: "Kuruluşumuzdan bu yana yalnızca ticaret yapmayı değil, bölgemize değer katmayı, istihdam oluşturmayı ve üretim gücümüzü sürekli geliştirmeyi temel hedef olarak benimsedik. Bugün İMPA Orman Ürünleri, hem ticaret hem de üretim alanında faaliyet gösteren entegre bir yapı olarak müşterilerine kapsamlı çözümler sunmaktadır.", activitiesTitle: "Faaliyet Alanlarımız", activitiesDesc: "İMPA Orman Ürünleri olarak; ürün çeşitliliğimiz, güçlü stok kapasitemiz ve hızlı tedarik ağımız sayesinde bireysel müşterilerden büyük ölçekli projelere kadar her ihtiyaca profesyonel çözümler sunuyoruz.", productionTitle: "ÜRETİM GÜCÜMÜZ", modulerTitle: "İMPA MODÜLER", modulerDesc1: "2024 yılında Batman Organize Sanayi Bölgesi'nde gerçekleştirdiğimiz yatırım ile İMPA MODÜLER markamızı hayata geçirerek modüler mobilya ve proje bazlı inşaat mobilyaları üretim fabrikamızı faaliyete aldık.", modulerDesc2: "Modern üretim teknolojileriyle donatılmış tesisimizde; toplu konut projeleri, kamu kurumları, eğitim yapıları, sağlık tesisleri, oteller, ofisler ve özel yaşam alanlarına yönelik yüksek kalite standartlarında üretim gerçekleştiriyoruz. Her projeye özel çözümler geliştiren üretim anlayışımızla estetik, fonksiyonellik ve dayanıklılığı bir araya getirerek müşterilerimizin beklentilerinin ötesinde ürünler sunuyoruz.", surfaceTitle: "İMPA SURFACE", surfaceDesc1: "2026 yılında yine Batman Organize Sanayi Bölgesi'nde ikinci büyük sanayi yatırımımızı gerçekleştirerek İMPA SURFACE markasını üretim ailemize kazandırdık.", surfaceDesc2: "İMPA SURFACE; son teknoloji üretim hatları, modern makine parkuru ve uzman teknik kadrosuyla lake kapı ve lake kapak üretiminde faaliyet göstermektedir. Yüksek kalite standartlarında gerçekleştirilen üretim süreçlerimiz sayesinde estetik görünümü, kusursuz yüzey kalitesini ve uzun ömürlü kullanım performansını bir araya getirerek Türkiye'nin dört bir yanındaki müşterilerimize güvenilir çözümler sunuyoruz.", surfaceQuote: "\"Yüzeyde Mükemmellik, Üretimde Güven.\"", whyTitle: "NEDEN İMPA?", reasons: ["Geniş ürün çeşitliliği", "Güçlü stok ve tedarik ağı", "Hızlı teslimat anlayışı", "Kaliteli üretim", "Güvenilir ticaret ilkesi", "Deneyimli uzman kadro", "Modern üretim teknolojileri", "Müşteri memnuniyeti odaklı hizmet anlayışı"], whyQuote: "\"Bu değerler sayesinde yıllardır müşterilerimizle uzun soluklu iş ortaklıkları kuruyor ve her geçen gün büyüyen bir marka olmanın gururunu yaşıyoruz.\"", visionTitle: "Vizyonumuz", visionDesc: "Sektörümüzde kalite, güven ve yenilik denildiğinde ilk akla gelen markalardan biri olmak; üretim kapasitemizi ve ürün çeşitliliğimizi sürekli geliştirerek ülkemize değer katan, ulusal ve uluslararası pazarda tercih edilen güçlü bir üretici ve tedarikçi konumuna ulaşmaktır.", missionTitle: "Misyonumuz", missionDesc: "Müşterilerimizin beklentilerini en üst seviyede karşılayan kaliteli ürünler üretmek, güvenilir hizmet anlayışımızdan ödün vermeden teknolojiyi yakından takip etmek ve sürekli gelişen üretim altyapımızla sektöre değer katmaktır. Her geçen gün ürün çeşitliliğimizi artırıyor, memleketimiz Batman'a yatırım yapıyor, yeni istihdam alanları oluşturuyor ve ülke ekonomisine katkı sağlamaya devam ediyoruz." },
+      spaces: { livingRoom: "SALON", bathroom: "BANYO", bedroom: "YATAK ODASI", kitchen: "MUTFAK", wholeHouse: "TÜM EV", processSubtitle: "Sürecimiz", processTitle: "Nasıl Çalışıyoruz?", step1Title: "Keşif & Analiz", step1Desc: "Beklentilerinizi dinliyor, alanınızı uzman mimarlarımızla yerinde analiz ediyoruz.", step2Title: "3D Modelleme", step2Desc: "Hayalinizdeki mekanı 3 boyutlu render teknolojimizle gerçeğe en yakın şekilde tasarlıyoruz.", step3Title: "Üretim & Teslimat", step3Desc: "Kendi fabrikamızda kusursuzca üretiyor ve profesyonel ekibimizle anahtar teslim kuruyoruz.", hero: { subtitle: "Masterpiece Serisi", title: "Dönüşüm Sanatı", desc: "Sıradan alanları, size özel tasarlanmış lüks yaşam merkezlerine dönüştürüyoruz. Üç farklı projemizdeki inanılmaz değişimi keşfedin." }, "01": { subtitle: "01 / Salon Dönüşümü", title: "Blueprint Slider", desc: "Klasik ancak son derece akıcı bir deneyim. Etkileşimli kaydırma çubuğu ile alanın ham halinden kusursuz finaline olan keskin geçişi kendi ellerinizle ortaya çıkarın.", before: "Öncesi (Sol)", after: "Sonrası (Sağ)" }, "02": { subtitle: "02 / Master Yatak Odası", title: "Hover Lens Reveal", desc: "İnteraktif Dönüşüm: Ana yatak odasının son tasarımını ortaya çıkarmak için sürükleyin, ham yapıyı sıcak, tamamlanmış yaşam alanıyla karşılaştırın.", prompt: "İncelemek İçin Dokunun / Gezdirin" }, "03": { subtitle: "03 / Minimalist Mutfak", title: "Scroll Fade Build", desc: "Detay Sanatı: Kaydırdıkça mutfağın evrimini deneyimleyin; yorgun dokular yerini modern ve zarif işçiliğe bırakıyor.", before: "Yapım Öncesi", after: "Final Teslimi" } },
       navAbout: "Hakkımızda",
       navProcess: "Süreç",
       navProjects: "Projeler",
@@ -120,12 +127,42 @@ const resources = {
       processStep2Title: "Modern Üretim",
       processStep2Desc: "Son teknoloji makine parkurumuzda kusursuz bir işçilikle şekillendiriyoruz.",
       processStep3Title: "Kalite Kontrol",
-      processStep3Desc: "Her bir ürünü detaylı testlerden geçirerek uzun ömürlü kullanım sunuyoruz."
+      processStep3Desc: "Her bir ürünü detaylı testlerden geçirerek uzun ömürlü kullanım sunuyoruz.",
+      projectNotFound: "Proje bulunamadı!",
+      randevu: {
+        heroTitle1: "Hayalinizdeki", heroTitle2: "Alanı", heroTitle3: "Tasarlayalım.",
+        formTitle: "Danışmanlık Formu",
+        name: "Adınız Soyadınız",
+        contact: "E-Posta / Telefon",
+        space: "İlgilendiğiniz Alan",
+        submit: "Ücretsiz Danışmanlık Al"
+      },
+      productsData: {
+        "1": { "title": "Modern Meşe Konsol", "category": "KONSOL" },
+        "2": { "title": "Ceviz Yemek Masası", "category": "MASA" },
+        "3": { "title": "Minimalist Ahşap Sandalye", "category": "SANDALYE" },
+        "4": { "title": "Premium Oturma Grubu", "category": "KOLTUK" },
+        "5": { "title": "Masif Ahşap Yatak", "category": "YATAK" },
+        "6": { "title": "Dekoratif Ahşap Raf", "category": "RAF" }
+      },
+      projectsData: {
+        "1": { "title": "Doğa ile İç İçe Dinlenme Alanı", "category": "ÖZEL TASARIM", "description": "Doğal ahşabın sıcaklığını, modern ve organik formlarla buluşturan özel tasarım dinlenme alanı. Yuvarlak pencere detayı ve masif ahşaptan üretilmiş entegre kitaplık, mekana hem estetik hem de fonksiyonel bir değer katıyor. İMPA ustalarının ince işçiliği ile şekillenen bu alan, huzurlu bir kaçış noktası sunuyor." },
+        "2": { "title": "Lüks Ahşap Yaşam Alanı", "category": "İÇ MİMARİ", "description": "Farklı kotların masif ahşap zemin ve merdivenlerle ustaca birbirine bağlandığı, ferah ve lüks yaşam alanı. Koyu ahşap tonlarının modern aydınlatmalarla buluştuğu bu projede, mekanın her köşesinde ahşabın asil duruşu ve İMPA'nın premium kalite anlayışı hissediliyor." },
+        "3": { "title": "Modern Minimalist Salon", "category": "MODÜLER MOBİLYA", "description": "Aydınlık ve ferah bir salon için tasarlanmış, doğal ahşap kaplamalı minimalist TV ünitesi ve orta sehpa konsepti. Zarif çizgiler, fonksiyonel depolama alanları ve ahşabın sıcak dokusu bir arada sunularak zamansız bir zarafet yakalandı." },
+        "4": { "title": "Göl Evi Dış Cephe & Teras", "category": "DIŞ MEKAN", "description": "Doğayla tam uyum içinde, her türlü hava koşuluna dayanıklı ve estetik dış cephe ahşap kaplamaları. Geniş teras ve veranda detayları, birinci sınıf malzemelerle işlenerek açık havada konforlu ve şık bir yaşam alanı oluşturuyor." }
+      }
     }
   },
   en: {
     translation: {
       activities: { raw: { title: "RAW MATERIALS & FOREST PRODUCTS", desc: "We process nature's purest form with sustainable methods." }, mdf: { title: "INDUSTRIAL MDF PRODUCTION", desc: "High-capacity production combining durability and aesthetics." }, modular: { title: "MODULAR FURNITURE SOLUTIONS", desc: "Flexible, stylish and lasting designs for modern living spaces." }, surface: { title: "SURFACE TECHNOLOGIES", desc: "Flawless touches and smooth surface finishes for every project." } },
+      coreExpertise: { subtitle: "PRODUCTION EXCELLENCE", title: "IMPA EXPERTISE", btnDetails: "Detailed Information", moduler: { title: "IMPA MODULAR", subtitle: "Power and Precision", desc: "With our factory-based precision production power, we develop modular systems that offer unlimited configurations in your mass housing and public projects. We turn your architectural vision into reality with industrial quality.", feature1: "Mass Housing & Project Scale Production", feature2: "Factory Based Precision Production", feature3: "Unlimited Modular Systems", feature4: "Aesthetic, Functional & Durable Solutions" }, surface: { title: "IMPA SURFACE", subtitle: "Excellence on the Surface", desc: "With our state-of-the-art production lines, we bring our expertise in lacquered doors and covers with flawless surface quality to all over Turkey. Excellence on the surface, unwavering trust in production.", feature1: "Flawless Surface Quality", feature2: "Lacquered Door & Cover Expertise", feature3: "Long-Lasting Use & Durability", feature4: "Aesthetic & Modern Designs" } },
+      collection: { subtitle: "Collection", title: "Our Picks For You" },
+      navbarMega: { products: "PRODUCTS", seating: { title: "Seating Groups", sofas: "Sofas", lSofas: "Sectional Sofas", armchairs: "Armchairs", tables: "Coffee & Side Tables" }, dining: { title: "Dining Room", tables: "Dining Tables", chairs: "Chairs", sideboards: "Sideboards & Buffets" }, bedroom: { title: "Bedroom", beds: "Beds", wardrobes: "Wardrobes", nightstands: "Nightstands" }, promo1: { badge: "DOWNLOAD", title: "IMPA Catalog '26" }, promo2: { badge: "DISCOVER", title: "New Collection" } },
+      footerArchitect: { title1: "Design Your Dream", title2: "Space With Our", title3: "Interior Architect.", process: "How Does Our Process Work?", step1Title: "Meeting & Discovery", step1Desc: "We listen to your expectations and analyze your space.", step2Title: "3D Design", step2Desc: "We model your dream space in 3D.", step3Title: "Production & Installation", step3Desc: "We produce in our own factory and deliver.", btnSelect: "Select Your Space", address1: "Organized Industrial Zone", address2: "Batman, Turkey", copyright: "© 2003–2026 IMPA FOREST PRODUCTS." },
+      projeler: { badge: "Our Projects", title: "Timeless Elegance of Wood.", desc: "Our unique furniture projects that add soul to living spaces by combining masterfully crafted natural wood textures with modern design understanding.", btn: "View Details" },
+      about: { subtitle: "CORPORATE INTRODUCTION | IMPA FOREST PRODUCTS", title: "Growing with Trust, Producing with Quality.", intro1: "Founded in Batman in 2003, IMPA Forest Products started its activities in the furniture and forest products sector with a service approach based on quality, trust, and customer satisfaction. Sustaining its steady growth for over twenty years, our company has become one of the reliable and respected companies in its sector with its strong supply network, wide product range, and continuous investment approach.", intro2: "Since our establishment, we have adopted not only trading but also adding value to our region, creating employment, and continuously developing our production power as our main goals. Today, IMPA Forest Products offers comprehensive solutions to its customers as an integrated structure operating in both trade and production fields.", activitiesTitle: "Our Activity Areas", activitiesDesc: "As IMPA Forest Products; with our product diversity, strong stock capacity, and fast supply network, we offer professional solutions to every need from individual customers to large-scale projects.", productionTitle: "OUR PRODUCTION POWER", modulerTitle: "IMPA MODULAR", modulerDesc1: "With the investment we made in Batman Organized Industrial Zone in 2024, we brought our IMPA MODULAR brand to life and put our modular furniture and project-based construction furniture production factory into operation.", modulerDesc2: "In our facility equipped with modern production technologies; we produce at high quality standards for mass housing projects, public institutions, educational buildings, health facilities, hotels, offices, and private living spaces. With our production approach that develops special solutions for each project, we bring together aesthetics, functionality, and durability to offer products beyond the expectations of our customers.", surfaceTitle: "IMPA SURFACE", surfaceDesc1: "In 2026, we made our second major industrial investment again in Batman Organized Industrial Zone and added the IMPA SURFACE brand to our production family.", surfaceDesc2: "IMPA SURFACE; operates in lacquered door and lacquered cover production with its state-of-the-art production lines, modern machinery park, and expert technical staff. Thanks to our production processes carried out at high quality standards, we offer reliable solutions to our customers all over Turkey by bringing together aesthetic appearance, flawless surface quality, and long-lasting use performance.", surfaceQuote: "\"Excellence on the Surface, Trust in Production.\"", whyTitle: "WHY IMPA?", reasons: ["Wide product range", "Strong stock and supply network", "Fast delivery approach", "Quality production", "Reliable trade principle", "Experienced expert staff", "Modern production technologies", "Customer satisfaction-oriented service approach"], whyQuote: "\"Thanks to these values, we have been building long-term business partnerships with our customers for years and experiencing the pride of being a growing brand day by day.\"", visionTitle: "Our Vision", visionDesc: "To be one of the first brands that come to mind when quality, trust, and innovation are mentioned in our sector; to reach the position of a strong producer and supplier that adds value to our country and is preferred in national and international markets by continuously developing our production capacity and product diversity.", missionTitle: "Our Mission", missionDesc: "To produce high-quality products that meet our customers' expectations at the highest level, to follow technology closely without compromising our reliable service approach, and to add value to the sector with our continuously developing production infrastructure. We increase our product diversity day by day, invest in our hometown Batman, create new employment areas, and continue to contribute to the country's economy." },
+      spaces: { livingRoom: "LIVING ROOM", bathroom: "BATHROOM", bedroom: "BEDROOM", kitchen: "KITCHEN", wholeHouse: "WHOLE HOUSE", processSubtitle: "Our Process", processTitle: "How Do We Work?", step1Title: "Discovery & Analysis", step1Desc: "We listen to your expectations and analyze your space on site with our expert architects.", step2Title: "3D Modeling", step2Desc: "We design your dream space as close to reality as possible with our 3D render technology.", step3Title: "Production & Delivery", step3Desc: "We produce flawlessly in our own factory and install turnkey with our professional team.", hero: { subtitle: "Masterpiece Series", title: "The Art of Transformation", desc: "We transform ordinary spaces into luxurious living centers designed specifically for you. Discover the incredible transformation in three of our distinct projects." }, "01": { subtitle: "01 / Living Room Transformation", title: "Blueprint Slider", desc: "A classic yet highly fluid experience. Use the interactive slider to unveil the sharp transition from the raw space to its flawless final state.", before: "Before (Left)", after: "After (Right)" }, "02": { subtitle: "02 / Master Bedroom", title: "Hover Lens Reveal", desc: "Interactive Transformation: Drag to reveal the master suite's final design, contrasting the raw structure with the warm, finished living space.", prompt: "Hover / Touch to Inspect" }, "03": { subtitle: "03 / Minimalist Kitchen", title: "Scroll Fade Build", desc: "The Art of Detail: As you scroll, experience the kitchen’s evolution—where tired textures retreat to reveal modern, refined craftsmanship.", before: "Pre-Construction", after: "Final Delivery" } },
       navAbout: "About Us",
       navProcess: "Process",
       navProjects: "Projects",
@@ -241,11 +278,42 @@ const resources = {
       processStep2Title: "Modern Production",
       processStep2Desc: "We shape them with flawless craftsmanship in our state-of-the-art machinery park.",
       processStep3Title: "Quality Control",
-      processStep3Desc: "We offer long-lasting use by putting each product through detailed tests."
+      processStep3Desc: "We offer long-lasting use by putting each product through detailed tests.",
+      projectNotFound: "Project not found!",
+      randevu: {
+        heroTitle1: "Let's Design", heroTitle2: "Your Dream", heroTitle3: "Space.",
+        formTitle: "Consultancy Form",
+        name: "Full Name",
+        contact: "Email / Phone",
+        space: "Interested Area",
+        submit: "Get Free Consultancy"
+      },
+      productsData: {
+        "1": { "title": "Modern Oak Console", "category": "CONSOLE" },
+        "2": { "title": "Walnut Dining Table", "category": "TABLE" },
+        "3": { "title": "Minimalist Wooden Chair", "category": "CHAIR" },
+        "4": { "title": "Premium Seating Group", "category": "SOFA" },
+        "5": { "title": "Solid Wood Bed", "category": "BED" },
+        "6": { "title": "Decorative Wooden Shelf", "category": "SHELF" }
+      },
+      projectsData: {
+        "1": { "title": "Relaxation Area Intertwined with Nature", "category": "CUSTOM DESIGN", "description": "A specially designed relaxation area that combines the warmth of natural wood with modern and organic forms. The round window detail and integrated bookshelf made of solid wood add both aesthetic and functional value to the space. Shaped by the fine craftsmanship of İMPA masters, this area offers a peaceful escape point." },
+        "2": { "title": "Luxury Wooden Living Space", "category": "INTERIOR ARCHITECTURE", "description": "A spacious and luxurious living area where different elevations are masterfully connected with solid wood floors and stairs. In this project where dark wood tones meet modern lighting, the noble stance of wood and İMPA's premium quality understanding are felt in every corner of the space." },
+        "3": { "title": "Modern Minimalist Living Room", "category": "MODULAR FURNITURE", "description": "A minimalist TV unit and coffee table concept with natural wood veneer designed for a bright and spacious living room. A timeless elegance was achieved by offering elegant lines, functional storage areas, and the warm texture of wood together." },
+        "4": { "title": "Lake House Exterior & Terrace", "category": "OUTDOOR", "description": "Aesthetic exterior wooden claddings that are fully compatible with nature and resistant to all weather conditions. Wide terrace and veranda details are processed with first-class materials, creating a comfortable and stylish outdoor living space." }
+      }
     }
   },
   fr: {
     translation: {
+      activities: { raw: { title: "MATIÈRES PREMIÈRES ET PRODUITS FORESTIERS", desc: "Nous traitons la forme la plus pure de la nature avec des méthodes durables." }, mdf: { title: "PRODUCTION INDUSTRIELLE DE MDF", desc: "Une production de grande capacité alliant durabilité et esthétique." }, modular: { title: "SOLUTIONS DE MOBILIER MODULAIRE", desc: "Des designs flexibles, élégants et durables pour les espaces de vie modernes." }, surface: { title: "TECHNOLOGIES DE SURFACE", desc: "Des touches impeccables et des finitions de surface lisses pour chaque projet." } },
+      coreExpertise: { subtitle: "EXCELLENCE DE PRODUCTION", title: "EXPERTISE IMPA", btnDetails: "Informations détaillées", moduler: { title: "IMPA MODULAIRE", subtitle: "Puissance et Précision", desc: "Grâce à notre puissance de production de précision en usine, nous développons des systèmes modulaires offrant des configurations illimitées pour vos projets de logements de masse et publics. Nous transformons votre vision architecturale en réalité avec une qualité industrielle.", feature1: "Logements de masse et production à l'échelle du projet", feature2: "Production de précision en usine", feature3: "Systèmes modulaires illimités", feature4: "Solutions esthétiques, fonctionnelles et durables" }, surface: { title: "SURFACE IMPA", subtitle: "Excellence en surface", desc: "Grâce à nos lignes de production de pointe, nous apportons notre expertise dans les portes et couvercles laqués avec une qualité de surface irréprochable dans toute la Turquie. L'excellence en surface, une confiance inébranlable dans la production.", feature1: "Qualité de surface irréprochable", feature2: "Expertise en portes et couvercles laqués", feature3: "Utilisation longue durée et durabilité", feature4: "Conceptions esthétiques et modernes" } },
+      collection: { subtitle: "Collection", title: "Nos choix pour vous" },
+      navbarMega: { products: "PRODUITS", seating: { title: "Groupes de sièges", sofas: "Canapés", lSofas: "Canapés d'angle", armchairs: "Fauteuils", tables: "Tables basses et d'appoint" }, dining: { title: "Salle à manger", tables: "Tables à manger", chairs: "Chaises", sideboards: "Buffets" }, bedroom: { title: "Chambre à coucher", beds: "Lits", wardrobes: "Armoires", nightstands: "Tables de chevet" }, promo1: { badge: "TÉLÉCHARGER", title: "Catalogue IMPA '26" }, promo2: { badge: "DÉCOUVRIR", title: "Nouvelle Collection" } },
+      footerArchitect: { title1: "Concevez votre rêve", title2: "Espace avec notre", title3: "Architecte d'intérieur.", process: "Comment fonctionne notre processus ?", step1Title: "Rencontre et découverte", step1Desc: "Nous écoutons vos attentes et analysons votre espace.", step2Title: "Conception 3D", step2Desc: "Nous modélisons l'espace de vos rêves en 3D.", step3Title: "Production et installation", step3Desc: "Nous produisons dans notre propre usine et livrons.", btnSelect: "Sélectionnez votre espace", address1: "Zone Industrielle Organisée", address2: "Batman, Turquie", copyright: "© 2003–2026 PRODUITS FORESTIERS IMPA." },
+      projeler: { badge: "Nos Projets", title: "L'élégance intemporelle du bois.", desc: "Nos projets de mobilier uniques qui donnent une âme aux espaces de vie en associant des textures de bois naturel savamment travaillées à une compréhension du design moderne.", btn: "Voir les détails" },
+      about: { subtitle: "PRÉSENTATION DE L'ENTREPRISE | PRODUITS FORESTIERS IMPA", title: "Grandir avec la confiance, Produire avec la qualité.", intro1: "Fondée à Batman en 2003, IMPA Forest Products a commencé ses activités dans le secteur du meuble et des produits forestiers avec une approche de service basée sur la qualité, la confiance et la satisfaction du client. Poursuivant sa croissance constante depuis plus de vingt ans, notre entreprise est devenue l'une des entreprises fiables et respectées de son secteur grâce à son solide réseau d'approvisionnement, sa large gamme de produits et son approche d'investissement continu.", intro2: "Depuis notre création, nous avons adopté comme objectifs principaux non seulement le commerce, mais aussi la valorisation de notre région, la création d'emplois et le développement continu de notre capacité de production. Aujourd'hui, IMPA Forest Products propose des solutions complètes à ses clients en tant que structure intégrée opérant à la fois dans les domaines du commerce et de la production.", activitiesTitle: "Nos Domaines d'Activité", activitiesDesc: "En tant que IMPA Forest Products ; avec notre diversité de produits, notre forte capacité de stockage et notre réseau d'approvisionnement rapide, nous offrons des solutions professionnelles à chaque besoin, des clients individuels aux projets à grande échelle.", productionTitle: "NOTRE PUISSANCE DE PRODUCTION", modulerTitle: "IMPA MODULAIRE", modulerDesc1: "Avec l'investissement que nous avons réalisé dans la zone industrielle organisée de Batman en 2024, nous avons donné vie à notre marque IMPA MODULAR et mis en service notre usine de production de meubles modulaires et de meubles de construction basés sur des projets.", modulerDesc2: "Dans nos installations équipées des technologies de production modernes ; nous produisons selon des normes de qualité élevées pour des projets de logements collectifs, des institutions publiques, des bâtiments éducatifs, des établissements de santé, des hôtels, des bureaux et des espaces de vie privés. Avec notre approche de production qui développe des solutions spéciales pour chaque projet, nous réunissons esthétique, fonctionnalité et durabilité pour offrir des produits au-delà des attentes de nos clients.", surfaceTitle: "SURFACE IMPA", surfaceDesc1: "En 2026, nous avons réalisé notre deuxième grand investissement industriel, toujours dans la zone industrielle organisée de Batman, et ajouté la marque IMPA SURFACE à notre famille de production.", surfaceDesc2: "IMPA SURFACE ; opère dans la production de portes laquées et de couvercles laqués avec ses lignes de production de pointe, son parc de machines moderne et son personnel technique expert. Grâce à nos processus de production menés selon des normes de qualité élevées, nous offrons des solutions fiables à nos clients dans toute la Turquie en associant aspect esthétique, qualité de surface irréprochable et performances d'utilisation à long terme.", surfaceQuote: "\"Excellence en Surface, Confiance dans la Production.\"", whyTitle: "POURQUOI IMPA ?", reasons: ["Large gamme de produits", "Solide réseau de stockage et d'approvisionnement", "Approche de livraison rapide", "Production de qualité", "Principe commercial fiable", "Personnel expert expérimenté", "Technologies de production modernes", "Approche de service orientée vers la satisfaction du client"], whyQuote: "\"Grâce à ces valeurs, nous construisons depuis des années des partenariats commerciaux à long terme avec nos clients et éprouvons la fierté d'être une marque en croissance de jour en jour.\"", visionTitle: "Notre Vision", visionDesc: "Être l'une des premières marques qui viennent à l'esprit lorsque l'on parle de qualité, de confiance et d'innovation dans notre secteur ; atteindre la position d'un producteur et fournisseur fort qui ajoute de la valeur à notre pays et est préféré sur les marchés nationaux et internationaux en développant continuellement notre capacité de production et la diversité de nos produits.", missionTitle: "Notre Mission", missionDesc: "Produire des produits de haute qualité qui répondent aux attentes de nos clients au plus haut niveau, suivre de près la technologie sans compromettre notre approche de service fiable, et ajouter de la valeur au secteur avec notre infrastructure de production en développement continu. Nous augmentons notre diversité de produits de jour en jour, investissons dans notre ville natale de Batman, créons de nouveaux domaines d'emploi et continuons de contribuer à l'économie du pays." },
+      spaces: { hero: { subtitle: "Série Masterpiece", title: "L'Art de la Transformation", desc: "Nous transformons des espaces ordinaires en luxueux centres de vie conçus spécialement pour vous. Découvrez la transformation incroyable dans trois de nos projets distincts." }, "01": { subtitle: "01 / Transformation du Salon", title: "Curseur Blueprint", desc: "Une expérience classique mais très fluide. Utilisez le curseur interactif pour dévoiler la transition nette entre l'espace brut et son état final impeccable.", before: "Avant (Gauche)", after: "Après (Droite)" }, "02": { subtitle: "02 / Chambre Principale", title: "Révélation de Lentille", desc: "Transformation interactive : Faites glisser pour révéler le design final de la suite parentale, contrastant la structure brute avec l'espace de vie chaleureux et achevé.", prompt: "Survolez / Touchez pour Inspecter" }, "03": { subtitle: "03 / Cuisine Minimaliste", title: "Fondu au Défilement", desc: "L'Art du Détail : Au fil du défilement, découvrez l'évolution de la cuisine—où les textures fatiguées se retirent pour révéler un savoir-faire moderne et raffiné.", before: "Avant la Construction", after: "Livraison Finale" } },
       navAbout: "À Propos",
       navProcess: "Processus",
       navProjects: "Projets",
@@ -361,11 +429,35 @@ const resources = {
       processStep2Title: "Production Moderne",
       processStep2Desc: "Nous les façonnons avec un savoir-faire irréprochable dans notre parc de machines à la pointe de la technologie.",
       processStep3Title: "Contrôle Qualité",
-      processStep3Desc: "Nous garantissons une utilisation durable en soumettant chaque produit à des tests détaillés."
+      processStep3Desc: "Nous garantissons une utilisation durable en soumettant chaque produit à des tests détaillés.",
+      projectNotFound: "Projet non trouvé !",
+      randevu: {
+        heroTitle1: "Concevons", heroTitle2: "Votre Espace", heroTitle3: "De Rêve.",
+        formTitle: "Formulaire de Conseil",
+        name: "Nom et Prénom",
+        contact: "E-Mail / Téléphone",
+        space: "Domaine d'Intérêt",
+        submit: "Obtenir une Consultation Gratuite"
+      },
+      productsData: {
+        "1": { "title": "Console en Chêne Moderne", "category": "CONSOLE" },
+        "2": { "title": "Table à Manger en Noyer", "category": "TABLE" },
+        "3": { "title": "Chaise en Bois Minimaliste", "category": "CHAISE" },
+        "4": { "title": "Salon Premium", "category": "CANAPÉ" },
+        "5": { "title": "Lit en Bois Massif", "category": "LIT" },
+        "6": { "title": "Étagère en Bois Décorative", "category": "ÉTAGÈRE" }
+      },
+      projectsData: {
+        "1": { "title": "Espace de Détente Entrelacé avec la Nature", "category": "DESIGN PERSONNALISÉ", "description": "Un espace de détente spécialement conçu qui allie la chaleur du bois naturel à des formes modernes et organiques. Le détail de la fenêtre ronde et la bibliothèque intégrée en bois massif ajoutent une valeur tant esthétique que fonctionnelle à l'espace. Façonné par l'artisanat des maîtres İMPA, cette zone offre un point d'évasion paisible." },
+        "2": { "title": "Espace de Vie en Bois de Luxe", "category": "ARCHITECTURE D'INTÉRIEUR", "description": "Un espace de vie spacieux et luxueux où différentes élévations sont magistralement reliées par des sols et des escaliers en bois massif. Dans ce projet où les tons de bois sombre rencontrent l'éclairage moderne, la noble prestance du bois et la compréhension de qualité premium d'İMPA se ressentent dans chaque coin de l'espace." },
+        "3": { "title": "Salon Minimaliste Moderne", "category": "MOBILIER MODULAIRE", "description": "Un concept de meuble TV et de table basse minimaliste en placage de bois naturel conçu pour un salon lumineux et spacieux. Une élégance intemporelle a été obtenue en offrant ensemble des lignes élégantes, des zones de stockage fonctionnelles et la texture chaude du bois." },
+        "4": { "title": "Extérieur de la Maison du Lac & Terrasse", "category": "EXTÉRIEUR", "description": "Revêtements extérieurs en bois esthétiques, entièrement compatibles avec la nature et résistants à toutes les conditions météorologiques. Les grands détails de terrasse et de véranda sont traités avec des matériaux de première classe, créant un espace de vie extérieur confortable et élégant." }
+      }
     }
   },
   ku: {
     translation: {
+      spaces: { hero: { subtitle: "Rêzeya Masterpiece", title: "Hunera Veguherînê", desc: "Em qadên asayî vediguherînin navendên jiyanê yên luks ên bi taybetî ji bo we hatine sêwirandin. Veguherîna bawernekirî di sê projeyên me yên cihêreng de kifş bikin." }, "01": { subtitle: "01 / Veguherîna Salonê", title: "Slider a Blueprint", desc: "Tecrûbeyek klasîk lê di heman demê de pir herikbar. Slaytera înteraktîf bikar bînin da ku veguheztina tûj a ji valahiya xav berbi qonaxa wêya dawîn a bêqisûr eşkere bikin.", before: "Berê (Çep)", after: "Paşê (Rast)" }, "02": { subtitle: "02 / Odeya Nivînê ya Sereke", title: "Eşkerekirina Lensa Hover", desc: "Veguherîna Înteraktîf: Bikişînin da ku sêwirana dawîn a suite masterê eşkere bikin, avahiya xav bi cîhê rûniştinê yê germ û qediyayî re berevajî bikin.", prompt: "Ji bo vekolînê bişopînin / dest bidin" }, "03": { subtitle: "03 / Metbexa Mînîmalîst", title: "Fadeya Pêkhatina Li Xwarê", desc: "Hunera Kûrahî: Dema ku hûn li jêr digerin, pêşveçûna metbexê biceribînin - cihê ku tevnvîsên westiyayî paşve dikişin da ku pîşesaziya nûjen a safîkirî eşkere bikin.", before: "Berî Çêkirinê", after: "Radestkirina Dawîn" } },
       navAbout: "Derbarê Me",
       navProcess: "Pêvajo",
       navProjects: "Proje",
@@ -481,11 +573,42 @@ const resources = {
       processStep2Title: "Hilberîna Nûjen",
       processStep2Desc: "Em wan di parka xwe ya makîneyên teknolojiya bilind de bi hostatiyek bêkêmasî diçêkin.",
       processStep3Title: "Kontrola Kalîteyê",
-      processStep3Desc: "Em her hilberekê di ceribandinên hûrgulî re derbas dikin û karanînek demdirêj pêşkêşî we dikin."
+      processStep3Desc: "Em her hilberekê di ceribandinên hûrgulî re derbas dikin û karanînek demdirêj pêşkêşî we dikin.",
+      projectNotFound: "Proje nehat dîtin!",
+      randevu: {
+        heroTitle1: "Werin Em Qada", heroTitle2: "Xeyalên We", heroTitle3: "Sêwirînin.",
+        formTitle: "Forma Şêwirmendiyê",
+        name: "Nav û Paşnav",
+        contact: "E-name / Telefon",
+        space: "Qada Ku Hûn Pê Re Eleqedar In",
+        submit: "Şêwirmendiya Belaş Bistînin"
+      },
+      productsData: {
+        "1": { "title": "Konsolê Berûyê Nûjen", "category": "KONSOL" },
+        "2": { "title": "Maseya Xwarinê ya Gûzê", "category": "MASE" },
+        "3": { "title": "Sandalyeya Darîn a Mînîmalîst", "category": "SANDALYE" },
+        "4": { "title": "Koma Rûniştinê ya Premium", "category": "KOLTUX" },
+        "5": { "title": "Nivînê Darê Zexm", "category": "NIVÎN" },
+        "6": { "title": "Refika Darîn a Dekoratîf", "category": "REF" }
+      },
+      projectsData: {
+        "1": { "title": "Qada Bêhnvedanê Bi Xwezayê Re", "category": "SÊWIRANA TAYBET", "description": "Qadeke bêhnvedanê ya bi taybetî hatî sêwirandin ku germiya dara xwezayî bi formên nûjen û organîk re digihîne hev. Detaila pencereya dor û pirtûkxaneya entegre ya ku ji dara zexm hatî çêkirin hem estetîk hem jî fonksiyonel li mekanê zêde dike." },
+        "2": { "title": "Qada Jiyanê ya Darîn a Luks", "category": "MÎMARIYA HUNDIRÎN", "description": "Qadeke jiyanê ya berfireh û luks ku tê de bilindahiyên cihêreng bi axê darê hişk û derenceyan re bi hostayî ve girêdayî ne." },
+        "3": { "title": "Odeya Jiyanê ya Nûjen a Mînîmalîst", "category": "MOBÎLYAYÊN MODULER", "description": "Têgînek yekîneya TV û maseya qehwê ya mînîmalîst bi paldanka darê xwezayî ku ji bo jûreyek rûniştinê ya geş û berfireh hatî sêwirandin." },
+        "4": { "title": "Xanîyê Golê Derve & Teras", "category": "DERVE", "description": "Kulîlkên darîn ên derveyî yên estetîk ku bi tevahî bi xwezayê re hevaheng in û li hember hemî şert û mercên hewayê berxwedêr in." }
+      }
     }
   },
   ar: {
     translation: {
+      activities: { raw: { title: "المواد الخام والمنتجات الخشبية", desc: "نعالج أنقى أشكال الطبيعة بأساليب مستدامة." }, mdf: { title: "إنتاج الخشب المضغوط الصناعي", desc: "إنتاج ذو سعة عالية يجمع بين المتانة والجماليات." }, modular: { title: "حلول الأثاث المعياري", desc: "تصميمات مرنة وأنيقة ودائمة لمساحات المعيشة الحديثة." }, surface: { title: "تقنيات الأسطح", desc: "لمسات خالية من العيوب وتشطيبات أسطح ناعمة لكل مشروع." } },
+      coreExpertise: { subtitle: "التميز في الإنتاج", title: "خبرة إمبا", btnDetails: "معلومات تفصيلية", moduler: { title: "إمبا المعيارية", subtitle: "القوة والدقة", desc: "من خلال قوة الإنتاج الدقيقة المعتمدة على المصنع، نقوم بتطوير أنظمة معيارية توفر تكوينات غير محدودة في مشاريع الإسكان الجماعي والمشاريع العامة. نحول رؤيتك المعمارية إلى حقيقة بجودة صناعية.", feature1: "الإسكان الجماعي وإنتاج نطاق المشروع", feature2: "الإنتاج الدقيق المعتمد على المصنع", feature3: "أنظمة معيارية غير محدودة", feature4: "حلول جمالية وعملية ودائمة" }, surface: { title: "أسطح إمبا", subtitle: "التميز على السطح", desc: "من خلال خطوط الإنتاج المتطورة لدينا، نجلب خبراتنا في الأبواب والأغطية المطلية بجودة سطح خالية من العيوب إلى جميع أنحاء تركيا. التميز على السطح، ثقة لا تتزعزع في الإنتاج.", feature1: "جودة سطح خالية من العيوب", feature2: "خبرة في الأبواب والأغطية المطلية", feature3: "استخدام طويل الأمد ومتانة", feature4: "تصميمات جمالية وحديثة" } },
+      collection: { subtitle: "المجموعة", title: "اختياراتنا لك" },
+      navbarMega: { products: "المنتجات", seating: { title: "مجموعات الجلوس", sofas: "أرائك", lSofas: "أرائك مقطعية", armchairs: "كراسي بذراعين", tables: "طاولات قهوة وجانبية" }, dining: { title: "غرفة الطعام", tables: "طاولات طعام", chairs: "كراسي", sideboards: "خزائن جانبية وبوفيهات" }, bedroom: { title: "غرفة النوم", beds: "أسرة", wardrobes: "خزائن", nightstands: "طاولات ليلية" }, promo1: { badge: "تحميل", title: "كتالوج إمبا '26" }, promo2: { badge: "اكتشف", title: "المجموعة الجديدة" } },
+      footerArchitect: { title1: "صمم حلمك", title2: "مساحة مع", title3: "المهندس الداخلي.", process: "كيف تعمل عمليتنا؟", step1Title: "الاجتماع والاكتشاف", step1Desc: "نستمع إلى توقعاتك ونحلل مساحتك.", step2Title: "تصميم ثلاثي الأبعاد", step2Desc: "نصمم مساحة أحلامك ثلاثية الأبعاد.", step3Title: "الإنتاج والتركيب", step3Desc: "ننتج في مصنعنا الخاص ونقوم بالتسليم.", btnSelect: "حدد مساحتك", address1: "المنطقة الصناعية المنظمة", address2: "باتمان، تركيا", copyright: "© 2003–2026 إمبا لمنتجات الغابات." },
+      projeler: { badge: "مشاريعنا", title: "أناقة الخشب الخالدة.", desc: "مشاريع الأثاث الفريدة لدينا التي تضيف روحًا إلى مساحات المعيشة من خلال الجمع بين القوام الخشبي الطبيعي المصنوع ببراعة مع فهم التصميم الحديث.", btn: "عرض التفاصيل" },
+      about: { subtitle: "مقدمة عن الشركة | إمبا لمنتجات الغابات", title: "ننمو بالثقة، وننتج بالجودة.", intro1: "تأسست شركة إمبا لمنتجات الغابات في باتمان عام 2003، وبدأت أنشطتها في قطاع الأثاث ومنتجات الغابات بنهج خدمة يعتمد على الجودة والثقة ورضا العملاء. واستمرت في نموها المطرد لأكثر من عشرين عامًا، وأصبحت شركتنا واحدة من الشركات الموثوقة والمحترمة في قطاعها بفضل شبكة التوريد القوية ومجموعة المنتجات الواسعة ونهج الاستثمار المستمر.", intro2: "منذ تأسيسنا، تبنينا ليس فقط التجارة ولكن أيضًا إضافة قيمة إلى منطقتنا، وخلق فرص عمل، وتطوير قوتنا الإنتاجية باستمرار كأهدافنا الرئيسية. واليوم، تقدم إمبا لمنتجات الغابات حلولًا شاملة لعملائها كهيكل متكامل يعمل في مجالي التجارة والإنتاج.", activitiesTitle: "مجالات نشاطنا", activitiesDesc: "بصفتنا شركة إمبا لمنتجات الغابات؛ من خلال تنوع منتجاتنا، والقدرة القوية على المخزون، وشبكة التوريد السريعة، نقدم حلولًا احترافية لكل حاجة من العملاء الأفراد إلى المشاريع واسعة النطاق.", productionTitle: "قوتنا الإنتاجية", modulerTitle: "إمبا المعيارية", modulerDesc1: "من خلال الاستثمار الذي قمنا به في المنطقة الصناعية المنظمة في باتمان في عام 2024، أحيينا علامتنا التجارية IMPA MODULAR ووضعنا مصنع إنتاج الأثاث المعياري وأثاث البناء القائم على المشاريع قيد التشغيل.", modulerDesc2: "في منشأتنا المجهزة بتقنيات الإنتاج الحديثة؛ ننتج وفقًا لمعايير جودة عالية لمشاريع الإسكان الجماعي، والمؤسسات العامة، والمباني التعليمية، والمرافق الصحية، والفنادق، والمكاتب، ومساحات المعيشة الخاصة. ومن خلال نهج الإنتاج الخاص بنا الذي يطور حلولًا خاصة لكل مشروع، نجمع بين الجماليات والوظائف والمتانة لتقديم منتجات تفوق توقعات عملائنا.", surfaceTitle: "أسطح إمبا", surfaceDesc1: "في عام 2026، قمنا باستثمارنا الصناعي الرئيسي الثاني مرة أخرى في المنطقة الصناعية المنظمة في باتمان وأضفنا العلامة التجارية IMPA SURFACE إلى عائلة الإنتاج لدينا.", surfaceDesc2: "IMPA SURFACE؛ تعمل في إنتاج الأبواب المطلية والأغطية المطلية من خلال خطوط الإنتاج المتطورة، ومجمع الآلات الحديثة، والموظفين الفنيين الخبراء. وبفضل عمليات الإنتاج التي يتم تنفيذها وفقًا لمعايير الجودة العالية، نقدم حلولًا موثوقة لعملائنا في جميع أنحاء تركيا من خلال الجمع بين المظهر الجمالي وجودة السطح الخالية من العيوب وأداء الاستخدام طويل الأمد.", surfaceQuote: "\"التميز على السطح، الثقة في الإنتاج.\"", whyTitle: "لماذا إمبا؟", reasons: ["مجموعة منتجات واسعة", "شبكة مخزون وتوريد قوية", "نهج التسليم السريع", "إنتاج عالي الجودة", "مبدأ تجارة موثوق به", "موظفين خبراء ذوي خبرة", "تقنيات إنتاج حديثة", "نهج خدمة يركز على رضا العملاء"], whyQuote: "\"بفضل هذه القيم، نقوم ببناء شراكات عمل طويلة الأمد مع عملائنا لسنوات ونجرب فخر كوننا علامة تجارية تنمو يومًا بعد يوم.\"", visionTitle: "رؤيتنا", visionDesc: "أن نكون من أولى العلامات التجارية التي تتبادر إلى الذهن عند ذكر الجودة والثقة والابتكار في قطاعنا؛ والوصول إلى مكانة منتج ومورد قوي يضيف قيمة إلى بلدنا ويفضل في الأسواق الوطنية والدولية من خلال التطوير المستمر لقدرتنا الإنتاجية وتنوع منتجاتنا.", missionTitle: "مهمتنا", missionDesc: "إنتاج منتجات عالية الجودة تلبي توقعات عملائنا على أعلى مستوى، ومتابعة التكنولوجيا عن كثب دون المساس بنهجنا الموثوق في الخدمة، وإضافة قيمة إلى القطاع من خلال البنية التحتية الإنتاجية المتطورة باستمرار. نحن نزيد من تنوع منتجاتنا يومًا بعد يوم، ونستثمر في مسقط رأسنا باتمان، ونخلق مجالات عمل جديدة، ونستمر في المساهمة في اقتصاد البلاد." },
+      spaces: { livingRoom: "غرفة المعيشة", bathroom: "الحمام", bedroom: "غرفة النوم", kitchen: "المطبخ", wholeHouse: "المنزل بأكمله", processSubtitle: "عمليتنا", processTitle: "كيف نعمل؟", step1Title: "الاكتشاف والتحليل", step1Desc: "نستمع إلى توقعاتك ونحلل مساحتك في الموقع مع المهندسين المعماريين الخبراء لدينا.", step2Title: "النمذجة ثلاثية الأبعاد", step2Desc: "نصمم مساحة أحلامك أقرب ما يكون إلى الواقع باستخدام تقنية العرض ثلاثي الأبعاد لدينا.", step3Title: "الإنتاج والتسليم", step3Desc: "ننتج بشكل لا تشوبه شائبة في مصنعنا الخاص ونقوم بتركيبه جاهزًا للاستخدام مع فريقنا المحترف.", hero: { subtitle: "سلسلة التحف الفنية", title: "فن التحول", desc: "نقوم بتحويل المساحات العادية إلى مراكز معيشة فاخرة مصممة خصيصًا لك. اكتشف التحول المذهل في ثلاثة من مشاريعنا المتميزة." }, "01": { subtitle: "01 / تحول غرفة المعيشة", title: "شريط تمرير المخطط", desc: "تجربة كلاسيكية ولكن سلسة للغاية. استخدم شريط التمرير التفاعلي للكشف عن الانتقال الحاد من المساحة الخام إلى حالتها النهائية الخالية من العيوب.", before: "قبل (يسار)", after: "بعد (يمين)" }, "02": { subtitle: "02 / غرفة النوم الرئيسية", title: "عدسة الكشف", desc: "التحول التفاعلي: اسحب للكشف عن التصميم النهائي للجناح الرئيسي، مع إبراز التباين بين الهيكل الخام ومساحة المعيشة الدافئة والمكتملة.", prompt: "مرر / المس للفحص" }, "03": { subtitle: "03 / مطبخ بسيط", title: "تلاشي التمرير", desc: "فن التفاصيل: أثناء التمرير، جرب تطور المطبخ - حيث تتراجع القوام المتعبة لتكشف عن براعة حديثة ومصقولة.", before: "قبل البناء", after: "التسليم النهائي" } },
       navAbout: "معلومات عنا",
       navProcess: "العملية",
       navProjects: "مشاريع",
@@ -601,11 +724,35 @@ const resources = {
       processStep2Title: "الإنتاج الحديث",
       processStep2Desc: "نحن نشكلها بحرفية لا تشوبها شائبة في مجمع آلاتنا المتطور.",
       processStep3Title: "مراقبة الجودة",
-      processStep3Desc: "نحن نقدم استخدامًا طويل الأمد من خلال إخضاع كل منتج لاختبارات مفصلة."
+      processStep3Desc: "نحن نقدم استخدامًا طويل الأمد من خلال إخضاع كل منتج لاختبارات مفصلة.",
+      projectNotFound: "المشروع غير موجود!",
+      randevu: {
+        heroTitle1: "دعنا نصمم", heroTitle2: "مساحة", heroTitle3: "أحلامك.",
+        formTitle: "نموذج الاستشارة",
+        name: "الاسم واللقب",
+        contact: "البريد الإلكتروني / الهاتف",
+        space: "المجال المهتم به",
+        submit: "احصل على استشارة مجانية"
+      },
+      productsData: {
+        "1": { "title": "كونسول بلوط حديث", "category": "كونسول" },
+        "2": { "title": "طاولة طعام من خشب الجوز", "category": "طاولة" },
+        "3": { "title": "كرسي خشبي بسيط", "category": "كرسي" },
+        "4": { "title": "طقم جلوس فاخر", "category": "أريكة" },
+        "5": { "title": "سرير من الخشب الصلب", "category": "سرير" },
+        "6": { "title": "رف خشبي للزينة", "category": "رف" }
+      },
+      projectsData: {
+        "1": { "title": "منطقة استرخاء متشابكة مع الطبيعة", "category": "تصميم مخصص", "description": "منطقة استرخاء مصممة خصيصًا تجمع بين دفء الخشب الطبيعي والأشكال الحديثة والعضوية. تضيف تفاصيل النافذة الدائرية ورف الكتب المدمج المصنوع من الخشب الصلب قيمة جمالية وعملية للمساحة." },
+        "2": { "title": "مساحة معيشة خشبية فاخرة", "category": "العمارة الداخلية", "description": "مساحة معيشة واسعة وفاخرة حيث يتم توصيل الارتفاعات المختلفة ببراعة بأرضيات وسلالم من الخشب الصلب." },
+        "3": { "title": "غرفة معيشة حديثة وبسيطة", "category": "أثاث تركيبي", "description": "مفهوم وحدة تلفزيون وطاولة قهوة بسيطة مع قشرة خشب طبيعية مصممة لغرفة معيشة مشرقة وواسعة." },
+        "4": { "title": "السطح الخارجي لمنزل البحيرة والتراس", "category": "خارجي", "description": "واجهات خشبية خارجية جمالية متوافقة تمامًا مع الطبيعة ومقاومة لجميع الظروف الجوية." }
+      }
     }
   },
   zh: {
     translation: {
+      spaces: { hero: { subtitle: "杰作系列", title: "转化的艺术", desc: "我们将普通空间转化为专为您设计的奢华生活中心。探索我们三个不同项目中令人难以置信的转变。" }, "01": { subtitle: "01 / 客厅改造", title: "蓝图滑块", desc: "经典而高度流畅的体验。使用交互式滑块展示从原始空间到完美最终状态的鲜明过渡。", before: "之前（左）", after: "之后（右）" }, "02": { subtitle: "02 / 主卧室", title: "悬停镜头揭示", desc: "交互式转换：拖动以揭示主套房的最终设计，将原始结构与温馨、完美的居住空间形成对比。", prompt: "悬停/触摸以检查" }, "03": { subtitle: "03 / 极简厨房", title: "滚动淡入", desc: "细节的艺术：当您滚动时，体验厨房的演变——陈旧的纹理退去，展现出现代精致的工艺。", before: "施工前", after: "最终交付" } },
       navAbout: "关于我们",
       navProcess: "过程",
       navProjects: "项目",
@@ -721,16 +868,41 @@ const resources = {
       processStep2Title: "现代生产",
       processStep2Desc: "在最先进的机械园区中，我们以完美的工艺将它们成型。",
       processStep3Title: "质量控制",
-      processStep3Desc: "我们通过对每件产品进行详细测试，提供持久耐用的使用体验."
+      processStep3Desc: "我们通过对每件产品进行详细测试，提供持久耐用的使用体验.",
+      projectNotFound: "找不到项目！",
+      randevu: {
+        heroTitle1: "让我们设计", heroTitle2: "您的梦想", heroTitle3: "空间。",
+        formTitle: "咨询表",
+        name: "姓名",
+        contact: "电子邮件/电话",
+        space: "感兴趣的领域",
+        submit: "获取免费咨询"
+      },
+      productsData: {
+        "1": { "title": "现代橡木控制台", "category": "控制台" },
+        "2": { "title": "胡桃木餐桌", "category": "桌子" },
+        "3": { "title": "极简木椅", "category": "椅子" },
+        "4": { "title": "高级沙发组", "category": "沙发" },
+        "5": { "title": "实木床", "category": "床" },
+        "6": { "title": "装饰木架", "category": "架子" }
+      },
+      projectsData: {
+        "1": { "title": "与自然交织的休闲区", "category": "定制设计", "description": "一个特别设计的休闲区，将天然木材的温暖与现代有机形态相结合。圆窗细节和由实木制成的集成书架为空间增添了美学和实用价值。" },
+        "2": { "title": "豪华木制生活空间", "category": "室内建筑", "description": "宽敞豪华的生活区，通过实木地板和楼梯巧妙地连接不同的立面。" },
+        "3": { "title": "现代极简客厅", "category": "模块化家具", "description": "采用天然木单板设计的极简电视柜和茶几概念，专为明亮宽敞的客厅设计。" },
+        "4": { "title": "湖边小屋外景与露台", "category": "户外", "description": "美观的外部木包层，与自然完全兼容，并能抵抗各种天气条件。" }
+      }
     }
   }
 };
+
+const savedLanguage = typeof window !== 'undefined' ? localStorage.getItem('language') || 'tr' : 'tr';
 
 i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: 'tr', // default language
+    lng: savedLanguage, // default language
     fallbackLng: 'en',
     interpolation: {
       escapeValue: false // react already safes from xss

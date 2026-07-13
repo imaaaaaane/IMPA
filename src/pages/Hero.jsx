@@ -17,16 +17,16 @@ export default function Hero() {
         src="/hero-video.mp4"
       />
 
-      {/* L-Ktaba w L-Badge m-k7zin l-lisr (items-start, text-left, px-6 lg:px-24) */}
+     
       <div className="relative z-10 flex flex-col items-start px-6 md:px-16 lg:px-24 mt-20 fade-in-up max-w-5xl">
 
-        {/* Badge */}
+       
         <div className="text-[#1A1A1A] text-xs tracking-[0.2em] uppercase mb-6 flex items-center justify-start gap-4 bg-white/90 py-2 px-6 rounded-full drop-shadow-xl backdrop-blur-sm">
           <span className="w-8 h-[1px] bg-black/50"></span>
           {t('estBadge')}
         </div>
 
-        {/* L-3enwan */}
+      
         <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] text-white font-serif tracking-tight leading-[1.1] mb-12 drop-shadow-[0_5px_15px_rgba(0,0,0,0.4)] text-left">
           {t('homeHeroTitle1')}<br />
           <span className="italic opacity-90">{t('homeHeroTitle2')}</span>

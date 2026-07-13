@@ -1,9 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 // =========================================================================
 // PROJECT 1: THE BLUEPRINT SLIDER (Interactive Drag Reveal)
 // =========================================================================
 function BlueprintSlider() {
+  const { t } = useTranslation();
   const [sliderPosition, setSliderPosition] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef(null);
@@ -75,8 +77,8 @@ function BlueprintSlider() {
         </div>
       </div>
 
-      <div className="absolute top-6 left-6 z-10 px-5 py-2 bg-black/60 backdrop-blur-md text-white text-xs tracking-widest uppercase rounded">Öncesi (Sol)</div>
-      <div className="absolute top-6 right-6 z-20 px-5 py-2 bg-black/60 backdrop-blur-md text-white text-xs tracking-widest uppercase rounded">Sonrası (Sağ)</div>
+      <div className="absolute top-6 left-6 z-10 px-5 py-2 bg-black/60 backdrop-blur-md text-white text-xs tracking-widest uppercase rounded">{t('spaces.01.before')}</div>
+      <div className="absolute top-6 right-6 z-20 px-5 py-2 bg-black/60 backdrop-blur-md text-white text-xs tracking-widest uppercase rounded">{t('spaces.01.after')}</div>
     </div>
   );
 }
@@ -86,6 +88,7 @@ function BlueprintSlider() {
 // PROJECT 2: HOVER LENS REVEAL (Master Yatak Odası)
 // =========================================================================
 function HoverLens() {
+  const { t } = useTranslation();
   const containerRef = useRef(null);
   const rafRef = useRef(null);
   
@@ -195,7 +198,7 @@ function HoverLens() {
           transform: `translate(-50%, calc(var(--lens-opacity) * -16px))`
         }}
       >
-        İncelemek İçin Dokunun / Gezdirin
+        {t('spaces.02.prompt')}
       </div>
     </div>
   );
@@ -206,6 +209,7 @@ function HoverLens() {
 // PROJECT 3: SCROLL FADE BUILD (Minimalist Mutfak - Video Fade)
 // =========================================================================
 function ScrollFade() {
+  const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(false);
   const containerRef = useRef(null);
 
@@ -247,10 +251,10 @@ function ScrollFade() {
       {/* Minimalist Observer Status */}
       <div className="absolute top-6 left-6 z-10 flex flex-col gap-2">
         <div className={`px-4 py-2 text-[10px] tracking-widest uppercase rounded transition-all duration-1000 ${!isVisible ? 'bg-black/80 text-white' : 'bg-transparent text-transparent'}`}>
-          Yapım Öncesi
+          {t('spaces.03.before')}
         </div>
         <div className={`px-4 py-2 text-[10px] tracking-widest uppercase rounded transition-all duration-1000 ${isVisible ? 'bg-black/80 text-white' : 'bg-transparent text-transparent'}`}>
-          Final Teslimi
+          {t('spaces.03.after')}
         </div>
       </div>
     </div>
@@ -262,27 +266,29 @@ function ScrollFade() {
 // MAIN COMPONENT EXPORT
 // =========================================================================
 export default function BeforeAfterShowcase() {
+  const { t } = useTranslation();
+
   return (
-    <div className="w-full bg-[#FAF9F6] py-32 px-6 md:px-12 font-sans border-t border-gray-200">
+    <div className="w-full bg-[#FAF9F6] dark:bg-[#111111] py-32 px-6 md:px-12 font-sans border-t border-gray-200 dark:border-stone-800 transition-colors duration-500">
       <div className="max-w-7xl mx-auto space-y-48">
         
         {/* Intro Header */}
         <div className="text-center space-y-6">
-          <h3 className="text-xs text-amber-600 tracking-[0.3em] font-semibold uppercase">Masterpiece Serisi</h3>
-          <h2 className="text-5xl md:text-7xl font-serif text-[#1A1A1C]">Dönüşüm Sanatı</h2>
-          <p className="text-gray-500 font-light text-lg max-w-2xl mx-auto">
-            Sıradan alanları, size özel tasarlanmış lüks yaşam merkezlerine dönüştürüyoruz. Üç farklı projemizdeki inanılmaz değişimi keşfedin.
+          <h3 className="text-xs text-amber-600 tracking-[0.3em] font-semibold uppercase">{t('spaces.hero.subtitle')}</h3>
+          <h2 className="text-5xl md:text-7xl font-serif text-[#1A1A1C] dark:text-white transition-colors duration-500">{t('spaces.hero.title')}</h2>
+          <p className="text-gray-500 dark:text-stone-400 font-light text-lg max-w-2xl mx-auto transition-colors duration-500">
+            {t('spaces.hero.desc')}
           </p>
         </div>
 
         {/* Showcase 1 */}
         <div className="space-y-12">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 items-center">
-            <div className="lg:col-span-1 space-y-4 pr-4">
-              <h3 className="text-xs text-amber-600 tracking-[0.3em] font-semibold uppercase">01 / Salon Dönüşümü</h3>
-              <h4 className="text-3xl font-serif text-[#1A1A1C]">Blueprint Slider</h4>
-              <p className="text-gray-500 font-light leading-relaxed">
-                Klasik ancak son derece akıcı bir deneyim. Etkileşimli kaydırma çubuğu ile alanın ham halinden kusursuz finaline olan keskin geçişi kendi ellerinizle ortaya çıkarın.
+            <div className="lg:col-span-1 flex flex-col justify-center h-full space-y-4 pr-4">
+              <h3 className="text-xs text-amber-600 tracking-[0.3em] font-semibold uppercase">{t('spaces.01.subtitle')}</h3>
+              <h4 className="text-3xl font-serif text-[#1A1A1C] dark:text-white transition-colors duration-500">{t('spaces.01.title')}</h4>
+              <p className="text-gray-500 dark:text-stone-400 font-light leading-relaxed transition-colors duration-500">
+                {t('spaces.01.desc')}
               </p>
             </div>
             <div className="lg:col-span-3">
@@ -292,7 +298,7 @@ export default function BeforeAfterShowcase() {
         </div>
 
         {/* Divider */}
-        <div className="w-full h-px bg-gray-200 max-w-3xl mx-auto"></div>
+        <div className="w-full h-px bg-gray-200 dark:bg-stone-800 max-w-3xl mx-auto transition-colors duration-500"></div>
 
         {/* Showcase 2 */}
         <div className="space-y-12">
@@ -300,27 +306,27 @@ export default function BeforeAfterShowcase() {
             <div className="lg:col-span-3 order-2 lg:order-1">
               <HoverLens />
             </div>
-            <div className="lg:col-span-1 space-y-4 pl-4 order-1 lg:order-2">
-              <h3 className="text-xs text-amber-600 tracking-[0.3em] font-semibold uppercase">02 / Master Yatak Odası</h3>
-              <h4 className="text-3xl font-serif text-[#1A1A1C]">Hover Lens Reveal</h4>
-              <p className="text-gray-500 font-light leading-relaxed">
-                Mimari bir uyanış. İmlecinizi fotoğrafın üzerinde gezdirerek mekanın ruhsuz iskeletinin altından çıkan 3 boyutlu derinliğe sahip sıcacık yaşam alanını bir büyüteç altındaymış gibi inceleyin.
+            <div className="lg:col-span-1 flex flex-col justify-center h-full space-y-4 pl-4 order-1 lg:order-2">
+              <h3 className="text-xs text-amber-600 tracking-[0.3em] font-semibold uppercase">{t('spaces.02.subtitle')}</h3>
+              <h4 className="text-3xl font-serif text-[#1A1A1C] dark:text-white transition-colors duration-500">{t('spaces.02.title')}</h4>
+              <p className="text-gray-500 dark:text-stone-400 font-light leading-relaxed transition-colors duration-500">
+                {t('spaces.02.desc')}
               </p>
             </div>
           </div>
         </div>
 
         {/* Divider */}
-        <div className="w-full h-px bg-gray-200 max-w-3xl mx-auto"></div>
+        <div className="w-full h-px bg-gray-200 dark:bg-stone-800 max-w-3xl mx-auto transition-colors duration-500"></div>
 
         {/* Showcase 3 */}
         <div className="space-y-12">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 items-center">
-            <div className="lg:col-span-1 space-y-4 pr-4">
-              <h3 className="text-xs text-amber-600 tracking-[0.3em] font-semibold uppercase">03 / Minimalist Mutfak</h3>
-              <h4 className="text-3xl font-serif text-[#1A1A1C]">Scroll Fade Build</h4>
-              <p className="text-gray-500 font-light leading-relaxed">
-                Tasarım detaylarda gizlidir. Siz sayfayı aşağı kaydırdıkça, mutfağın eski yorgun dokusu yavaşça geri çekiliyor ve yerini modern işçiliğe bırakıyor.
+            <div className="lg:col-span-1 flex flex-col justify-center h-full space-y-4 pr-4">
+              <h3 className="text-xs text-amber-600 tracking-[0.3em] font-semibold uppercase">{t('spaces.03.subtitle')}</h3>
+              <h4 className="text-3xl font-serif text-[#1A1A1C] dark:text-white transition-colors duration-500">{t('spaces.03.title')}</h4>
+              <p className="text-gray-500 dark:text-stone-400 font-light leading-relaxed transition-colors duration-500">
+                {t('spaces.03.desc')}
               </p>
             </div>
             <div className="lg:col-span-3">

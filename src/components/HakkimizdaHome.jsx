@@ -8,7 +8,7 @@ export default function HakkimizdaHome() {
 
   return (
 
-    <section className="relative z-20 w-screen max-w-none left-1/2 -translate-x-1/2 bg-[#FAF9F6] dark:bg-[#1A1A1C] transition-colors duration-500 pt-24 pb-24">
+    <section className="relative z-20 w-screen max-w-none left-1/2 -translate-x-1/2 bg-[#FAF9F6] dark:bg-[#111111] transition-colors duration-500 pt-24 pb-24">
       <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
 
         {/* Text Side */}
@@ -18,7 +18,7 @@ export default function HakkimizdaHome() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
-            className="italic text-lg md:text-xl text-gray-700 dark:text-gray-300 leading-relaxed font-serif max-w-full mb-12 transition-colors duration-500"
+            className="italic text-lg md:text-xl text-gray-700 dark:text-stone-400 leading-relaxed font-serif max-w-full mb-12 transition-colors duration-500"
           >
             {t('aboutHomeDesc')}
           </motion.p>
@@ -31,7 +31,7 @@ export default function HakkimizdaHome() {
           >
             <Link
               to="/about"
-              className="bg-[#1A1A1C] dark:bg-[#FAF9F6] text-white dark:text-[#1A1A1C] px-10 py-4 text-xs md:text-sm uppercase tracking-widest hover:bg-white dark:hover:bg-[#1A1A1C] hover:text-[#1A1A1C] dark:hover:text-[#FAF9F6] border border-[#1A1A1C] dark:border-[#FAF9F6] transition-all duration-500 rounded-full inline-block shadow-lg"
+              className="bg-[#1A1A1C] dark:bg-white text-white dark:text-[#1A1A1C] px-10 py-4 text-xs md:text-sm uppercase tracking-widest hover:bg-white dark:hover:bg-stone-200 hover:text-[#1A1A1C] dark:hover:text-[#1A1A1C] border border-[#1A1A1C] dark:border-white transition-all duration-500 rounded-full inline-block shadow-lg"
             >
               {t('homeHeroBtn')}
             </Link>

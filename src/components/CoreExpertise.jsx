@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 // 1. Data Arrays mapping exactly to the local assets requested
 const modulerAssets = [
@@ -31,8 +32,10 @@ const CheckIcon = () => (
 );
 
 export default function CoreExpertise() {
+  const { t } = useTranslation();
+
   return (
-    <section className="pt-12 pb-32 bg-[#FAF9F6] relative overflow-hidden">
+    <section className="pt-12 pb-32 bg-[#FAF9F6] dark:bg-[#111111] transition-colors duration-500 relative overflow-hidden">
       
       <style>
         {`
@@ -60,10 +63,10 @@ export default function CoreExpertise() {
         {/* Global Title */}
         <div className="text-center mb-32 md:mb-48">
           <h3 className="text-[10px] text-stone-400 tracking-[0.4em] font-light uppercase mb-6">
-            ÜRETİM MÜKEMMELİYETİ
+            {t('coreExpertise.subtitle')}
           </h3>
-          <h2 className="text-3xl md:text-5xl font-serif text-[#1A1A1C] font-light tracking-widest relative inline-block">
-            İMPA UZMANLIĞI
+          <h2 className="text-3xl md:text-5xl font-serif text-[#1A1A1C] dark:text-white transition-colors duration-500 font-light tracking-widest relative inline-block">
+            {t('coreExpertise.title')}
             <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-12 h-[1px] bg-stone-300"></div>
           </h2>
         </div>
@@ -74,8 +77,8 @@ export default function CoreExpertise() {
           {/* Gallery Left (De-boxed: No heavy shadows, sharp corners) */}
           <div className="relative w-full h-[600px] md:h-[700px] rounded-sm overflow-hidden group">
             {/* Gradient Mask Overlays (Strictly matching background color) */}
-            <div className="absolute top-0 left-0 w-full h-40 bg-gradient-to-b from-[#FAF9F6] to-transparent z-10 pointer-events-none"></div>
-            <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-[#FAF9F6] to-transparent z-10 pointer-events-none"></div>
+            <div className="absolute top-0 left-0 w-full h-40 bg-gradient-to-b from-[#FAF9F6] dark:from-[#111111] transition-colors duration-500 to-transparent z-10 pointer-events-none"></div>
+            <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-[#FAF9F6] dark:from-[#111111] transition-colors duration-500 to-transparent z-10 pointer-events-none"></div>
             
             {/* Infinite Scroll Track */}
             <div className="animate-scroll-y flex flex-col group-hover:[animation-play-state:paused] pt-4">
@@ -98,35 +101,35 @@ export default function CoreExpertise() {
 
           {/* Text Right (Constrained max-w-lg) */}
           <div className="flex flex-col justify-center space-y-12 lg:pr-12 max-w-lg mx-auto lg:mx-0">
-            <h3 className="text-3xl md:text-5xl font-serif text-[#1A1A1C] font-light leading-snug">
-              İMPA MODÜLER <br/>
-              <span className="text-xl md:text-2xl text-stone-400 font-normal mt-4 block">Güç ve Hassasiyet</span>
+            <h3 className="text-3xl md:text-5xl font-serif text-[#1A1A1C] dark:text-white transition-colors duration-500 font-light leading-snug">
+              {t('coreExpertise.moduler.title')} <br/>
+              <span className="text-xl md:text-2xl text-stone-400 font-normal mt-4 block">{t('coreExpertise.moduler.subtitle')}</span>
             </h3>
             
             {/* Breathable Paragraph */}
-            <p className="text-stone-500 font-light text-[15px] leading-[2.2rem]">
-              Fabrika tabanlı hassas üretim gücümüzle, toplu konut ve kamu projelerinizde sınırsız konfigürasyonlar sunan modüler sistemler geliştiriyoruz. Mimari vizyonunuzu, endüstriyel kalitede gerçeğe dönüştürüyoruz.
+            <p className="text-stone-500 dark:text-stone-400 transition-colors duration-500 font-light text-[15px] leading-[2.2rem]">
+              {t('coreExpertise.moduler.desc')}
             </p>
             
             {/* Elegant List */}
             <ul className="space-y-6 pt-2">
-              <li className="flex items-start gap-5 text-stone-600 font-light text-[15px] tracking-wide">
-                <CheckIcon /> Toplu Konut & Proje Ölçekli Üretim
+              <li className="flex items-start gap-5 text-stone-600 dark:text-stone-400 transition-colors duration-500 font-light text-[15px] tracking-wide">
+                <CheckIcon /> {t('coreExpertise.moduler.feature1')}
               </li>
-              <li className="flex items-start gap-5 text-stone-600 font-light text-[15px] tracking-wide">
-                <CheckIcon /> Fabrika Tabanlı Hassas Üretim
+              <li className="flex items-start gap-5 text-stone-600 dark:text-stone-400 transition-colors duration-500 font-light text-[15px] tracking-wide">
+                <CheckIcon /> {t('coreExpertise.moduler.feature2')}
               </li>
-              <li className="flex items-start gap-5 text-stone-600 font-light text-[15px] tracking-wide">
-                <CheckIcon /> Sınırsız Modüler Sistemler
+              <li className="flex items-start gap-5 text-stone-600 dark:text-stone-400 transition-colors duration-500 font-light text-[15px] tracking-wide">
+                <CheckIcon /> {t('coreExpertise.moduler.feature3')}
               </li>
-              <li className="flex items-start gap-5 text-stone-600 font-light text-[15px] tracking-wide">
-                <CheckIcon /> Estetik, Fonksiyonel & Dayanıklı Çözümler
+              <li className="flex items-start gap-5 text-stone-600 dark:text-stone-400 transition-colors duration-500 font-light text-[15px] tracking-wide">
+                <CheckIcon /> {t('coreExpertise.moduler.feature4')}
               </li>
             </ul>
 
             <div className="pt-8">
-              <a href="#" className="group flex items-center gap-4 w-fit px-8 py-3.5 mt-4 border border-stone-900 text-[11px] font-semibold tracking-[0.25em] uppercase text-stone-900 hover:bg-stone-900 hover:text-white transition-all duration-400 ease-out">
-                Detaylı Bilgi
+              <a href="#" className="group flex items-center gap-4 w-fit px-8 py-3.5 mt-4 border border-stone-900 dark:border-white text-[11px] font-semibold tracking-[0.25em] uppercase text-stone-900 dark:text-white hover:bg-stone-900 dark:hover:bg-white hover:text-white dark:hover:text-stone-950 transition-all duration-400 ease-out">
+                {t('coreExpertise.btnDetails')}
                 <ArrowRight strokeWidth={1} size={16} className="transform group-hover:translate-x-1.5 transition-transform duration-400" />
               </a>
             </div>
@@ -138,33 +141,33 @@ export default function CoreExpertise() {
           
           {/* Text Left (Order 2 on mobile, 1 on desktop) */}
           <div className="flex flex-col justify-center space-y-12 lg:pl-12 order-2 lg:order-1 max-w-lg mx-auto lg:mx-0 lg:ml-auto">
-            <h3 className="text-3xl md:text-5xl font-serif text-[#1A1A1C] font-light leading-snug">
-              İMPA SURFACE <br/>
-              <span className="text-xl md:text-2xl text-stone-400 font-normal mt-4 block">Yüzeyde Mükemmeliyet</span>
+            <h3 className="text-3xl md:text-5xl font-serif text-[#1A1A1C] dark:text-white transition-colors duration-500 font-light leading-snug">
+              {t('coreExpertise.surface.title')} <br/>
+              <span className="text-xl md:text-2xl text-stone-400 font-normal mt-4 block">{t('coreExpertise.surface.subtitle')}</span>
             </h3>
             
-            <p className="text-stone-500 font-light text-[15px] leading-[2.2rem]">
-              Son teknoloji üretim hatlarımızla, kusursuz yüzey kalitesine sahip lake kapı ve kapak uzmanlığımızı Türkiye'nin dört bir yanına taşıyoruz. Yüzeyde mükemmeliyet, üretimde sarsılmaz güven.
+            <p className="text-stone-500 dark:text-stone-400 transition-colors duration-500 font-light text-[15px] leading-[2.2rem]">
+              {t('coreExpertise.surface.desc')}
             </p>
             
             <ul className="space-y-6 pt-2">
-              <li className="flex items-start gap-5 text-stone-600 font-light text-[15px] tracking-wide">
-                <CheckIcon /> Kusursuz Yüzey Kalitesi
+              <li className="flex items-start gap-5 text-stone-600 dark:text-stone-400 transition-colors duration-500 font-light text-[15px] tracking-wide">
+                <CheckIcon /> {t('coreExpertise.surface.feature1')}
               </li>
-              <li className="flex items-start gap-5 text-stone-600 font-light text-[15px] tracking-wide">
-                <CheckIcon /> Lake Kapı & Kapak Uzmanlığı
+              <li className="flex items-start gap-5 text-stone-600 dark:text-stone-400 transition-colors duration-500 font-light text-[15px] tracking-wide">
+                <CheckIcon /> {t('coreExpertise.surface.feature2')}
               </li>
-              <li className="flex items-start gap-5 text-stone-600 font-light text-[15px] tracking-wide">
-                <CheckIcon /> Uzun Ömürlü Kullanım & Dayanıklılık
+              <li className="flex items-start gap-5 text-stone-600 dark:text-stone-400 transition-colors duration-500 font-light text-[15px] tracking-wide">
+                <CheckIcon /> {t('coreExpertise.surface.feature3')}
               </li>
-              <li className="flex items-start gap-5 text-stone-600 font-light text-[15px] tracking-wide">
-                <CheckIcon /> Estetik & Modern Tasarımlar
+              <li className="flex items-start gap-5 text-stone-600 dark:text-stone-400 transition-colors duration-500 font-light text-[15px] tracking-wide">
+                <CheckIcon /> {t('coreExpertise.surface.feature4')}
               </li>
             </ul>
 
             <div className="pt-8">
-              <a href="#" className="group flex items-center gap-4 w-fit px-8 py-3.5 mt-4 border border-stone-900 text-[11px] font-semibold tracking-[0.25em] uppercase text-stone-900 hover:bg-stone-900 hover:text-white transition-all duration-400 ease-out">
-                Detaylı Bilgi
+              <a href="#" className="group flex items-center gap-4 w-fit px-8 py-3.5 mt-4 border border-stone-900 dark:border-white text-[11px] font-semibold tracking-[0.25em] uppercase text-stone-900 dark:text-white hover:bg-stone-900 dark:hover:bg-white hover:text-white dark:hover:text-stone-950 transition-all duration-400 ease-out">
+                {t('coreExpertise.btnDetails')}
                 <ArrowRight strokeWidth={1} size={16} className="transform group-hover:translate-x-1.5 transition-transform duration-400" />
               </a>
             </div>
@@ -172,8 +175,8 @@ export default function CoreExpertise() {
 
           {/* Gallery Right */}
           <div className="relative w-full h-[600px] md:h-[700px] rounded-sm overflow-hidden group order-1 lg:order-2">
-            <div className="absolute top-0 left-0 w-full h-40 bg-gradient-to-b from-[#FAF9F6] to-transparent z-10 pointer-events-none"></div>
-            <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-[#FAF9F6] to-transparent z-10 pointer-events-none"></div>
+            <div className="absolute top-0 left-0 w-full h-40 bg-gradient-to-b from-[#FAF9F6] dark:from-[#111111] transition-colors duration-500 to-transparent z-10 pointer-events-none"></div>
+            <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-[#FAF9F6] dark:from-[#111111] transition-colors duration-500 to-transparent z-10 pointer-events-none"></div>
             
             <div className="animate-scroll-reverse-y flex flex-col group-hover:[animation-play-state:paused] pt-4">
               <div className="flex flex-col gap-10 pb-10 px-2">
