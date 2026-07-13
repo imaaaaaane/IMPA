@@ -1,6 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import after1Img from '../assets/after1.jpg';
+import before1Img from '../assets/before1.jpg';
+import after2Video from '../assets/after2.mp4';
+import before2Img from '../assets/before2.jpg';
+import after3Img from '../assets/after3.jpg';
+import before3Img from '../assets/before3.jpg';
+
 // =========================================================================
 // PROJECT 1: THE BLUEPRINT SLIDER (Interactive Drag Reveal)
 // =========================================================================
@@ -46,7 +53,7 @@ function BlueprintSlider() {
     >
       {/* BACKGROUND IMAGE (The Full, Final "AFTER" Image) */}
       <img 
-        src="/after1.jpg" 
+        src={after1Img} 
         alt="After" 
         className="absolute inset-0 w-full h-full object-cover pointer-events-none" 
       />
@@ -59,7 +66,7 @@ function BlueprintSlider() {
         }}
       >
         <img 
-          src="/before1.jpg" 
+          src={before1Img} 
           alt="Before" 
           className="absolute inset-0 w-full h-full object-cover" 
         />
@@ -160,7 +167,7 @@ function HoverLens() {
     >
       {/* Before Image (Top Visible Layer) */}
       <img 
-        src="/before3.jpg" 
+        src={before3Img} 
         alt="Before" 
         className="absolute inset-0 w-full h-full object-cover pointer-events-none" 
       />
@@ -173,7 +180,7 @@ function HoverLens() {
         }}
       >
         <img 
-          src="/after3.jpg" 
+          src={after3Img} 
           alt="After" 
           className="absolute inset-0 w-full h-full object-cover" 
         />
@@ -232,7 +239,7 @@ function ScrollFade() {
     >
       {/* Before Image (The Sketch) */}
       <img 
-        src="/before2.jpg" 
+        src={before2Img} 
         alt="Before" 
         className={`absolute inset-0 w-full h-full object-cover pointer-events-none transition-all duration-[2500ms] ease-[cubic-bezier(0.25,1,0.5,1)] ${
           isVisible ? 'opacity-0 scale-95 blur-md' : 'opacity-100 scale-100 blur-0'
@@ -241,7 +248,7 @@ function ScrollFade() {
       
       {/* After Media (The Video fading in) */}
       <video 
-        src="/after2.mp4" 
+        src={after2Video} 
         autoPlay loop muted playsInline
         className={`absolute inset-0 w-full h-full object-cover pointer-events-none transition-all duration-[2500ms] ease-[cubic-bezier(0.25,1,0.5,1)] ${
           isVisible ? 'opacity-100 scale-100 blur-0' : 'opacity-0 scale-110 blur-sm'
