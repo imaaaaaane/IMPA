@@ -46,13 +46,15 @@ export default function HakkimizdaHome() {
           transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1], delay: 0.4 }}
         >
           <video
-            src="/src/assets/hero-video2.mp4"
             autoPlay
             loop
             muted
             playsInline
+            preload="auto"
             className="rounded-[2rem] shadow-2xl w-full h-[400px] object-cover"
-          />
+          >
+            <source src="/hakkimizda.webm" type="video/webm" />
+          </video>
         </motion.div>
 
       </div>

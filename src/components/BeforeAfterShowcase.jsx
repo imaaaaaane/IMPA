@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 
 import after1Img from '../assets/after1.jpg';
 import before1Img from '../assets/before1.jpg';
-import after2Video from '../assets/after2.mp4';
 import before2Img from '../assets/before2.jpg';
 import after3Img from '../assets/after3.jpg';
 import before3Img from '../assets/before3.jpg';
@@ -248,12 +247,13 @@ function ScrollFade() {
       
       {/* After Media (The Video fading in) */}
       <video 
-        src={after2Video} 
-        autoPlay loop muted playsInline
+        autoPlay loop muted playsInline preload="auto"
         className={`absolute inset-0 w-full h-full object-cover pointer-events-none transition-all duration-[2500ms] ease-[cubic-bezier(0.25,1,0.5,1)] ${
           isVisible ? 'opacity-100 scale-100 blur-0' : 'opacity-0 scale-110 blur-sm'
         }`}
-      />
+      >
+        <source src="/after2.webm" type="video/webm" />
+      </video>
       
       {/* Minimalist Observer Status */}
       <div className="absolute top-6 left-6 z-10 flex flex-col gap-2">

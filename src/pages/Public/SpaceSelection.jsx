@@ -5,11 +5,11 @@ import BeforeAfterShowcase from '../../components/BeforeAfterShowcase';
 import { useTranslation } from 'react-i18next';
 
 const spacesData = [
-  { id: 1, titleKey: 'livingRoom', video: '/livingroom.mp4' },
-  { id: 2, titleKey: 'bathroom', video: '/bathroom.mp4' },
-  { id: 3, titleKey: 'bedroom', video: '/bedroom.mp4' },
-  { id: 4, titleKey: 'kitchen', video: '/kitchen.mp4' },
-  { id: 5, titleKey: 'wholeHouse', video: '/tumev.mp4' }
+  { id: 1, titleKey: 'livingRoom', video: '/livingroom.webm' },
+  { id: 2, titleKey: 'bathroom', video: '/bathroom.webm' },
+  { id: 3, titleKey: 'bedroom', video: '/bedroom.webm' },
+  { id: 4, titleKey: 'kitchen', video: '/kitchen.webm' },
+  { id: 5, titleKey: 'wholeHouse', video: '/tumev.webm' }
 ];
 
 const processSteps = [
@@ -25,14 +25,14 @@ const processSteps = [
     number: '02.',
     keyPrefix: 'step2',
     type: 'video',
-    src: '/architectplan.mp4'
+    src: '/architectplan.webm'
   },
   {
     id: 3,
     number: '03.',
     keyPrefix: 'step3',
     type: 'video',
-    src: '/architectwork.mp4'
+    src: '/architectwork.webm'
   }
 ];
 export default function SpaceSelection() {
@@ -59,9 +59,11 @@ export default function SpaceSelection() {
                 loop 
                 muted 
                 playsInline 
-                src={space.video}
+                preload="auto"
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105 z-0"
-              />
+              >
+                <source src={space.video} type="video/webm" />
+              </video>
               
               {/* Warm Overlay (Safely stacked on top of video at z-10) */}
               <div className="absolute inset-0 bg-stone-900/40 dark:bg-stone-900/60 transition-colors duration-[800ms] ease-in-out group-hover:bg-stone-900/10 dark:group-hover:bg-stone-900/20 z-10"></div>
@@ -93,10 +95,11 @@ export default function SpaceSelection() {
               <div className="relative aspect-square md:aspect-[4/5] rounded-2xl overflow-hidden mb-8 shadow-md">
                 {step.type === 'video' ? (
                   <video 
-                    src={step.src} 
-                    autoPlay loop muted playsInline
+                    autoPlay loop muted playsInline preload="auto"
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110"
-                  />
+                  >
+                    <source src={step.src} type="video/webm" />
+                  </video>
                 ) : (
                   <img 
                     src={step.src} 

@@ -13,9 +13,11 @@ export default function Hero() {
         loop
         muted
         playsInline
+        preload="auto"
         className="absolute inset-0 w-full h-full object-cover z-0"
-        src="/hero-video.mp4"
-      />
+      >
+        <source src="/hero-video.webm" type="video/webm" />
+      </video>
 
      
       <div className="relative z-10 flex flex-col items-start px-6 md:px-16 lg:px-24 mt-20 fade-in-up max-w-5xl">

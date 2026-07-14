@@ -119,8 +119,8 @@ export default function About() {
             </div>
           </div>
 
-          <motion.div variants={fadeInUp} className="w-full h-full relative">
-            <video src="/src/assets/hakkimizda.mp4" autoPlay loop muted playsInline className="rounded-[2rem] shadow-xl w-full h-full min-h-[400px] object-cover transition-transform duration-700 ease-out hover:scale-[1.03] hover:shadow-2xl cursor-pointer" />
+          <motion.div variants={fadeInUp} className="w-full h-full relative bg-gray-200 dark:bg-stone-800 rounded-[2rem]">
+            <video src="/hakkimizda.webm" autoPlay loop muted playsInline className="rounded-[2rem] shadow-xl w-full h-full min-h-[400px] object-cover transition-transform duration-700 ease-out hover:scale-[1.03] hover:shadow-2xl cursor-pointer" />
           </motion.div>
         </motion.section>
 

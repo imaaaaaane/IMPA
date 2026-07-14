@@ -48,13 +48,15 @@ export default function FaaliyetAlanlari() {
         {/* 1. J-Jiha d-L-Video (Media Side) */}
         <div className="relative w-full h-[400px] lg:h-[700px] rounded-[2rem] overflow-hidden shadow-2xl">
           <video
-            src="/src/assets/fabric.mp4"
             autoPlay
             loop
             muted
             playsInline
+            preload="auto"
             className="absolute inset-0 w-full h-full object-cover z-0"
-          />
+          >
+            <source src="/fabric.webm" type="video/webm" />
+          </video>
         </div>
 
         {/* 2. J-Jiha d-Timeline (Text Side) */}
