@@ -3,6 +3,7 @@ import Hero from '../Hero';
 import HakkimizdaHome from '../../components/HakkimizdaHome';
 import Urunler from '../../components/Urunler';
 import Projeler from '../../components/Projeler';
+import EbatlamaCTA from '../../components/EbatlamaCTA';
 import Footer from '../../components/Footer';
 import { useTranslation } from 'react-i18next';
 
@@ -17,6 +18,7 @@ const Home = () => {
       <div className="relative z-10 bg-white dark:bg-[#111111] transition-colors duration-500">
         <HakkimizdaHome />
         <Projeler />
+        <EbatlamaCTA />
         <Urunler />
         <Footer />
       </div>

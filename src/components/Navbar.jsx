@@ -9,6 +9,10 @@ export default function Navbar() {
   const location = useLocation();
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
 
+  const isProjectPage = location.pathname.startsWith('/proje/');
+
+  if (isProjectPage) return null;
+
   const handleSmoothScroll = (e, targetId) => {
     if (location.pathname === '/') {
       e.preventDefault();
@@ -24,7 +28,7 @@ export default function Navbar() {
       className={`absolute top-0 w-full z-[100] transition-colors duration-500 ease-in-out flex justify-between items-center px-8 md:px-16 py-8 text-xs tracking-[0.2em] uppercase ${
         isMegaMenuOpen 
           ? 'bg-[#FAF9F6] dark:bg-[#111111] text-[#1A1A1C] dark:text-white shadow-sm' 
-          : 'bg-transparent text-white mix-blend-difference'
+          : isProjectPage ? 'bg-transparent text-white drop-shadow-lg' : 'bg-transparent text-white mix-blend-difference'
       }`}
     >
       <Link to="/" className="relative z-10">
@@ -33,7 +37,7 @@ export default function Navbar() {
           alt="İMPA Logo" 
           className={`h-24 md:h-32 w-auto object-contain cursor-pointer transition-all duration-500 ${
             isMegaMenuOpen ? 'brightness-0 dark:brightness-200 dark:contrast-200' : 'contrast-200 brightness-200'
-          }`}
+          } ${isProjectPage && !isMegaMenuOpen ? 'drop-shadow-lg' : ''}`}
         />
       </Link>
 
