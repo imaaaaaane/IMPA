@@ -18,6 +18,7 @@ import PanelOptimizer from "./pages/Public/PanelOptimizer";
 // Admin Pages & Layout
 import AdminLayout from "./layouts/AdminLayout";
 import AdminLogin from "./pages/Admin/AdminLogin";
+import ProtectedRoute from "./components/ProtectedRoute";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import AdminProjects from "./pages/Admin/AdminProjects";
 import AdminProducts from "./pages/Admin/AdminProducts";
@@ -44,14 +45,16 @@ export default function App() {
 
           {/* Admin Routes - Separate Layout and Independent UI */}
           <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<AdminDashboard />} />
-            <Route path="projects" element={<AdminProjects />} />
-            <Route path="products" element={<AdminProducts />} />
-            <Route path="ebatlama" element={<AdminEbatlama />} />
-            <Route path="settings" element={<AdminSettings />} />
-            {/* Future routes: messages, etc. */}
-            <Route path="*" element={<AdminDashboard />} />
+          <Route path="/admin" element={<ProtectedRoute />}>
+            <Route element={<AdminLayout />}>
+              <Route index element={<AdminDashboard />} />
+              <Route path="projects" element={<AdminProjects />} />
+              <Route path="products" element={<AdminProducts />} />
+              <Route path="ebatlama" element={<AdminEbatlama />} />
+              <Route path="settings" element={<AdminSettings />} />
+              {/* Future routes: messages, etc. */}
+              <Route path="*" element={<AdminDashboard />} />
+            </Route>
           </Route>
         </Routes>
       </SmoothScroll>

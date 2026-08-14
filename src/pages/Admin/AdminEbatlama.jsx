@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../../utils/supabase'; // Adjust path if necessary
 import * as XLSX from 'xlsx';
+import { Trash2 } from 'lucide-react';
 
 const AdminEbatlama = () => {
   const [orders, setOrders] = useState([]);
@@ -79,6 +80,95 @@ const AdminEbatlama = () => {
     }
   };
 
+  const handleDelete = async (id) => {
+    if (window.confirm('Bu siparişi silmek istediğinize emin misiniz?')) {
+      try {
+        const { data, error } = await supabase.from('ebatlama_orders').delete().eq('id', id).select();
+        
+        if (error) {
+          console.error("Supabase Delete Error:", error);
+          alert(`Sipariş silinirken veritabanı hatası oluştu: ${error.message}`);
+          return;
+        }
+
+        if (!data || data.length === 0) {
+          console.error("Supabase Delete Error: No rows deleted. Check RLS policies.");
+          alert('Sipariş silinemedi. Yetki hatası olabilir (RLS).');
+          return;
+        }
+
+        // Only update local state if DB deletion was completely successful
+        setOrders(prevOrders => prevOrders.filter(order => order.id !== id));
+      } catch (err) {
+        console.error("Delete Exception:", err);
+        alert("Sipariş silinirken beklenmeyen bir hata oluştu.");
+      }
+    }
+  };
+
+  const handleStatusChange = async (order, newStatus) => {
+    // 1. Update DB
+    const { error } = await supabase
+      .from('ebatlama_orders')
+      .update({ durum: newStatus })
+      .eq('id', order.id);
+
+    if (error) {
+      console.error("Supabase Update Error:", error.message);
+      alert(`Durum güncellenirken bir hata oluştu: ${error.message}`);
+      return;
+    }
+
+    // 2. Update Local State
+    setOrders(prevOrders => prevOrders.map(o => 
+      o.id === order.id ? { ...o, durum: newStatus } : o
+    ));
+
+    // 3. SMS Automation via Supabase Edge Function
+    if (newStatus === 'Sipariş Alındı' || newStatus === 'Hazırlanıyor' || newStatus === 'Tamamlandı') {
+      const phoneRaw = order.iletisim_numarasi || order.telefon; // Support both fields
+      if (!phoneRaw) {
+        alert("Durum güncellendi ancak telefonsuz sipariş olduğu için SMS gönderilmedi.");
+        return;
+      }
+      
+      // Safe phone formatting: remove spaces, remove leading zero, ensure +90
+      let formattedPhone = phoneRaw.replace(/\s+/g, '');
+      if (formattedPhone.startsWith('0')) {
+        formattedPhone = formattedPhone.substring(1);
+      }
+      if (!formattedPhone.startsWith('+90')) {
+        formattedPhone = '+90' + formattedPhone;
+      }
+
+      // Determine the client's name
+      const clientName = order.yetkili_kisi || order.firma_adi || 'Müşterimiz';
+      let message = '';
+
+      if (newStatus === 'Sipariş Alındı') {
+        message = `Sayın ${clientName}, İMPA Orman Ürünleri siparişinizi aldık. En kısa sürede işleme alınacaktır. İyi çalışmalar dileriz.`;
+      } else if (newStatus === 'Hazırlanıyor') {
+        message = `Sayın ${clientName}, İMPA Orman Ürünleri'nden ulaşıyoruz. Siparişinizin kesim işlemine başlanmıştır. İşlem tamamlandığında size tekrar bilgi vereceğiz. İyi çalışmalar dileriz.`;
+      } else if (newStatus === 'Tamamlandı') {
+        message = `Sayın ${clientName}, kesim siparişiniz başarıyla tamamlanmış ve teslime hazır hale gelmiştir. Ürünlerinizi dilediğiniz zaman fabrikamızdan teslim alabilirsiniz. Bizi tercih ettiğiniz için teşekkür ederiz. - İMPA Orman Ürünleri`;
+      }
+
+      try {
+        const { data, error: smsError } = await supabase.functions.invoke('send-sms', {
+          body: { phoneNumber: formattedPhone, message }
+        });
+        
+        if (smsError) throw smsError;
+        if (!data?.success) throw new Error(data?.error || "Unknown SMS Error");
+        
+        alert(`Durum "${newStatus}" olarak güncellendi ve müşteriye SMS gönderildi.`);
+      } catch (err) {
+        console.error("SMS Error:", err);
+        alert(`Durum güncellendi ancak SMS gönderilirken hata oluştu: ${err.message}`);
+      }
+    }
+  };
+
   if (loading) {
     return <div className="p-8 text-center text-gray-500">Siparişler yükleniyor...</div>;
   }
@@ -103,13 +193,14 @@ const AdminEbatlama = () => {
               <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Firma / Yetkili</th>
               <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">İletişim</th>
               <th className="px-6 py-4 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">Toplam (m²)</th>
+              <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Durum</th>
               <th className="px-6 py-4 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">İşlemler</th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {orders.length === 0 ? (
               <tr>
-                <td colSpan="5" className="px-6 py-8 text-center text-gray-500">Henüz sipariş bulunmuyor.</td>
+                <td colSpan="6" className="px-6 py-8 text-center text-gray-500">Henüz sipariş bulunmuyor.</td>
               </tr>
             ) : (
               orders.map((order) => (
@@ -130,21 +221,45 @@ const AdminEbatlama = () => {
                       {order.toplam_metrekare ? `${Number(order.toplam_metrekare).toFixed(2)} m²` : '-'}
                     </span>
                   </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                    <select
+                      value={order.durum || 'Sipariş Alındı'}
+                      onChange={(e) => handleStatusChange(order, e.target.value)}
+                      className={`text-xs font-semibold rounded-full px-3 py-1.5 outline-none cursor-pointer border appearance-none text-center ${
+                        (!order.durum || order.durum === 'Sipariş Alındı' || order.durum === 'Bekliyor') ? 'bg-yellow-100 text-yellow-800 border-yellow-200' :
+                        order.durum === 'Hazırlanıyor' ? 'bg-blue-100 text-blue-800 border-blue-200' :
+                        'bg-green-100 text-green-800 border-green-200'
+                      }`}
+                    >
+                      <option value="Sipariş Alındı">Sipariş Alındı</option>
+                      <option value="Hazırlanıyor">Hazırlanıyor</option>
+                      <option value="Tamamlandı">Tamamlandı</option>
+                    </select>
+                  </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    {order.indirildi ? (
-                      <span className="inline-flex items-center gap-1.5 bg-gray-100 text-gray-500 px-3 py-2 rounded-lg text-sm font-medium border border-gray-200">
-                        <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
-                        İndirildi
-                      </span>
-                    ) : (
-                      <button
-                        onClick={() => handleDownloadExcel(order)}
-                        className="inline-flex items-center gap-1.5 bg-[#1A4731] hover:bg-[#123322] text-white px-3 py-2 rounded-lg transition-colors text-sm font-medium shadow-sm"
+                    <div className="flex items-center justify-end gap-2">
+                      {order.indirildi ? (
+                        <span className="inline-flex items-center gap-1.5 bg-gray-100 text-gray-500 px-3 py-2 rounded-lg text-sm font-medium border border-gray-200">
+                          <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
+                          İndirildi
+                        </span>
+                      ) : (
+                        <button
+                          onClick={() => handleDownloadExcel(order)}
+                          className="inline-flex items-center gap-1.5 bg-[#1A4731] hover:bg-[#123322] text-white px-3 py-2 rounded-lg transition-colors text-sm font-medium shadow-sm"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                          Excel
+                        </button>
+                      )}
+                      <button 
+                        onClick={() => handleDelete(order.id)}
+                        className="p-2 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors"
+                        title="Siparişi Sil"
                       >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                        Excel İndir
+                        <Trash2 className="w-5 h-5" />
                       </button>
-                    )}
+                    </div>
                   </td>
                 </tr>
               ))

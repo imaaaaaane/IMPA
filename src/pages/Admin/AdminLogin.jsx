@@ -1,17 +1,34 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { supabase } from '../../utils/supabase';
 
 export default function AdminLogin() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // In the future: handle authentication here
-    // For now, simple redirect to dashboard
-    if(email && password) {
-      navigate('/admin');
+    setError('');
+    setLoading(true);
+    
+    if (email && password) {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        setError('Giriş başarısız. Lütfen bilgilerinizi kontrol edin.');
+        setLoading(false);
+      } else {
+        navigate('/admin');
+      }
+    } else {
+      setError('Lütfen email ve şifre giriniz.');
+      setLoading(false);
     }
   };
 
@@ -26,6 +43,11 @@ export default function AdminLogin() {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white dark:bg-[#1A1A1C] py-10 px-6 shadow-xl rounded-2xl sm:px-10 border border-gray-100 dark:border-stone-800 transition-colors duration-500">
+          {error && (
+            <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded-r-lg">
+              <p className="text-sm text-red-700">{error}</p>
+            </div>
+          )}
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-stone-300">
@@ -68,9 +90,10 @@ export default function AdminLogin() {
             <div>
               <button
                 type="submit"
-                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-md text-sm font-medium text-white dark:text-[#1A1A1C] bg-[#1A1A1C] dark:bg-white hover:bg-black dark:hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1A1A1C] dark:focus:ring-offset-[#1A1A1C] transition-colors"
+                disabled={loading}
+                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-md text-sm font-medium text-white dark:text-[#1A1A1C] bg-[#1A1A1C] dark:bg-white hover:bg-black dark:hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1A1A1C] dark:focus:ring-offset-[#1A1A1C] transition-colors disabled:opacity-70 disabled:cursor-wait"
               >
-                Giriş Yap
+                {loading ? 'Giriş Yapılıyor...' : 'Giriş Yap'}
               </button>
             </div>
           </form>

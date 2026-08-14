@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import CuttingVisualizer from '../../components/CuttingVisualizer';
 import { supabase } from '../../utils/supabase'; // Adjust path based on project structure
-import html2pdf from 'html2pdf.js';
+import * as htmlToImage from 'html-to-image';
 import { Link } from 'react-router-dom';
 
 const EbatlamaForm = () => {
@@ -22,72 +22,55 @@ const EbatlamaForm = () => {
   const [bicakPayi, setBicakPayi] = useState(5);
   const [otoYon, setOtoYon] = useState(false);
 
+  const [globalKalinlik, setGlobalKalinlik] = useState('Seçiniz');
+  const [globalPlaka, setGlobalPlaka] = useState('Seçiniz');
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAgreed, setIsAgreed] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+  const resultsRef = useRef(null);
+  const [isGenerating, setIsGenerating] = useState(false);
 
-  const handleDownloadPDF = () => {
-    setIsGeneratingPDF(true);
+  const handleDownloadImage = async () => {
+    setIsGenerating(true);
     
-    // 1. Give React a moment to update the UI button to "PDF Hazırlanıyor..."
-    setTimeout(() => {
-      const element = document.getElementById('pdf-export-area');
-      if (!element) {
-        setIsGeneratingPDF(false);
+    // Small delay to allow UI to show loading state
+    await new Promise(resolve => setTimeout(resolve, 150));
+
+    const element = resultsRef.current;
+    if (!element) {
+        console.error("Export area not found! Make sure the ref is attached.");
+        setIsGenerating(false);
         return;
-      }
+    }
 
-      // 2. Temporarily hide the complex repeating grid to save html2canvas from freezing
-      const plakaContainers = element.querySelectorAll('[style*="linear-gradient"]');
-      const originalBackgrounds = [];
-      
-      plakaContainers.forEach((el, index) => {
-        originalBackgrounds[index] = el.style.backgroundImage;
-        el.style.backgroundImage = 'none'; // Remove gradient temporarily
-        el.style.backgroundColor = '#FFF0F0'; // Keep the solid red tint for waste area
+    htmlToImage.toJpeg(element, { quality: 0.9, backgroundColor: '#ffffff' })
+      .then((dataUrl) => {
+        const link = document.createElement('a');
+        link.download = 'kesim-sonuclari.jpg';
+        link.href = dataUrl;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      })
+      .catch((err) => {
+        console.error('Error generating image:', err);
+      })
+      .finally(() => {
+        setIsGenerating(false);
       });
-
-      const opt = {
-        margin:       5,
-        filename:     'kesim-semasi.pdf',
-        image:        { type: 'jpeg', quality: 0.9 },
-        html2canvas:  { scale: 1.5, useCORS: true },
-        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
-      };
-
-      // 3. Generate PDF and use Promises to ensure cleanup
-      html2pdf().set(opt).from(element).save()
-        .then(() => {
-          // Restore original backgrounds after successful generation
-          plakaContainers.forEach((el, index) => {
-            el.style.backgroundImage = originalBackgrounds[index];
-          });
-          setIsGeneratingPDF(false);
-        })
-        .catch(err => {
-          console.error("PDF generation error:", err);
-          // Restore original backgrounds even if it fails
-          plakaContainers.forEach((el, index) => {
-            el.style.backgroundImage = originalBackgrounds[index];
-          });
-          setIsGeneratingPDF(false);
-        });
-    }, 150);
   };
 
   // Initialize with 15 empty rows to match the requirement
   const [rows, setRows] = useState(Array(15).fill({
-    kalinlik: 'Seçiniz',
-    plaka: 'Seçiniz',
     boy: '',
     en: '',
     adet: '',
-    pvcBoy1: false,
-    pvcBoy2: false,
-    pvcEn1: false,
-    pvcEn2: false,
+    uzun1: false,
+    uzun2: false,
+    kisa1: false,
+    kisa2: false,
   }));
 
   const handleInputChange = (index, field, value) => {
@@ -101,20 +84,19 @@ const EbatlamaForm = () => {
     setClientInfo(prev => ({ ...prev, [name]: value }));
   };
 
-  // Parse panel dimensions for dynamic visualization based on the first valid row, or fallback to default
-  const activeRow = rows.find(r => r.plaka && r.plaka !== 'Seçiniz');
-  const selectedPlaka = activeRow ? activeRow.plaka : '2800x2100';
+  // Parse panel dimensions for dynamic visualization based on the global selection, or fallback to default
+  const selectedPlaka = globalPlaka !== 'Seçiniz' ? globalPlaka : '2800x2100';
 
   const validateRow = (row) => {
     const warnings = [];
     // Skip if essential data is missing
-    if (!row.boy || !row.en || !row.plaka || row.plaka === 'Seçiniz') return warnings;
+    if (!row.boy || !row.en || globalPlaka === 'Seçiniz') return warnings;
 
     const boy = parseFloat(row.boy);
     const en = parseFloat(row.en);
     
     // Extract max and min panel dimensions safely
-    const [plakaWidth, plakaHeight] = row.plaka.split('x').map(Number);
+    const [plakaWidth, plakaHeight] = globalPlaka.split('x').map(Number);
     const maxPlaka = Math.max(plakaWidth, plakaHeight);
     const minPlaka = Math.min(plakaWidth, plakaHeight);
     
@@ -124,7 +106,7 @@ const EbatlamaForm = () => {
 
     // Error: Piece is larger than the board (Keep only this critical error)
     if (maxDim > maxPlaka || minDim > minPlaka) {
-      warnings.push({ type: 'error', msg: `Dikkat: Bu parça seçtiğiniz plakadan (${row.plaka}) daha büyük!` });
+      warnings.push({ type: 'error', msg: `Dikkat: Bu parça seçtiğiniz plakadan (${globalPlaka}) daha büyük!` });
     }
 
     // The PVC warning logic has been completely removed.
@@ -242,6 +224,46 @@ const EbatlamaForm = () => {
           </div>
         </div>
 
+        {/* Global Malzeme Seçimi */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+          <h2 className="text-xl font-semibold mb-6 text-[#1F2937] flex items-center gap-2">
+            <span className="bg-[#8B5A2B] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shadow-sm">2</span>
+            Malzeme Seçimi (Tüm Sipariş İçin)
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Genel Kalınlık</label>
+              <select 
+                className="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#8B5A2B] focus:border-transparent transition-all"
+                value={globalKalinlik}
+                onChange={(e) => setGlobalKalinlik(e.target.value)}
+              >
+                <option>Seçiniz</option>
+                <option>18mm</option>
+                <option>10mm</option>
+                <option>8mm</option>
+                <option>6mm</option>
+                <option>4mm</option>
+                <option>3mm</option>
+                <option>2mm</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Genel Plaka Ebatları (mm)</label>
+              <select 
+                className="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#8B5A2B] focus:border-transparent transition-all"
+                value={globalPlaka}
+                onChange={(e) => setGlobalPlaka(e.target.value)}
+              >
+                <option>Seçiniz</option>
+                <option>2800x2100</option>
+                <option>3660x1830</option>
+                <option>1700x2100</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
         {/* Main Ebatlama Grid Card */}
         <div className="bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-gray-100 p-8 overflow-hidden">
           <div className="mb-6 bg-amber-50 border border-amber-200 rounded-lg p-3 flex items-start gap-3">
@@ -260,9 +282,7 @@ const EbatlamaForm = () => {
             <table className="w-full text-center border-collapse">
               <thead className="bg-[#F8F9FA] border-b border-gray-200 text-gray-600 font-semibold uppercase text-xs tracking-wider">
                 <tr>
-                  <th className="bg-gray-50/80 text-gray-700 py-4 px-4 text-center text-sm font-bold uppercase tracking-wide border-b border-gray-200" rowSpan="2">Sıra</th>
-                  <th className="bg-gray-50/80 text-gray-700 py-4 px-4 text-center text-sm font-bold uppercase tracking-wide border-b border-gray-200" rowSpan="2">Kalınlık</th>
-                  <th className="bg-gray-50/80 text-gray-700 py-4 px-4 text-center text-sm font-bold uppercase tracking-wide border-b border-r border-gray-200" rowSpan="2">Plaka</th>
+                  <th className="bg-gray-50/80 text-gray-700 py-4 px-4 text-center text-sm font-bold uppercase tracking-wide border-b border-r border-gray-200" rowSpan="2">Sıra</th>
                   <th colSpan="5" className="bg-[#7A1D2D] text-white py-4 text-center text-sm font-bold uppercase tracking-widest rounded-tl-xl border-r border-white/20 shadow-sm">
                     EBATLAMA ÖLÇÜLERİ (MM)
                   </th>
@@ -276,10 +296,10 @@ const EbatlamaForm = () => {
                   <th className="bg-[#FFF8F9] text-[#7A1D2D] py-4 px-4 text-center text-sm font-bold uppercase tracking-wide border-b border-[#F0D5DA]">Adet</th>
                   <th className="bg-[#FFF8F9] text-[#7A1D2D] py-4 px-4 text-center text-sm font-bold uppercase tracking-wide border-b border-[#F0D5DA]">Birim (m²)</th>
                   <th className="bg-[#FFF8F9] text-[#7A1D2D] py-4 px-4 text-center text-sm font-bold uppercase tracking-wide border-b border-r border-[#F0D5DA]">Toplam (m²)</th>
-                  <th className="bg-[#F4F7FA] text-[#1A365D] py-4 px-3 text-center text-sm font-bold uppercase tracking-wide border-b border-[#D6E0EC]">B1</th>
-                  <th className="bg-[#F4F7FA] text-[#1A365D] py-4 px-3 text-center text-sm font-bold uppercase tracking-wide border-b border-[#D6E0EC]">B2</th>
-                  <th className="bg-[#F4F7FA] text-[#1A365D] py-4 px-3 text-center text-sm font-bold uppercase tracking-wide border-b border-[#D6E0EC]">E1</th>
-                  <th className="bg-[#F4F7FA] text-[#1A365D] py-4 px-3 text-center text-sm font-bold uppercase tracking-wide border-b border-[#D6E0EC]">E2</th>
+                  <th className="bg-[#F4F7FA] text-[#1A365D] py-4 px-3 text-center text-sm font-bold uppercase tracking-wide border-b border-[#D6E0EC]">Uzun 1</th>
+                  <th className="bg-[#F4F7FA] text-[#1A365D] py-4 px-3 text-center text-sm font-bold uppercase tracking-wide border-b border-[#D6E0EC]">Uzun 2</th>
+                  <th className="bg-[#F4F7FA] text-[#1A365D] py-4 px-3 text-center text-sm font-bold uppercase tracking-wide border-b border-[#D6E0EC]">Kısa 1</th>
+                  <th className="bg-[#F4F7FA] text-[#1A365D] py-4 px-3 text-center text-sm font-bold uppercase tracking-wide border-b border-[#D6E0EC]">Kısa 2</th>
                 </tr>
               </thead>
               <tbody>
@@ -295,34 +315,6 @@ const EbatlamaForm = () => {
                   <React.Fragment key={index}>
                   <tr className="even:bg-gray-50/50 odd:bg-white hover:bg-[#F1F5F9] transition-colors duration-150 border-b border-gray-100 last:border-none">
                     <td className="p-3 text-sm font-medium text-gray-500">{index + 1}</td>
-                    <td className="p-2">
-                      <select 
-                        className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-[#2D3748] shadow-sm focus:bg-white focus:ring-2 focus:ring-[#8B5A2B]/20 focus:border-[#8B5A2B] outline-none text-center transition-all appearance-none"
-                        value={row.kalinlik}
-                        onChange={(e) => handleInputChange(index, 'kalinlik', e.target.value)}
-                      >
-                        <option>Seçiniz</option>
-                        <option>18mm</option>
-                        <option>10mm</option>
-                        <option>8mm</option>
-                        <option>6mm</option>
-                        <option>4mm</option>
-                        <option>3mm</option>
-                        <option>2mm</option>
-                      </select>
-                    </td>
-                    <td className="p-2">
-                      <select 
-                        className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-[#2D3748] shadow-sm focus:bg-white focus:ring-2 focus:ring-[#8B5A2B]/20 focus:border-[#8B5A2B] outline-none text-center transition-all appearance-none"
-                        value={row.plaka}
-                        onChange={(e) => handleInputChange(index, 'plaka', e.target.value)}
-                      >
-                        <option>Seçiniz</option>
-                        <option>2800x2100</option>
-                        <option>3660x1830</option>
-                        <option>1700x2100</option>
-                      </select>
-                    </td>
                     <td className="p-2">
                       <input 
                         type="number" 
@@ -364,38 +356,38 @@ const EbatlamaForm = () => {
                       <input 
                         type="checkbox" 
                         className="accent-[#2D3748] w-4 h-4 cursor-pointer hover:ring-2 hover:ring-[#2D3748]/30 hover:scale-110 transition-all"
-                        checked={row.pvcBoy1}
-                        onChange={(e) => handleInputChange(index, 'pvcBoy1', e.target.checked)}
+                        checked={row.uzun1}
+                        onChange={(e) => handleInputChange(index, 'uzun1', e.target.checked)}
                       />
                     </td>
                     <td className="p-2 text-center">
                       <input 
                         type="checkbox" 
                         className="accent-[#2D3748] w-4 h-4 cursor-pointer hover:ring-2 hover:ring-[#2D3748]/30 hover:scale-110 transition-all"
-                        checked={row.pvcBoy2}
-                        onChange={(e) => handleInputChange(index, 'pvcBoy2', e.target.checked)}
+                        checked={row.uzun2}
+                        onChange={(e) => handleInputChange(index, 'uzun2', e.target.checked)}
                       />
                     </td>
                     <td className="p-2 text-center">
                       <input 
                         type="checkbox" 
                         className="accent-[#2D3748] w-4 h-4 cursor-pointer hover:ring-2 hover:ring-[#2D3748]/30 hover:scale-110 transition-all"
-                        checked={row.pvcEn1}
-                        onChange={(e) => handleInputChange(index, 'pvcEn1', e.target.checked)}
+                        checked={row.kisa1}
+                        onChange={(e) => handleInputChange(index, 'kisa1', e.target.checked)}
                       />
                     </td>
                     <td className="p-2 text-center">
                       <input 
                         type="checkbox" 
                         className="accent-[#2D3748] w-4 h-4 cursor-pointer hover:ring-2 hover:ring-[#2D3748]/30 hover:scale-110 transition-all"
-                        checked={row.pvcEn2}
-                        onChange={(e) => handleInputChange(index, 'pvcEn2', e.target.checked)}
+                        checked={row.kisa2}
+                        onChange={(e) => handleInputChange(index, 'kisa2', e.target.checked)}
                       />
                     </td>
                   </tr>
                   {warnings.length > 0 && (
                     <tr className="bg-red-50/30">
-                      <td colSpan="12" className="px-6 py-2 border-b border-red-100/50">
+                      <td colSpan="10" className="px-6 py-2 border-b border-red-100/50">
                         <div className="flex flex-col gap-1.5 justify-center items-center">
                           {warnings.map((w, i) => (
                             <div key={i} className={`text-xs font-medium flex items-center gap-1.5 ${w.type === 'error' ? 'text-red-500' : 'text-amber-500'}`}>
@@ -472,29 +464,29 @@ const EbatlamaForm = () => {
         <div className="flex justify-end mt-4 mb-2">
           <button 
             type="button" 
-            onClick={handleDownloadPDF} 
-            disabled={isGeneratingPDF}
+            onClick={handleDownloadImage} 
+            disabled={isGenerating}
             className="flex items-center gap-2 text-sm font-semibold text-[#7A1D2D] bg-[#FFF8F9] hover:bg-[#F0D5DA] border border-[#F0D5DA] px-4 py-2 rounded-lg transition-colors disabled:opacity-70 disabled:cursor-wait"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-            {isGeneratingPDF ? 'PDF Hazırlanıyor...' : 'Sonuçları PDF İndir'}
+            {isGenerating ? 'İndiriliyor...' : 'Sonuçları İndir (JPG)'}
           </button>
         </div>
 
-        <div id="pdf-export-area" className="p-4 bg-white">
+        <div ref={resultsRef} id="pdf-export-area" className="p-4 bg-[#ffffff]">
           {/* Summary Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
             {/* Card 1: Gereken Plaka */}
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col items-center justify-center text-center">
-              <span className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Gereken Plaka</span>
+            <div className="bg-[#ffffff] rounded-2xl shadow-sm border border-[#f3f4f6] p-6 flex flex-col items-center justify-center text-center">
+              <span className="text-xs font-bold text-[#9ca3af] uppercase tracking-wider mb-2">Gereken Plaka</span>
               <span className="text-4xl font-extrabold text-[#2D3748]">
                 {requiredPlates}
               </span>
             </div>
 
             {/* Card 2: 1 Plakadan Çıkan */}
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col items-center justify-center text-center">
-              <span className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">1 Plakadan Çıkan</span>
+            <div className="bg-[#ffffff] rounded-2xl shadow-sm border border-[#f3f4f6] p-6 flex flex-col items-center justify-center text-center">
+              <span className="text-xs font-bold text-[#9ca3af] uppercase tracking-wider mb-2">1 Plakadan Çıkan</span>
               <span className="text-4xl font-extrabold text-[#2D3748]">
                 {piecesFromOnePlate}
               </span>
@@ -519,7 +511,7 @@ const EbatlamaForm = () => {
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 mt-8 text-center max-w-2xl mx-auto">
           <p className="text-[#1F2937] font-medium text-lg mb-6">Detaylı bilgi ve fiyat için watsap hattımızdan ulaşabilirsiniz.</p>
           <a 
-            href="https://wa.me/905555555555" 
+            href="https://wa.me/905425421057" 
             target="_blank" 
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1ebd59] text-white font-medium rounded-lg px-8 py-4 w-full shadow-sm transition-colors text-lg"
@@ -578,6 +570,8 @@ const EbatlamaForm = () => {
                             yetkili_kisi: clientInfo.yetkiliKisi || 'Bilinmiyor',
                             telefon: clientInfo.telefon || 'Bilinmiyor',
                             siparis_notu: siparisNotu || '',
+                            kalinlik: globalKalinlik !== 'Seçiniz' ? globalKalinlik : 'Bilinmiyor',
+                            plaka: globalPlaka !== 'Seçiniz' ? globalPlaka : 'Bilinmiyor',
                             siparis_detaylari: validRows,
                             toplam_metrekare: totalArea
                           }
@@ -591,8 +585,8 @@ const EbatlamaForm = () => {
                       // Optional: Reset form fields here if needed
                       
                     } catch (error) {
-                      console.error("Supabase Error:", error.message);
-                      alert("Sipariş gönderilirken bir hata oluştu. Lütfen tekrar deneyin.");
+                      console.error("Supabase Insert Error: ", error);
+                      alert(`Sipariş gönderilirken bir hata oluştu: ${error.message || "Bilinmeyen hata"}`);
                     } finally {
                       setIsSubmitting(false);
                     }
