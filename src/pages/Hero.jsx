@@ -5,10 +5,18 @@ import { supabase } from '../supabase';
 
 export default function Hero() {
   const { t } = useTranslation();
-  const [heroImageUrl, setHeroImageUrl] = useState(null);
+  const [heroImageUrl, setHeroImageUrl] = useState('/heroimage.webp');
   const [isMounted, setIsMounted] = useState(false);
   const [loading, setLoading] = useState(true);
   const [imageLoaded, setImageLoaded] = useState(false);
+
+  useEffect(() => {
+    // Fallback: If image takes longer than 500ms to load, force the animation to start
+    const timer = setTimeout(() => {
+      setImageLoaded(true);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     setIsMounted(true);
@@ -29,6 +37,11 @@ export default function Hero() {
           console.error('Error fetching hero image:', error);
         } else if (data && data.setting_value) {
           url = data.setting_value;
+          // Apply on-the-fly Supabase compression if it's a Supabase URL
+          if (url.includes('supabase.co')) {
+            const separator = url.includes('?') ? '&' : '?';
+            url = `${url}${separator}width=1920&quality=75`;
+          }
         }
         
         setHeroImageUrl(url);
