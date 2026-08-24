@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import after1Img from '../assets/after1.jpg';
-import before1Img from '../assets/before1.jpg';
-import before2Img from '../assets/before2.jpg';
-import after3Img from '../assets/after3.jpg';
-import before3Img from '../assets/before3.jpg';
+import after1Img from '../assets/after1.webp';
+import before1Img from '../assets/before1.webp';
+import before2Img from '../assets/before2.webp';
+import after3Img from '../assets/after3.webp';
+import before3Img from '../assets/before3.webp';
 
 // =========================================================================
 // PROJECT 1: THE BLUEPRINT SLIDER (Interactive Drag Reveal)
@@ -51,8 +51,7 @@ function BlueprintSlider() {
       onTouchStart={(e) => { setIsDragging(true); handleMove(e.touches[0].clientX); }}
     >
       {/* BACKGROUND IMAGE (The Full, Final "AFTER" Image) */}
-      <img 
-        src={after1Img} 
+      <img loading="lazy" width="800" height="600" src={after1Img} 
         alt="After" 
         className="absolute inset-0 w-full h-full object-cover pointer-events-none" 
       />
@@ -64,8 +63,7 @@ function BlueprintSlider() {
           clipPath: `inset(0 ${100 - sliderPosition}% 0 0)`
         }}
       >
-        <img 
-          src={before1Img} 
+        <img loading="lazy" width="800" height="600" src={before1Img} 
           alt="Before" 
           className="absolute inset-0 w-full h-full object-cover" 
         />
@@ -165,8 +163,7 @@ function HoverLens() {
       style={{ '--lens-x': '0px', '--lens-y': '0px', '--lens-r': '0px', '--lens-opacity': '0' }}
     >
       {/* Before Image (Top Visible Layer) */}
-      <img 
-        src={before3Img} 
+      <img loading="lazy" width="800" height="600" src={before3Img} 
         alt="Before" 
         className="absolute inset-0 w-full h-full object-cover pointer-events-none" 
       />
@@ -178,8 +175,7 @@ function HoverLens() {
           clipPath: `circle(var(--lens-r, 0px) at var(--lens-x, 0px) var(--lens-y, 0px))`
         }}
       >
-        <img 
-          src={after3Img} 
+        <img loading="lazy" width="800" height="600" src={after3Img} 
           alt="After" 
           className="absolute inset-0 w-full h-full object-cover" 
         />
@@ -237,8 +233,7 @@ function ScrollFade() {
       className="relative w-full h-[50vh] md:h-[70vh] rounded-2xl overflow-hidden shadow-2xl bg-stone-900"
     >
       {/* Before Image (The Sketch) */}
-      <img 
-        src={before2Img} 
+      <img loading="lazy" width="800" height="600" src={before2Img} 
         alt="Before" 
         className={`absolute inset-0 w-full h-full object-cover pointer-events-none transition-all duration-[2500ms] ease-[cubic-bezier(0.25,1,0.5,1)] ${
           isVisible ? 'opacity-0 scale-95 blur-md' : 'opacity-100 scale-100 blur-0'

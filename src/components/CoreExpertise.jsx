@@ -4,19 +4,19 @@ import { useTranslation } from 'react-i18next';
 
 // 1. Data Arrays mapping exactly to the local assets requested
 const modulerAssets = [
-  "/modul1.jpg", 
-  "/module2.jpg", 
-  "/module3.jpg", 
-  "/module4.jpg", 
-  "/moduler5.jpg"
+  "/modul1.webp", 
+  "/module2.webp", 
+  "/module3.webp", 
+  "/module4.webp", 
+  "/moduler5.webp"
 ];
 
 const surfaceAssets = [
-  "/surface1.jpg", 
-  "/surface2.jpg", 
-  "/surface3.jpg", 
-  "/surface4.jpg", 
-  "/surface5.jpg"
+  "/surface1.webp", 
+  "/surface2.webp", 
+  "/surface3.webp", 
+  "/surface4.webp", 
+  "/surface5.webp"
 ];
 
 // Ultra-Minimalist Check Icon
@@ -85,14 +85,14 @@ export default function CoreExpertise() {
               <div className="flex flex-col gap-10 pb-10 px-2">
                 {modulerAssets.map((src, i) => (
                   <div key={`m1-${i}`} className="w-full aspect-[4/5] rounded-sm overflow-hidden">
-                    <img src={src} alt={`İMPA Modüler ${i + 1}`} className="w-full h-full object-cover grayscale-[0.1]" />
+                    <img src={src} alt={`İMPA Modüler ${i + 1}`} loading="lazy" width="400" height="500" className="w-full h-full object-cover grayscale-[0.1]" />
                   </div>
                 ))}
               </div>
               <div className="flex flex-col gap-10 pb-10 px-2">
                 {modulerAssets.map((src, i) => (
                   <div key={`m2-${i}`} className="w-full aspect-[4/5] rounded-sm overflow-hidden">
-                    <img src={src} alt={`İMPA Modüler ${i + 1} clone`} className="w-full h-full object-cover grayscale-[0.1]" />
+                    <img src={src} alt={`İMPA Modüler ${i + 1} clone`} loading="lazy" width="400" height="500" className="w-full h-full object-cover grayscale-[0.1]" />
                   </div>
                 ))}
               </div>
@@ -182,14 +182,14 @@ export default function CoreExpertise() {
               <div className="flex flex-col gap-10 pb-10 px-2">
                 {surfaceAssets.map((src, i) => (
                   <div key={`s1-${i}`} className="w-full aspect-[4/5] rounded-sm overflow-hidden">
-                    <img src={src} alt={`İMPA Surface ${i + 1}`} className="w-full h-full object-cover grayscale-[0.1]" />
+                    <img src={src} alt={`İMPA Surface ${i + 1}`} loading="lazy" width="400" height="500" className="w-full h-full object-cover grayscale-[0.1]" />
                   </div>
                 ))}
               </div>
               <div className="flex flex-col gap-10 pb-10 px-2">
                 {surfaceAssets.map((src, i) => (
                   <div key={`s2-${i}`} className="w-full aspect-[4/5] rounded-sm overflow-hidden">
-                    <img src={src} alt={`İMPA Surface ${i + 1} clone`} className="w-full h-full object-cover grayscale-[0.1]" />
+                    <img src={src} alt={`İMPA Surface ${i + 1} clone`} loading="lazy" width="400" height="500" className="w-full h-full object-cover grayscale-[0.1]" />
                   </div>
                 ))}
               </div>

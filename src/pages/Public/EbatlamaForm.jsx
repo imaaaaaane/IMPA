@@ -3,6 +3,7 @@ import CuttingVisualizer from '../../components/CuttingVisualizer';
 import { supabase } from '../../utils/supabase'; // Adjust path based on project structure
 import * as htmlToImage from 'html-to-image';
 import { Link } from 'react-router-dom';
+import { ArrowRightLeft } from 'lucide-react';
 
 const EbatlamaForm = () => {
   const [clientInfo, setClientInfo] = useState({
@@ -22,8 +23,12 @@ const EbatlamaForm = () => {
   const [bicakPayi, setBicakPayi] = useState(5);
   const [otoYon, setOtoYon] = useState(false);
 
-  const [globalKalinlik, setGlobalKalinlik] = useState('Seçiniz');
-  const [globalPlaka, setGlobalPlaka] = useState('Seçiniz');
+  const [globalKalinlik, setGlobalKalinlik] = useState(
+    localStorage.getItem('impa_globalKalinlik') || 'Seçiniz'
+  );
+  const [globalPlaka, setGlobalPlaka] = useState(
+    localStorage.getItem('impa_globalPlaka') || 'Seçiniz'
+  );
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAgreed, setIsAgreed] = useState(false);
@@ -48,7 +53,7 @@ const EbatlamaForm = () => {
     htmlToImage.toJpeg(element, { quality: 0.9, backgroundColor: '#ffffff' })
       .then((dataUrl) => {
         const link = document.createElement('a');
-        link.download = 'kesim-sonuclari.jpg';
+        link.download = 'kesim-sonuclari.webp';
         link.href = dataUrl;
         document.body.appendChild(link);
         link.click();
@@ -62,20 +67,44 @@ const EbatlamaForm = () => {
       });
   };
 
-  // Initialize with 15 empty rows to match the requirement
-  const [rows, setRows] = useState(Array(15).fill({
-    boy: '',
-    en: '',
-    adet: '',
-    uzun1: false,
-    uzun2: false,
-    kisa1: false,
-    kisa2: false,
-  }));
+  const [rows, setRows] = useState(() => {
+    const saved = localStorage.getItem('impa_rows');
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        console.error("Error parsing rows from localStorage", e);
+      }
+    }
+    return Array(15).fill({
+      boy: '',
+      en: '',
+      adet: '',
+      uzun1: false,
+      uzun2: false,
+      kisa1: false,
+      kisa2: false,
+    });
+  });
+
+  // Persist form state
+  useEffect(() => {
+    localStorage.setItem('impa_globalKalinlik', globalKalinlik);
+    localStorage.setItem('impa_globalPlaka', globalPlaka);
+    localStorage.setItem('impa_rows', JSON.stringify(rows));
+  }, [globalKalinlik, globalPlaka, rows]);
 
   const handleInputChange = (index, field, value) => {
     const newRows = [...rows];
     newRows[index] = { ...newRows[index], [field]: value };
+    setRows(newRows);
+  };
+
+  const handleSwap = (index) => {
+    const newRows = [...rows];
+    const temp = newRows[index].boy;
+    newRows[index].boy = newRows[index].en;
+    newRows[index].en = temp;
     setRows(newRows);
   };
 
@@ -162,7 +191,7 @@ const EbatlamaForm = () => {
 
             {/* Clickable Logo */}
             <Link to="/">
-              <img src="/impalogo2.jpg" alt="IMPA Logo" className="h-16 w-auto object-contain" />
+              <img src="/impalogo2.webp" alt="IMPA Logo" className="h-16 w-auto object-contain" />
             </Link>
           </div>
           
@@ -283,7 +312,7 @@ const EbatlamaForm = () => {
               <thead className="bg-[#F8F9FA] border-b border-gray-200 text-gray-600 font-semibold uppercase text-xs tracking-wider">
                 <tr>
                   <th className="bg-gray-50/80 text-gray-700 py-4 px-4 text-center text-sm font-bold uppercase tracking-wide border-b border-r border-gray-200" rowSpan="2">Sıra</th>
-                  <th colSpan="5" className="bg-[#7A1D2D] text-white py-4 text-center text-sm font-bold uppercase tracking-widest rounded-tl-xl border-r border-white/20 shadow-sm">
+                  <th colSpan="6" className="bg-[#7A1D2D] text-white py-4 text-center text-sm font-bold uppercase tracking-widest rounded-tl-xl border-r border-white/20 shadow-sm">
                     EBATLAMA ÖLÇÜLERİ (MM)
                   </th>
                   <th colSpan="4" className="bg-[#1A365D] text-white py-4 text-center text-sm font-bold uppercase tracking-widest rounded-tr-xl shadow-sm">
@@ -292,6 +321,7 @@ const EbatlamaForm = () => {
                 </tr>
                 <tr>
                   <th className="bg-[#FFF8F9] text-[#7A1D2D] py-4 px-4 text-center text-sm font-bold uppercase tracking-wide border-b border-[#F0D5DA]">Boy</th>
+                  <th className="bg-[#FFF8F9] border-b border-[#F0D5DA] w-8"></th>
                   <th className="bg-[#FFF8F9] text-[#7A1D2D] py-4 px-4 text-center text-sm font-bold uppercase tracking-wide border-b border-[#F0D5DA]">En</th>
                   <th className="bg-[#FFF8F9] text-[#7A1D2D] py-4 px-4 text-center text-sm font-bold uppercase tracking-wide border-b border-[#F0D5DA]">Adet</th>
                   <th className="bg-[#FFF8F9] text-[#7A1D2D] py-4 px-4 text-center text-sm font-bold uppercase tracking-wide border-b border-[#F0D5DA]">Birim (m²)</th>
@@ -323,6 +353,16 @@ const EbatlamaForm = () => {
                         value={row.boy}
                         onChange={(e) => handleInputChange(index, 'boy', e.target.value)}
                       />
+                    </td>
+                    <td className="p-0 text-center align-middle">
+                      <button 
+                        type="button" 
+                        onClick={() => handleSwap(index)} 
+                        className="p-1.5 text-gray-400 hover:text-[#7A1D2D] hover:bg-gray-100 rounded-full transition-colors flex items-center justify-center mx-auto" 
+                        title="Boy ve En'i Değiştir"
+                      >
+                        <ArrowRightLeft size={14} />
+                      </button>
                     </td>
                     <td className="p-2">
                       <input 
@@ -387,7 +427,7 @@ const EbatlamaForm = () => {
                   </tr>
                   {warnings.length > 0 && (
                     <tr className="bg-red-50/30">
-                      <td colSpan="10" className="px-6 py-2 border-b border-red-100/50">
+                      <td colSpan="11" className="px-6 py-2 border-b border-red-100/50">
                         <div className="flex flex-col gap-1.5 justify-center items-center">
                           {warnings.map((w, i) => (
                             <div key={i} className={`text-xs font-medium flex items-center gap-1.5 ${w.type === 'error' ? 'text-red-500' : 'text-amber-500'}`}>
@@ -507,19 +547,7 @@ const EbatlamaForm = () => {
           <CuttingVisualizer activeRows={rows} selectedPlaka={selectedPlaka} otoYon={otoYon} />
         </div>
 
-        {/* WhatsApp Contact Section */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 mt-8 text-center max-w-2xl mx-auto">
-          <p className="text-[#1F2937] font-medium text-lg mb-6">Detaylı bilgi ve fiyat için watsap hattımızdan ulaşabilirsiniz.</p>
-          <a 
-            href="https://wa.me/905425421057" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1ebd59] text-white font-medium rounded-lg px-8 py-4 w-full shadow-sm transition-colors text-lg"
-          >
-            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-            WhatsApp ile İletişime Geç
-          </a>
-        </div>
+
 
         {isModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm">

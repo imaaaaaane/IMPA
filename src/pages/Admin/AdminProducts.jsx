@@ -5,7 +5,7 @@ import { supabase } from '../../supabase';
 export default function AdminProducts() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState('add'); // 'add' | 'edit'
-  const [currentProduct, setCurrentProduct] = useState({ name: '', description: '', image: null });
+  const [currentProduct, setCurrentProduct] = useState({ name: '', description: '', dimensions: '', material: '', category_slug: '', image: null });
 
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -36,7 +36,7 @@ export default function AdminProducts() {
 
   const openAddModal = () => {
     setModalMode('add');
-    setCurrentProduct({ name: '', description: '', image: null });
+    setCurrentProduct({ name: '', description: '', dimensions: '', material: '', category_slug: '', image: null });
     setIsModalOpen(true);
   };
 
@@ -87,6 +87,9 @@ export default function AdminProducts() {
             { 
               name: currentProduct.name, 
               description: currentProduct.description,
+              dimensions: currentProduct.dimensions,
+              material: currentProduct.material,
+              category_slug: currentProduct.category_slug,
               image: imageUrl
             }
           ]);
@@ -98,6 +101,9 @@ export default function AdminProducts() {
           .update({
             name: currentProduct.name,
             description: currentProduct.description,
+            dimensions: currentProduct.dimensions,
+            material: currentProduct.material,
+            category_slug: currentProduct.category_slug,
             ...(currentProduct.imageFile && { image: imageUrl })
           })
           .eq('id', currentProduct.id);
@@ -209,7 +215,7 @@ export default function AdminProducts() {
                   <td className="px-8 py-4">
                     <div className="w-12 h-10 bg-gray-100 rounded-md flex items-center justify-center overflow-hidden border border-gray-200">
                       {product.image && product.image !== 'no-image' ? (
-                        <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                        <img loading="lazy" width="800" height="600" src={product.image} alt={product.name} className="w-full h-full object-cover" />
                       ) : (
                         <span className="text-[9px] text-gray-400 font-medium uppercase tracking-wider">Yok</span>
                       )}
@@ -310,6 +316,55 @@ export default function AdminProducts() {
                 ></textarea>
               </div>
 
+              {/* Category */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                  Kategori
+                </label>
+                <select 
+                  value={currentProduct.category_slug || ''}
+                  onChange={(e) => setCurrentProduct({...currentProduct, category_slug: e.target.value})}
+                  disabled={isSubmitting}
+                  className="w-full px-4 py-2 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-black focus:border-black text-gray-900 text-sm transition-colors disabled:opacity-50 disabled:bg-gray-50 appearance-none"
+                >
+                  <option value="">Seçiniz...</option>
+                  <option value="makam-takimlari">Makam Takımları</option>
+                  <option value="toplanti-masalari">Toplantı Masaları</option>
+                  <option value="depolama-dolaplar">Depolama & Dolaplar</option>
+                  <option value="tv-uniteleri-konsol">TV Üniteleri & Konsol</option>
+                </select>
+              </div>
+
+              {/* Dimensions */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                  Ölçüler
+                </label>
+                <input 
+                  type="text" 
+                  value={currentProduct.dimensions || ''}
+                  onChange={(e) => setCurrentProduct({...currentProduct, dimensions: e.target.value})}
+                  disabled={isSubmitting}
+                  className="w-full px-4 py-2 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-black focus:border-black text-gray-900 text-sm transition-colors disabled:opacity-50 disabled:bg-gray-50"
+                  placeholder="Örn: G: 200cm x D: 160cm x Y: 110cm"
+                />
+              </div>
+
+              {/* Material */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                  Malzeme
+                </label>
+                <input 
+                  type="text" 
+                  value={currentProduct.material || ''}
+                  onChange={(e) => setCurrentProduct({...currentProduct, material: e.target.value})}
+                  disabled={isSubmitting}
+                  className="w-full px-4 py-2 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-black focus:border-black text-gray-900 text-sm transition-colors disabled:opacity-50 disabled:bg-gray-50"
+                  placeholder="Örn: Birinci Sınıf Ceviz Kaplama"
+                />
+              </div>
+
               {/* Image Upload */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1.5">
@@ -326,7 +381,7 @@ export default function AdminProducts() {
                     </div>
                   ) : currentProduct.image && currentProduct.image !== 'no-image' ? (
                      <div className="absolute inset-0 w-full h-full">
-                        <img src={currentProduct.image} alt="Preview" className="w-full h-full object-cover opacity-40 group-hover:opacity-30 transition-opacity" />
+                        <img loading="lazy" width="800" height="600" src={currentProduct.image} alt="Preview" className="w-full h-full object-cover opacity-40 group-hover:opacity-30 transition-opacity" />
                         <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
                           <span className="px-3 py-1 bg-black/50 text-white text-xs rounded-full backdrop-blur-sm">Görseli Değiştir</span>
                         </div>

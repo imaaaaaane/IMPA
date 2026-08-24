@@ -6,11 +6,7 @@ import { motion } from 'framer-motion';
 export default function EbatlamaCTA() {
   return (
     <section className="py-24 bg-gradient-to-br from-stone-950 via-stone-900 to-emerald-950 text-white overflow-hidden relative">
-      {/* Decorative background elements */}
-      <div className="absolute inset-0 opacity-20 pointer-events-none">
-        <div className="absolute -top-24 -right-24 w-96 h-96 bg-emerald-900 rounded-full mix-blend-screen filter blur-[100px] opacity-30" />
-        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-stone-800 rounded-full mix-blend-screen filter blur-[100px] opacity-40" />
-      </div>
+      {/* Decorative background elements removed for performance */}
 
       <div className="max-w-7xl mx-auto px-6 relative z-10 flex flex-col items-center text-center">
         <motion.div 
@@ -18,9 +14,9 @@ export default function EbatlamaCTA() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="w-16 h-16 bg-stone-800 rounded-2xl flex items-center justify-center mb-8 border border-stone-700 shadow-xl"
+          className="w-16 h-16 bg-red-700/10 rounded-2xl flex items-center justify-center mb-8 border border-red-700/20 shadow-xl"
         >
-          <Scissors size={32} className="text-emerald-500" />
+          <Scissors size={32} className="text-red-700" />
         </motion.div>
         
         <motion.h2 
@@ -30,7 +26,7 @@ export default function EbatlamaCTA() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="text-4xl md:text-5xl font-light mb-6 tracking-tight"
         >
-          Özel <span className="font-semibold text-emerald-500">Ebatlama ve Kesim</span> Hizmetleri
+          Özel <span className="font-semibold text-red-700">Ebatlama ve Kesim</span> Çözümleri
         </motion.h2>
         
         <motion.p 
@@ -40,8 +36,7 @@ export default function EbatlamaCTA() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="text-lg md:text-xl text-slate-300 max-w-2xl mb-10 font-light leading-relaxed"
         >
-          B2B müşterilerimize özel, projelerinize tam uyum sağlayan hassas ahşap kesim ve ebatlama. 
-          İhtiyacınız olan kesim listesini şimdi çevrimiçi olarak bize iletin, üretim sürecini hemen başlatalım.
+          IMPA olarak, mobilya ve tasarım projeleriniz için milimetrik hassasiyetle profesyonel ahşap kesim hizmeti sunuyoruz. İhtiyacınız olan ölçüleri sistemimize girin, en az fireyle ve en yüksek kaliteyle üretimi hemen başlatalım.
         </motion.p>
 
         <motion.div

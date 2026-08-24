@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { supabase } from '../supabase';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import CinematicImage from './CinematicImage';
 
 const Projeler = () => {
@@ -10,11 +10,24 @@ const Projeler = () => {
   const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
+  const scrollContainerRef = useRef(null);
+
+  const scroll = (direction) => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: direction === 'left' ? -400 : 400, behavior: 'smooth' });
+    }
+  };
 
   const getImageUrl = (path) => {
     if (!path) return null;
     if (path.startsWith('http')) return path;
-    return supabase.storage.from('project-images').getPublicUrl(path).data.publicUrl;
+    
+    // Fix legacy data: ensure we always request the compressed .webp version
+    const optimizedPath = path.replace(/\.(jpg|jpeg|png)$/i, '.webp');
+    
+    return supabase.storage.from('project-images').getPublicUrl(optimizedPath, {
+      transform: { width: 1024, quality: 80 }
+    }).data.publicUrl;
   };
 
   useEffect(() => {
@@ -41,7 +54,7 @@ const Projeler = () => {
   }, []);
 
   return (
-    <section id="projeler" className="py-24 bg-white dark:bg-[#111111] transition-colors duration-500 overflow-hidden">
+    <section id="projeler" className="py-24 bg-white dark:bg-[#111111] overflow-hidden">
 
       {/* Section Header */}
       <div className="max-w-[90rem] mx-auto px-8 md:px-16 mb-16">
@@ -70,47 +83,81 @@ const Projeler = () => {
         ) : projects.length === 0 ? (
           <div className="w-full flex justify-center py-20 text-gray-500 text-sm">Henüz proje eklenmemiş.</div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project) => (
-              <div
-                key={project.id}
-                onClick={() => navigate(`/proje/${project.id}`)}
-                className="bg-gray-50 dark:bg-stone-900 rounded-2xl overflow-hidden group cursor-pointer hover:shadow-xl transition-shadow duration-300 flex flex-col"
+          <>
+            <div className="relative group/slider">
+              {/* Left Arrow */}
+              <button 
+                onClick={() => scroll('left')}
+                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-12 z-10 bg-white/80 dark:bg-black/80 hover:bg-white dark:hover:bg-black p-3 rounded-full shadow-lg backdrop-blur-sm opacity-0 group-hover/slider:opacity-100 transition-opacity duration-300 text-gray-800 dark:text-gray-200"
               >
-                {/* Image Section */}
-                <div className="w-full h-64 md:h-72 overflow-hidden relative bg-gray-200 dark:bg-stone-800 flex items-center justify-center">
-                  {project.image_url ? (
-                    <img
+                <ChevronLeft size={24} />
+              </button>
+
+              <div 
+                ref={scrollContainerRef}
+                className="flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory scroll-smooth hide-scrollbar transform-gpu will-change-transform"
+              >
+                {projects
+                  .filter(project => project.image_url && project.image_url.trim() !== '')
+                  .slice(0, 6)
+                  .map((project, index) => (
+                <div
+                  key={project.id}
+                  onClick={() => navigate(`/proje/${project.id}`)}
+                  className="bg-gray-50 dark:bg-stone-900 rounded-2xl overflow-hidden group cursor-pointer hover:shadow-xl transition-shadow duration-300 flex flex-col min-w-[85vw] md:min-w-[400px] flex-shrink-0 snap-center transform-gpu"
+                >
+                  {/* Image Section */}
+                  <div className="w-full relative bg-gray-200 dark:bg-stone-800 flex items-center justify-center">
+                    <img 
+                      loading={index < 2 ? "eager" : "lazy"} 
+                      decoding="async"
+                      width="800" 
+                      height="600" 
                       src={getImageUrl(project.image_url)}
                       alt={project.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      className="w-full h-[300px] md:h-[400px] object-cover rounded-xl"
                     />
-                  ) : (
-                    <span className="text-gray-400 dark:text-stone-500 text-xs font-medium uppercase tracking-widest">
-                      Görsel Yok
-                    </span>
-                  )}
-                </div>
+                  </div>
 
-                {/* Content Section */}
-                <div className="p-6 md:p-8 flex flex-col items-start flex-grow">
-                  <span className="text-[10px] uppercase tracking-widest text-gray-500 dark:text-stone-400 mb-3 block">
-                    {project.category || 'Mimari Tasarım'}
-                  </span>
-                  
-                  <h3 className="text-xl md:text-2xl font-medium text-gray-900 dark:text-white mb-4 transition-colors duration-300">
-                    {project.title}
-                  </h3>
-                  
-                  {/* Push CTA to bottom if title is short */}
-                  <div className="mt-auto pt-4 flex items-center gap-2 text-sm font-medium text-gray-900 dark:text-gray-200 group-hover:text-gray-600 dark:group-hover:text-white transition-colors duration-300">
-                    {t('projeler.btn') || 'Detayları İncele'}
-                    <ArrowRight size={16} className="transform group-hover:translate-x-1 transition-transform duration-300" />
+                  {/* Content Section */}
+                  <div className="p-6 md:p-8 flex flex-col items-start flex-grow">
+                    <span className="text-[10px] uppercase tracking-widest text-gray-500 dark:text-stone-400 mb-3 block">
+                      {project.category || 'Mimari Tasarım'}
+                    </span>
+                    
+                    <h3 className="text-xl md:text-2xl font-medium text-gray-900 dark:text-white mb-4 transition-colors duration-300">
+                      {project.title}
+                    </h3>
+                    
+                    {/* Push CTA to bottom if title is short */}
+                    <div className="mt-auto pt-4 flex items-center gap-2 text-sm font-medium text-gray-900 dark:text-gray-200 group-hover:text-gray-600 dark:group-hover:text-white transition-colors duration-300">
+                      {t('projeler.btn') || 'Detayları İncele'}
+                      <ArrowRight size={16} className="transform group-hover:translate-x-1 transition-transform duration-300" />
+                    </div>
                   </div>
                 </div>
+                ))}
               </div>
-            ))}
-          </div>
+
+              {/* Right Arrow */}
+              <button 
+                onClick={() => scroll('right')}
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-12 z-10 bg-white/80 dark:bg-black/80 hover:bg-white dark:hover:bg-black p-3 rounded-full shadow-lg backdrop-blur-sm opacity-0 group-hover/slider:opacity-100 transition-opacity duration-300 text-gray-800 dark:text-gray-200"
+              >
+                <ChevronRight size={24} />
+              </button>
+            </div>
+            
+            {/* View All Button */}
+            <div className="mt-16 flex justify-center">
+              <button 
+                onClick={() => navigate('/projeler')}
+                className="px-6 py-2 border border-gray-800 text-gray-800 hover:bg-gray-800 hover:text-white transition-colors duration-300 dark:border-gray-200 dark:text-gray-200 dark:hover:bg-white dark:hover:text-black"
+              >
+                Tüm Projeleri Gör
+              </button>
+            </div>
+          </>
         )}
       </div>
     </section>

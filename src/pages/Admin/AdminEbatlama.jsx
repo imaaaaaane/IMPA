@@ -124,49 +124,7 @@ const AdminEbatlama = () => {
       o.id === order.id ? { ...o, durum: newStatus } : o
     ));
 
-    // 3. SMS Automation via Supabase Edge Function
-    if (newStatus === 'Sipariş Alındı' || newStatus === 'Hazırlanıyor' || newStatus === 'Tamamlandı') {
-      const phoneRaw = order.iletisim_numarasi || order.telefon; // Support both fields
-      if (!phoneRaw) {
-        alert("Durum güncellendi ancak telefonsuz sipariş olduğu için SMS gönderilmedi.");
-        return;
-      }
-      
-      // Safe phone formatting: remove spaces, remove leading zero, ensure +90
-      let formattedPhone = phoneRaw.replace(/\s+/g, '');
-      if (formattedPhone.startsWith('0')) {
-        formattedPhone = formattedPhone.substring(1);
-      }
-      if (!formattedPhone.startsWith('+90')) {
-        formattedPhone = '+90' + formattedPhone;
-      }
-
-      // Determine the client's name
-      const clientName = order.yetkili_kisi || order.firma_adi || 'Müşterimiz';
-      let message = '';
-
-      if (newStatus === 'Sipariş Alındı') {
-        message = `Sayın ${clientName}, İMPA Orman Ürünleri siparişinizi aldık. En kısa sürede işleme alınacaktır. İyi çalışmalar dileriz.`;
-      } else if (newStatus === 'Hazırlanıyor') {
-        message = `Sayın ${clientName}, İMPA Orman Ürünleri'nden ulaşıyoruz. Siparişinizin kesim işlemine başlanmıştır. İşlem tamamlandığında size tekrar bilgi vereceğiz. İyi çalışmalar dileriz.`;
-      } else if (newStatus === 'Tamamlandı') {
-        message = `Sayın ${clientName}, kesim siparişiniz başarıyla tamamlanmış ve teslime hazır hale gelmiştir. Ürünlerinizi dilediğiniz zaman fabrikamızdan teslim alabilirsiniz. Bizi tercih ettiğiniz için teşekkür ederiz. - İMPA Orman Ürünleri`;
-      }
-
-      try {
-        const { data, error: smsError } = await supabase.functions.invoke('send-sms', {
-          body: { phoneNumber: formattedPhone, message }
-        });
-        
-        if (smsError) throw smsError;
-        if (!data?.success) throw new Error(data?.error || "Unknown SMS Error");
-        
-        alert(`Durum "${newStatus}" olarak güncellendi ve müşteriye SMS gönderildi.`);
-      } catch (err) {
-        console.error("SMS Error:", err);
-        alert(`Durum güncellendi ancak SMS gönderilirken hata oluştu: ${err.message}`);
-      }
-    }
+    alert(`Durum "${newStatus}" olarak güncellendi.`);
   };
 
   if (loading) {

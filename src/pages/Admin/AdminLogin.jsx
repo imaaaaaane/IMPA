@@ -35,7 +35,7 @@ export default function AdminLogin() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-[#111111] flex flex-col justify-center py-12 sm:px-6 lg:px-8 font-sans transition-colors duration-500">
       <div className="sm:mx-auto sm:w-full sm:max-w-md flex flex-col items-center">
-        <img src="/impalogo2.jpg" alt="IMPA Logo" className="h-20 w-auto object-contain mb-4" />
+        <img src="/impalogo2.webp" alt="IMPA Logo" className="h-20 w-auto object-contain mb-4" />
         <h2 className="mt-4 text-center text-xl font-medium text-gray-600 dark:text-stone-400">
           Yönetim Paneli
         </h2>

@@ -18,7 +18,7 @@ const processSteps = [
     number: '01.',
     keyPrefix: 'step1',
     type: 'image',
-    src: '/architectconsultatio.jpg'
+    src: '/architectconsultatio.webp'
   },
   {
     id: 2,
@@ -101,8 +101,7 @@ export default function SpaceSelection() {
                     <source src={step.src} type="video/webm" />
                   </video>
                 ) : (
-                  <img 
-                    src={step.src} 
+                  <img loading="lazy" width="800" height="600" src={step.src} 
                     alt={step.title} 
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110"
                   />

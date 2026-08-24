@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { supabase } from '../supabase';
 import CoreExpertise from './CoreExpertise';
 
@@ -8,18 +8,25 @@ const Urunler = () => {
   const { t } = useTranslation();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { categorySlug } = useParams();
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [categorySlug]);
 
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const { data, error } = await supabase
+      let query = supabase
         .from('products')
         .select('*')
         .order('created_at', { ascending: false });
+
+      if (categorySlug) {
+        query = query.eq('category_slug', categorySlug);
+      }
+
+      const { data, error } = await query;
 
       if (error) throw error;
       if (data) {
@@ -40,7 +47,9 @@ const Urunler = () => {
             {t('collection.subtitle')}
           </span>
           <h2 className="text-3xl md:text-4xl font-serif text-[#1A1A1C] dark:text-white uppercase tracking-wide transition-colors duration-500">
-            {t('collection.title')}
+            {categorySlug 
+              ? categorySlug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') 
+              : t('collection.title')}
           </h2>
         </div>
 
@@ -64,8 +73,7 @@ const Urunler = () => {
                 >
                   <div className="w-full h-48 flex items-center justify-center relative mb-4">
                     {product.image && product.image !== 'no-image' ? (
-                      <img
-                        src={product.image}
+                      <img loading="lazy" width="800" height="600" src={product.image}
                         alt={product.name}
                         className="w-full h-full object-contain mix-blend-multiply dark:mix-blend-normal transition-transform duration-700 ease-out group-hover:scale-110"
                       />

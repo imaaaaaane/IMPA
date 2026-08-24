@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import CinematicImage from '../components/CinematicImage';
+import { motion } from 'framer-motion';
 import { supabase } from '../supabase';
 
 export default function Hero() {
   const { t } = useTranslation();
-  const [heroImageUrl, setHeroImageUrl] = useState('/heroimage.png');
+  const [heroImageUrl, setHeroImageUrl] = useState(null);
+  const [isMounted, setIsMounted] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     const fetchHeroImage = async () => {
@@ -20,7 +26,16 @@ export default function Hero() {
         if (error && error.code !== 'PGRST116') {
           console.error('Error fetching hero image:', error);
         } else if (data && data.setting_value) {
-          setHeroImageUrl(data.setting_value);
+          const url = data.setting_value;
+          setHeroImageUrl(url);
+          // Dynamically inject preload link for critical above-the-fold image
+          const preloadLink = document.createElement('link');
+          preloadLink.href = url;
+          preloadLink.rel = 'preload';
+          preloadLink.as = 'image';
+          document.head.appendChild(preloadLink);
+        } else {
+          setHeroImageUrl('/heroimage.webp');
         }
       } catch (err) {
         console.error('Unexpected error fetching hero image:', err);
@@ -35,16 +50,25 @@ export default function Hero() {
   return (
     <div className="relative w-full h-screen overflow-hidden">
       {/* 1. The Background Image */}
-      <CinematicImage 
-        src={heroImageUrl} 
-        alt="IMPA Hero" 
-        className={`absolute inset-0 w-full h-full object-cover z-0 transition-opacity duration-700 ${loading ? 'opacity-50' : 'opacity-100'}`} 
-        durationClass="duration-[6000ms]" 
-        finalBrightness="brightness-100"
-      />
-
-      {/* 2. The Smooth Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10 pointer-events-none"></div>
+      <div className="absolute inset-0 w-full h-full bg-black overflow-hidden z-0">
+        {heroImageUrl && (
+          <>
+            <img
+              src={heroImageUrl}
+              alt="IMPA Hero"
+              onLoad={() => setImageLoaded(true)}
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+            {/* 10-Second Cinematic Reveal Overlay */}
+            <motion.div
+              initial={{ opacity: 1 }}
+              animate={{ opacity: imageLoaded ? 0 : 1 }}
+              transition={{ duration: 10, ease: "easeInOut" }}
+              className="absolute inset-0 w-full h-full bg-black pointer-events-none"
+            />
+          </>
+        )}
+      </div>
 
       {/* 3. The Content Container (FORCES TEXT TO THE BOTTOM) */}
       <div className="relative z-20 w-full h-full flex flex-col justify-end pb-20 px-8 md:px-16 fade-in-up">

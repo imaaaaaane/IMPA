@@ -4,7 +4,7 @@ export const projectsData = [
         title: "Doğa ile İç İçe Dinlenme Alanı",
         category: "ÖZEL TASARIM",
         type: "image",
-        media: "/proje3.jpg",
+        media: "/proje3.webp",
         description: "Doğal ahşabın sıcaklığını, modern ve organik formlarla buluşturan özel tasarım dinlenme alanı. Yuvarlak pencere detayı ve masif ahşaptan üretilmiş entegre kitaplık, mekana hem estetik hem de fonksiyonel bir değer katıyor. İMPA ustalarının ince işçiliği ile şekillenen bu alan, huzurlu bir kaçış noktası sunuyor."
     },
     {
@@ -12,7 +12,7 @@ export const projectsData = [
         title: "Lüks Ahşap Yaşam Alanı",
         category: "İÇ MİMARİ",
         type: "image",
-        media: "/proje4.jpg",
+        media: "/proje4.webp",
         description: "Farklı kotların masif ahşap zemin ve merdivenlerle ustaca birbirine bağlandığı, ferah ve lüks yaşam alanı. Koyu ahşap tonlarının modern aydınlatmalarla buluştuğu bu projede, mekanın her köşesinde ahşabın asil duruşu ve İMPA'nın premium kalite anlayışı hissediliyor."
     },
     {
@@ -20,7 +20,7 @@ export const projectsData = [
         title: "Göl Evi Dış Cephe & Teras",
         category: "DIŞ MEKAN",
         type: "image", // Hna beddelnaha l-'image'
-        media: "/proje2.jpg", // W hna derna t-tswira li bghiti
+        media: "/proje2.webp", // W hna derna t-tswira li bghiti
         description: "Doğayla tam uyum içinde, her türlü hava koşuluna dayanıklı ve estetik dış cephe ahşap kaplamaları. Geniş teras ve veranda detayları, birinci sınıf malzemelerle işlenerek açık havada konforlu ve şık bir yaşam alanı oluşturuyor."
     },
     {

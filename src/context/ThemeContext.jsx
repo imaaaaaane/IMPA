@@ -4,13 +4,20 @@ const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState(() => {
+    // ALWAYS default to light on first visit
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('theme');
       if (saved) return saved;
-      if (window.matchMedia('(prefers-color-scheme: dark)').matches) return 'dark';
     }
     return 'light';
   });
+
+  // Aggressive fix: Force DOM and localStorage to light mode once on mount
+  useEffect(() => {
+    localStorage.removeItem('theme'); // clear bad cached themes
+    localStorage.setItem('theme', 'light');
+    document.documentElement.classList.remove('dark');
+  }, []);
 
   useEffect(() => {
     const root = window.document.documentElement;

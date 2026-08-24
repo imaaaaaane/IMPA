@@ -19,7 +19,7 @@ export default function AdminLayout() {
         
         {/* Logo Section */}
         <div className="pt-8 pb-8 px-8 flex flex-col items-center justify-center">
-          <img src="/impalogo2.jpg" alt="IMPA Admin Logo" className="h-16 w-auto object-contain" />
+          <img src="/impalogo2.webp" alt="IMPA Admin Logo" className="h-16 w-auto object-contain" />
         </div>
 
         {/* Navigation */}

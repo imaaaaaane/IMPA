@@ -37,8 +37,7 @@ export default function CinematicImage({ src, alt, className = '', durationClass
 
   return (
     <div className={`overflow-hidden bg-black ${className}`}>
-      <img
-        ref={imageRef}
+      <img loading="lazy" width="800" height="600" ref={imageRef}
         src={src}
         alt={alt}
         onLoad={() => setIsLoaded(true)}

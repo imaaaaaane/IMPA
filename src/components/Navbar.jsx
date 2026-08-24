@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { Menu, X } from 'lucide-react';
 import LanguageSwitcher from './LanguageSwitcher';
 import ThemeToggle from './ThemeToggle';
 
@@ -8,6 +9,19 @@ export default function Navbar() {
   const { t } = useTranslation();
   const location = useLocation();
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled((prev) => {
+        const next = window.scrollY > 50;
+        return prev === next ? prev : next;
+      });
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const isProjectPage = location.pathname.startsWith('/proje/');
 
@@ -25,26 +39,26 @@ export default function Navbar() {
 
   return (
     <nav 
-      className={`absolute top-0 w-full z-[100] transition-colors duration-500 ease-in-out flex justify-between items-center px-8 md:px-16 py-8 text-xs tracking-[0.2em] uppercase ${
-        isMegaMenuOpen 
-          ? 'bg-[#FAF9F6] dark:bg-[#111111] text-[#1A1A1C] dark:text-white shadow-sm' 
-          : isProjectPage ? 'bg-transparent text-white drop-shadow-lg' : 'bg-transparent text-white mix-blend-difference'
+      className={`fixed top-0 w-full z-[100] transition-all duration-300 ease-in-out flex justify-between items-center px-8 md:px-16 py-4 text-xs tracking-[0.2em] uppercase ${
+        isMegaMenuOpen || isScrolled
+          ? 'bg-white text-gray-900 shadow-md'
+          : 'bg-transparent text-white'
       }`}
     >
       <Link to="/" className="relative z-10">
         <img 
-          src="/impalogo.png" 
+          src="/impalogo.webp" 
           alt="İMPA Logo" 
-          className={`h-24 md:h-32 w-auto object-contain cursor-pointer transition-all duration-500 ${
-            isMegaMenuOpen ? 'brightness-0 dark:brightness-200 dark:contrast-200' : 'contrast-200 brightness-200'
-          } ${isProjectPage && !isMegaMenuOpen ? 'drop-shadow-lg' : ''}`}
+          className={`h-10 md:h-12 w-auto object-contain cursor-pointer transition-all duration-300 ${
+            isMegaMenuOpen || isScrolled ? 'brightness-0' : 'brightness-200 contrast-200'
+          }`}
         />
       </Link>
 
       {location.pathname !== '/randevu' && (
-        <div className={`hidden md:flex items-center gap-12 transition-colors duration-500 ${isMegaMenuOpen ? 'text-[#1A1A1C] dark:text-white' : 'text-white/80'}`}>
+        <div className={`hidden md:flex items-center gap-12 transition-colors duration-300 ${isMegaMenuOpen || isScrolled ? 'text-gray-900' : 'text-white'}`}>
           <div className="flex gap-12 items-center h-full">
-            <Link to="/about" className="hover:opacity-60 transition-opacity">
+            <Link to="/about" className="hover:text-blue-600 dark:hover:text-amber-500 transition-colors">
               {t('navAbout')}
             </Link>
 
@@ -54,9 +68,8 @@ export default function Navbar() {
               onMouseEnter={() => setIsMegaMenuOpen(true)}
               onMouseLeave={() => setIsMegaMenuOpen(false)}
             >
-              {/* Invisible padding bridge to prevent hover loss */}
-              <div className="py-12 cursor-pointer flex items-center">
-                <Link to="/products" className="hover:opacity-60 transition-opacity">
+              <div className="py-4 cursor-pointer flex items-center">
+                <Link to="/products" className="hover:text-blue-600 dark:hover:text-amber-500 transition-colors">
                   {t('navbarMega.products')}
                 </Link>
               </div>
@@ -73,30 +86,25 @@ export default function Navbar() {
                   <div className="w-[60%] grid grid-cols-3 gap-12">
                     {/* Col 1 */}
                     <div className="space-y-6 text-[#1A1A1C] dark:text-white">
-                      <h4 className="font-semibold tracking-[0.2em] mb-6">{t('navbarMega.seating.title')}</h4>
+                      <h4 className="font-semibold tracking-[0.2em] mb-6">OFİS</h4>
                       <ul className="space-y-4 font-light text-gray-500 dark:text-stone-400 normal-case tracking-normal text-[13px]">
-                        <li><Link to="/products" className="hover:text-black dark:hover:text-white transition-colors block">{t('navbarMega.seating.sofas')}</Link></li>
-                        <li><Link to="/products" className="hover:text-black dark:hover:text-white transition-colors block">{t('navbarMega.seating.lSofas')}</Link></li>
-                        <li><Link to="/products" className="hover:text-black dark:hover:text-white transition-colors block">{t('navbarMega.seating.armchairs')}</Link></li>
-                        <li><Link to="/products" className="hover:text-black dark:hover:text-white transition-colors block">{t('navbarMega.seating.tables')}</Link></li>
+                        <li><Link to="/urunler/makam-takimlari" className="hover:text-black dark:hover:text-white transition-colors block">Makam Takımları</Link></li>
+                        <li><Link to="/urunler/toplanti-masalari" className="hover:text-black dark:hover:text-white transition-colors block">Toplantı Masaları</Link></li>
                       </ul>
                     </div>
                     {/* Col 2 */}
                     <div className="space-y-6 text-[#1A1A1C] dark:text-white">
-                      <h4 className="font-semibold tracking-[0.2em] mb-6">{t('navbarMega.dining.title')}</h4>
+                      <h4 className="font-semibold tracking-[0.2em] mb-6">EV & DEPOLAMA</h4>
                       <ul className="space-y-4 font-light text-gray-500 dark:text-stone-400 normal-case tracking-normal text-[13px]">
-                        <li><Link to="/products" className="hover:text-black dark:hover:text-white transition-colors block">{t('navbarMega.dining.tables')}</Link></li>
-                        <li><Link to="/products" className="hover:text-black dark:hover:text-white transition-colors block">{t('navbarMega.dining.chairs')}</Link></li>
-                        <li><Link to="/products" className="hover:text-black dark:hover:text-white transition-colors block">{t('navbarMega.dining.sideboards')}</Link></li>
+                        <li><Link to="/urunler/depolama-dolaplar" className="hover:text-black dark:hover:text-white transition-colors block">Depolama & Dolaplar</Link></li>
+                        <li><Link to="/urunler/tv-uniteleri-konsol" className="hover:text-black dark:hover:text-white transition-colors block">TV Üniteleri & Konsol</Link></li>
                       </ul>
                     </div>
                     {/* Col 3 */}
                     <div className="space-y-6 text-[#1A1A1C] dark:text-white">
-                      <h4 className="font-semibold tracking-[0.2em] mb-6">{t('navbarMega.bedroom.title')}</h4>
+                      <h4 className="font-semibold tracking-[0.2em] mb-6">DİĞER</h4>
                       <ul className="space-y-4 font-light text-gray-500 dark:text-stone-400 normal-case tracking-normal text-[13px]">
-                        <li><Link to="/products" className="hover:text-black dark:hover:text-white transition-colors block">{t('navbarMega.bedroom.beds')}</Link></li>
-                        <li><Link to="/products" className="hover:text-black dark:hover:text-white transition-colors block">{t('navbarMega.bedroom.wardrobes')}</Link></li>
-                        <li><Link to="/products" className="hover:text-black dark:hover:text-white transition-colors block">{t('navbarMega.bedroom.nightstands')}</Link></li>
+                        <li><Link to="/urunler" className="hover:text-black dark:hover:text-white transition-colors block">Tüm Ürünler</Link></li>
                       </ul>
                     </div>
                   </div>
@@ -105,7 +113,7 @@ export default function Navbar() {
                   <div className="w-[40%] flex gap-6">
                     {/* Promo Card 1 */}
                     <Link to="/products" className="group/card relative flex-1 rounded-xl overflow-hidden block aspect-[4/5] bg-gray-100 shadow-md">
-                      <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=800" alt="Katalog" className="absolute inset-0 w-full h-full object-cover group-hover/card:scale-110 transition-transform duration-[1500ms] ease-out" />
+                      <img loading="lazy" width="800" height="600" src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=800" alt="Katalog" className="absolute inset-0 w-full h-full object-cover group-hover/card:scale-110 transition-transform duration-[1500ms] ease-out" />
                       <div className="absolute inset-0 bg-black/40 group-hover/card:bg-black/50 transition-colors duration-500"></div>
                       <div className="absolute inset-0 p-6 flex flex-col justify-end text-white">
                         <span className="text-[9px] text-amber-500 tracking-[0.3em] font-semibold mb-2">{t('navbarMega.promo1.badge')}</span>
@@ -119,7 +127,7 @@ export default function Navbar() {
                     </Link>
                     {/* Promo Card 2 */}
                     <Link to="/products" className="group/card relative flex-1 rounded-xl overflow-hidden block aspect-[4/5] bg-gray-100 shadow-md">
-                      <img src="https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&q=80&w=800" alt="Koleksiyon" className="absolute inset-0 w-full h-full object-cover group-hover/card:scale-110 transition-transform duration-[1500ms] ease-out" />
+                      <img loading="lazy" width="800" height="600" src="https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&q=80&w=800" alt="Koleksiyon" className="absolute inset-0 w-full h-full object-cover group-hover/card:scale-110 transition-transform duration-[1500ms] ease-out" />
                       <div className="absolute inset-0 bg-black/20 group-hover/card:bg-black/30 transition-colors duration-500"></div>
                       <div className="absolute inset-0 p-6 flex flex-col justify-end text-white">
                         <span className="text-[9px] text-amber-500 tracking-[0.3em] font-semibold mb-2">{t('navbarMega.promo2.badge')}</span>
@@ -151,18 +159,24 @@ export default function Navbar() {
               </div>
             </div>
             
-            <Link 
-              to="/#projeler" 
-              onClick={(e) => handleSmoothScroll(e, 'projeler')}
-              className="hover:opacity-60 transition-opacity"
+            <a 
+              href="/#projeler" 
+              className="hover:text-blue-600 dark:hover:text-amber-500 transition-colors"
             >
               {t('navProjects')}
+            </a>
+            
+            <Link 
+              to="/ebatlama" 
+              className="hover:text-blue-600 dark:hover:text-amber-500 transition-colors"
+            >
+              EBATLAMA
             </Link>
             
             <Link 
               to="/#etkinlikler" 
               onClick={(e) => handleSmoothScroll(e, 'etkinlikler')}
-              className="hover:opacity-60 transition-opacity"
+              className="hover:text-blue-600 dark:hover:text-amber-500 transition-colors"
             >
               {t('navEvents')}
             </Link>
@@ -170,7 +184,7 @@ export default function Navbar() {
             <Link 
               to="/#iletisim" 
               onClick={(e) => handleSmoothScroll(e, 'iletisim')}
-              className="hover:opacity-60 transition-opacity"
+              className="hover:text-blue-600 dark:hover:text-amber-500 transition-colors"
             >
               {t('navContact')}
             </Link>
@@ -181,6 +195,53 @@ export default function Navbar() {
           </div>
         </div>
       )}
+
+      {/* MOBILE MENU TOGGLE (Hamburger) */}
+      {location.pathname !== '/randevu' && (
+        <div className="flex items-center gap-4 md:hidden relative z-[110]">
+          <ThemeToggle />
+          <LanguageSwitcher />
+          <button 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className={`p-2 rounded-lg transition-colors ${
+              isMobileMenuOpen || isScrolled || isMegaMenuOpen
+                ? 'text-gray-900 bg-gray-100 hover:bg-gray-200' 
+                : 'text-white bg-black/20 backdrop-blur-md hover:bg-black/40'
+            }`}
+            aria-label="Toggle Mobile Menu"
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+      )}
+
+      {/* MOBILE MENU DRAWER */}
+      <div 
+        className={`fixed inset-0 bg-[#FAF9F6] dark:bg-[#111111] z-[105] flex flex-col pt-32 px-8 transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] md:hidden ${
+          isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}
+      >
+        <div className="flex flex-col gap-8 text-xl font-serif text-[#1A1A1C] dark:text-white tracking-wide">
+          <Link to="/about" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-amber-500 transition-colors">
+            {t('navAbout')}
+          </Link>
+          <Link to="/products" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-amber-500 transition-colors">
+            {t('navbarMega.products')}
+          </Link>
+          <a href="/#projeler" onClick={(e) => { setIsMobileMenuOpen(false); handleSmoothScroll(e, 'projeler'); }} className="hover:text-amber-500 transition-colors">
+            {t('navProjects')}
+          </a>
+          <Link to="/ebatlama" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-amber-500 transition-colors">
+            EBATLAMA
+          </Link>
+          <a href="/#etkinlikler" onClick={(e) => { setIsMobileMenuOpen(false); handleSmoothScroll(e, 'etkinlikler'); }} className="hover:text-amber-500 transition-colors">
+            {t('navEvents')}
+          </a>
+          <a href="/#iletisim" onClick={(e) => { setIsMobileMenuOpen(false); handleSmoothScroll(e, 'iletisim'); }} className="hover:text-amber-500 transition-colors">
+            {t('navContact')}
+          </a>
+        </div>
+      </div>
     </nav>
   );
 }

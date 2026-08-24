@@ -146,7 +146,7 @@ export default function AdminSettings() {
         }
       }
 
-      const defaultImage = '/heroimage.png';
+      const defaultImage = '/heroimage.webp';
 
       // Update or Insert the site_settings table
       const { data: checkData, error: checkError } = await supabase
@@ -232,7 +232,7 @@ export default function AdminSettings() {
                     <div>
                       <div className="flex justify-between items-center mb-3">
                         <span className="block text-sm font-medium text-gray-700">Mevcut Görsel</span>
-                        {currentHeroImage !== '/heroimage.png' && (
+                        {currentHeroImage !== '/heroimage.webp' && (
                           <button
                             type="button"
                             onClick={handleRemoveImage}
@@ -245,8 +245,7 @@ export default function AdminSettings() {
                         )}
                       </div>
                       <div className="w-full h-64 bg-gray-100 rounded-xl overflow-hidden border border-gray-200 shadow-inner relative">
-                        <img 
-                          src={currentHeroImage} 
+                        <img loading="lazy" width="800" height="600" src={currentHeroImage} 
                           alt="Current Hero" 
                           className="w-full h-full object-cover"
                         />
@@ -270,7 +269,7 @@ export default function AdminSettings() {
                     >
                       {previewUrl ? (
                         <div className="absolute inset-0 w-full h-full">
-                          <img src={previewUrl} alt="New Preview" className="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity" />
+                          <img loading="lazy" width="800" height="600" src={previewUrl} alt="New Preview" className="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity" />
                           <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
                             <span className="px-4 py-2 bg-black text-white text-sm font-medium rounded-full shadow-lg">Farklı Görsel Seç</span>
                           </div>

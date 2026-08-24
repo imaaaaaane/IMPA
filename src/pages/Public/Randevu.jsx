@@ -12,8 +12,7 @@ export default function Randevu() {
       
       {/* Left Side: Visual & Copy */}
       <div className="relative w-full lg:w-1/2 h-[400px] lg:min-h-screen flex items-end p-8 md:p-16">
-        <img 
-          src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=1200&auto=format&fit=crop" 
+        <img loading="lazy" width="800" height="600" src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=1200&auto=format&fit=crop" 
           alt="Interior Architect Consultation" 
           className="absolute inset-0 w-full h-full object-cover z-0"
         />

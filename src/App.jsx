@@ -12,6 +12,7 @@ import ProductDetails from "./pages/Public/ProductDetails";
 import ProjectDetails from "./pages/Public/ProjectDetails";
 import EbatlamaForm from "./pages/Public/EbatlamaForm";
 import OrderForm from "./pages/Public/OrderForm";
+import UrunlerPage from "./pages/Public/UrunlerPage";
 
 import PanelOptimizer from "./pages/Public/PanelOptimizer";
 
@@ -40,6 +41,7 @@ export default function App() {
             <Route path="/proje/:id" element={<ProjectDetails />} />
             <Route path="/ebatlama" element={<EbatlamaForm />} />
             <Route path="/siparis-ver" element={<OrderForm />} />
+            <Route path="/urunler/:categorySlug?" element={<UrunlerPage />} />
             <Route path="/optimizer" element={<PanelOptimizer />} />
           </Route>
 

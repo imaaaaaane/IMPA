@@ -48,11 +48,12 @@ const CuttingVisualizer = ({ activeRows = [], selectedPlaka = '2800x2100', otoYo
   allPieces.forEach(piece => {
     let bestBoardIndex = -1;
     let bestRectIndex = -1;
+    let bestShortSideFit = Infinity;
     let bestAreaFit = Infinity;
     let bestFitW = 0;
     let bestFitH = 0;
 
-    // Find the best free rectangle across all existing boards (Best Area Fit)
+    // Best Short Side Fit (BSSF)
     for (let bIndex = 0; bIndex < tabakalar.length; bIndex++) {
       const board = tabakalar[bIndex];
       for (let rIndex = 0; rIndex < board.freeRects.length; rIndex++) {
@@ -60,9 +61,14 @@ const CuttingVisualizer = ({ activeRows = [], selectedPlaka = '2800x2100', otoYo
         
         const tryFit = (w, h) => {
           if (w <= rect.w && h <= rect.h) {
-            const leftoverArea = (rect.w * rect.h) - (w * h);
-            if (leftoverArea < bestAreaFit) {
-              bestAreaFit = leftoverArea;
+            const leftoverW = Math.abs(rect.w - w);
+            const leftoverH = Math.abs(rect.h - h);
+            const shortSide = Math.min(leftoverW, leftoverH);
+            const areaFit = (rect.w * rect.h) - (w * h);
+
+            if (shortSide < bestShortSideFit || (shortSide === bestShortSideFit && areaFit < bestAreaFit)) {
+              bestShortSideFit = shortSide;
+              bestAreaFit = areaFit;
               bestBoardIndex = bIndex;
               bestRectIndex = rIndex;
               bestFitW = w;
@@ -84,7 +90,6 @@ const CuttingVisualizer = ({ activeRows = [], selectedPlaka = '2800x2100', otoYo
     if (bestBoardIndex !== -1) {
       boardToUse = tabakalar[bestBoardIndex];
       targetRect = boardToUse.freeRects[bestRectIndex];
-      boardToUse.freeRects.splice(bestRectIndex, 1); // Remove the chosen free space
     } else {
       // Create new board
       boardToUse = { 
@@ -93,55 +98,85 @@ const CuttingVisualizer = ({ activeRows = [], selectedPlaka = '2800x2100', otoYo
       };
       tabakalar.push(boardToUse);
       targetRect = boardToUse.freeRects[0];
-      boardToUse.freeRects.splice(0, 1);
 
       bestFitW = piece.w;
       bestFitH = piece.h;
       if (otoYon && piece.h < piece.w && piece.h <= targetRect.w && piece.w <= targetRect.h) {
-        // Optimize orientation on new board
         bestFitW = piece.h;
         bestFitH = piece.w;
       }
     }
 
-    // Place the piece
-    boardToUse.pieces.push({
-      id: piece.id,
+    const placedRect = {
       x: targetRect.x,
       y: targetRect.y,
       w: bestFitW,
-      h: bestFitH,
-      label: `${bestFitW}x${bestFitH}`
+      h: bestFitH
+    };
+
+    boardToUse.pieces.push({
+      id: piece.id,
+      x: placedRect.x,
+      y: placedRect.y,
+      w: placedRect.w,
+      h: placedRect.h,
+      label: `${placedRect.w}x${placedRect.h}`
     });
 
-    // Guillotine Split for the remaining free space
-    // Split along the shorter remaining axis to maximize contiguous free space
-    const remainingW = targetRect.w - bestFitW;
-    const remainingH = targetRect.h - bestFitH;
+    // MaxRects Split Logic
+    const newFreeRects = [];
+    const paddedPlaced = {
+      x: placedRect.x,
+      y: placedRect.y,
+      w: placedRect.w + padding,
+      h: placedRect.h + padding
+    };
 
-    if (remainingW > 0 || remainingH > 0) {
-      if (remainingH > remainingW) {
-        // Horizontal split
-        const rightW = remainingW - padding;
-        const bottomH = remainingH - padding;
+    for (let i = 0; i < boardToUse.freeRects.length; i++) {
+      const F = boardToUse.freeRects[i];
+      
+      // Check overlap with the newly placed piece (including padding)
+      if (paddedPlaced.x < F.x + F.w && paddedPlaced.x + paddedPlaced.w > F.x &&
+          paddedPlaced.y < F.y + F.h && paddedPlaced.y + paddedPlaced.h > F.y) {
         
-        if (rightW > 0) {
-          boardToUse.freeRects.push({ x: targetRect.x + bestFitW + padding, y: targetRect.y, w: rightW, h: bestFitH });
+        // Split Top
+        if (paddedPlaced.y > F.y) {
+          newFreeRects.push({ x: F.x, y: F.y, w: F.w, h: paddedPlaced.y - F.y });
         }
-        if (bottomH > 0) {
-          boardToUse.freeRects.push({ x: targetRect.x, y: targetRect.y + bestFitH + padding, w: targetRect.w, h: bottomH });
+        // Split Bottom
+        if (paddedPlaced.y + paddedPlaced.h < F.y + F.h) {
+          newFreeRects.push({ x: F.x, y: paddedPlaced.y + paddedPlaced.h, w: F.w, h: (F.y + F.h) - (paddedPlaced.y + paddedPlaced.h) });
+        }
+        // Split Left
+        if (paddedPlaced.x > F.x) {
+          newFreeRects.push({ x: F.x, y: F.y, w: paddedPlaced.x - F.x, h: F.h });
+        }
+        // Split Right
+        if (paddedPlaced.x + paddedPlaced.w < F.x + F.w) {
+          newFreeRects.push({ x: paddedPlaced.x + paddedPlaced.w, y: F.y, w: (F.x + F.w) - (paddedPlaced.x + paddedPlaced.w), h: F.h });
         }
       } else {
-        // Vertical split
-        const rightW = remainingW - padding;
-        const bottomH = remainingH - padding;
+        // No overlap, keep the free rect
+        newFreeRects.push(F);
+      }
+    }
 
-        if (bottomH > 0) {
-          boardToUse.freeRects.push({ x: targetRect.x, y: targetRect.y + bestFitH + padding, w: bestFitW, h: bottomH });
+    // Prune enclosed free rects
+    boardToUse.freeRects = [];
+    for (let i = 0; i < newFreeRects.length; i++) {
+      let isEnclosed = false;
+      for (let j = 0; j < newFreeRects.length; j++) {
+        if (i !== j) {
+          const A = newFreeRects[i];
+          const B = newFreeRects[j];
+          if (A.x >= B.x && A.y >= B.y && A.x + A.w <= B.x + B.w && A.y + A.h <= B.y + B.h) {
+            isEnclosed = true;
+            break;
+          }
         }
-        if (rightW > 0) {
-          boardToUse.freeRects.push({ x: targetRect.x + bestFitW + padding, y: targetRect.y, w: rightW, h: targetRect.h });
-        }
+      }
+      if (!isEnclosed) {
+        boardToUse.freeRects.push(newFreeRects[i]);
       }
     }
   });

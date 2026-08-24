@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, ChevronRight } from 'lucide-react';
 import { supabase } from '../../supabase';
 
@@ -12,6 +12,7 @@ const FALLBACK_GALLERY = [
 
 export default function ProductDetails() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -65,15 +66,25 @@ export default function ProductDetails() {
 
   // Fallbacks
   const displayGallery = product.gallery && product.gallery.length > 0 ? product.gallery : FALLBACK_GALLERY;
-  const dimensions = product.dimensions || "G: 200cm x D: 160cm x Y: 110cm";
-  const material = product.material || "Birinci Sınıf Ceviz Kaplama";
+  const dimensions = product.dimensions || "Belirtilmemiş";
+  const material = product.material || "Belirtilmemiş";
 
   return (
     <div className="min-h-screen bg-[#FAFAFA] dark:bg-[#0a0a0a] pt-32 pb-24 transition-colors duration-500">
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
         
-        {/* Sleek Breadcrumb */}
-        <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-gray-400 dark:text-stone-500 mb-12">
+        {/* Sleek Breadcrumb & Back Button */}
+        <div className="flex items-center gap-4 text-xs font-medium uppercase tracking-widest text-gray-400 dark:text-stone-500 mb-12">
+          <button 
+            onClick={() => navigate(-1)} 
+            className="flex items-center gap-2 hover:text-black dark:hover:text-white transition-colors"
+          >
+            <ArrowLeft size={16} />
+            Geri
+          </button>
+          
+          <span className="text-gray-300 dark:text-stone-700">|</span>
+
           <Link to="/" className="hover:text-black dark:hover:text-white transition-colors">Ana Sayfa</Link>
           <ChevronRight size={14} />
           <Link to="/" className="hover:text-black dark:hover:text-white transition-colors">Koleksiyon</Link>
@@ -87,29 +98,12 @@ export default function ProductDetails() {
           <div className="lg:col-span-7 flex flex-col gap-6">
             {/* Main Image Frame */}
             <div className="w-full bg-white dark:bg-[#111111] aspect-[4/3] rounded-sm flex items-center justify-center overflow-hidden border border-gray-100 dark:border-stone-800 shadow-[0_2px_40px_rgb(0,0,0,0.02)]">
-              <img 
-                src={activeImage} 
+              <img loading="lazy" width="800" height="600" src={activeImage} 
                 alt={product.name} 
                 className="w-full h-full object-cover transition-opacity duration-300"
               />
             </div>
             
-            {/* Thumbnail Grid */}
-            <div className="grid grid-cols-4 gap-4 sm:gap-6">
-              {displayGallery.map((imgUrl, index) => (
-                <button 
-                  key={index}
-                  onClick={() => setActiveImage(imgUrl)}
-                  className={`relative aspect-[4/3] bg-white dark:bg-[#111111] overflow-hidden border transition-all duration-300 ${
-                    activeImage === imgUrl 
-                      ? 'border-black dark:border-white shadow-md' 
-                      : 'border-gray-100 dark:border-stone-800 hover:border-gray-300 dark:hover:border-stone-600 opacity-60 hover:opacity-100'
-                  }`}
-                >
-                  <img src={imgUrl} alt={`${product.name} detay ${index + 1}`} className="w-full h-full object-cover" />
-                </button>
-              ))}
-            </div>
           </div>
 
           {/* Right Column: Info (5 cols) */}

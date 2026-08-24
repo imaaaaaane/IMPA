@@ -8,17 +8,17 @@ export default function UrunlerHome() {
     {
       title: t('product1Title'),
       subtitle: t('product1Desc'),
-      img: "/src/assets/lakekapak.jpg",
+      img: "/src/assets/lakekapak.webp",
     },
     {
       title: t('product2Title'),
       subtitle: t('product2Desc'),
-      img: "/src/assets/lake-door.jpg",
+      img: "/src/assets/lake-door.webp",
     },
     {
       title: t('product3Title'),
       subtitle: t('product3Desc'),
-      img: "/src/assets/wood-texture.jpg",
+      img: "/src/assets/wood-texture.webp",
     }
   ];
 

@@ -16,8 +16,7 @@ export default function Footer() {
           {/* Left Side: Visual & Copy */}
           <div className="relative h-[500px] lg:h-auto flex items-end p-8 md:p-16">
             {/* Moody Image Placeholder */}
-            <img 
-              src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=1200&auto=format&fit=crop" 
+            <img loading="lazy" width="800" height="600" src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=1200&auto=format&fit=crop" 
               alt="Interior Architect Consultation" 
               className="absolute inset-0 w-full h-full object-cover z-0"
             />
@@ -83,7 +82,7 @@ export default function Footer() {
 
         {/* Footer Bottom */}
         <div className="flex flex-col md:flex-row justify-between items-center text-xs tracking-[0.2em] uppercase text-black/50 dark:text-white/50 font-medium transition-colors duration-500">
-          <img src="/impalogo.png" alt="İMPA Logo" className="h-8 w-auto object-contain dark:brightness-0 dark:invert mb-4 md:mb-0 transition-all duration-500" />
+          <img src="/impalogo.webp" alt="İMPA Logo" className="h-8 w-auto object-contain dark:brightness-0 dark:invert mb-4 md:mb-0 transition-all duration-500" />
           <div className="flex gap-8 mb-4 md:mb-0">
             <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Instagram</a>
             <a href="#" className="hover:text-black dark:hover:text-white transition-colors">LinkedIn</a>

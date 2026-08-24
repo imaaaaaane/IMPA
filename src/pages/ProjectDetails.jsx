@@ -51,8 +51,7 @@ const ProjeDetayi = () => {
                             className="w-full h-full object-cover"
                         />
                     ) : (
-                        <img
-                            src={project.media}
+                        <img loading="lazy" width="800" height="600" src={project.media}
                             alt={project.title}
                             className="w-full h-full object-cover"
                         />
