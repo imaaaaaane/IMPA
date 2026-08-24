@@ -23,20 +23,24 @@ export default function Hero() {
           .eq('setting_key', 'hero_image_url')
           .single();
           
+        let url = '/heroimage.webp';
+        
         if (error && error.code !== 'PGRST116') {
           console.error('Error fetching hero image:', error);
         } else if (data && data.setting_value) {
-          const url = data.setting_value;
-          setHeroImageUrl(url);
-          // Dynamically inject preload link for critical above-the-fold image
-          const preloadLink = document.createElement('link');
-          preloadLink.href = url;
-          preloadLink.rel = 'preload';
-          preloadLink.as = 'image';
-          document.head.appendChild(preloadLink);
-        } else {
-          setHeroImageUrl('/heroimage.webp');
+          url = data.setting_value;
         }
+        
+        setHeroImageUrl(url);
+        
+        // Dynamically inject preload link for critical above-the-fold image
+        const preloadLink = document.createElement('link');
+        preloadLink.href = url;
+        preloadLink.rel = 'preload';
+        preloadLink.as = 'image';
+        preloadLink.setAttribute('fetchpriority', 'high');
+        document.head.appendChild(preloadLink);
+
       } catch (err) {
         console.error('Unexpected error fetching hero image:', err);
       } finally {
@@ -56,6 +60,8 @@ export default function Hero() {
             <img
               src={heroImageUrl}
               alt="IMPA Hero"
+              fetchPriority="high"
+              loading="eager"
               onLoad={() => setImageLoaded(true)}
               className="absolute inset-0 w-full h-full object-cover"
             />
