@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 import { supabase } from '../supabase';
 import CoreExpertise from './CoreExpertise';
-import { getOptimizedImageProps } from '../utils/imageUtils';
+import ProgressiveImage from './ProgressiveImage';
 
 const Urunler = () => {
   const { t } = useTranslation();
@@ -74,10 +74,12 @@ const Urunler = () => {
                 >
                   <div className="w-full h-48 flex items-center justify-center relative mb-4">
                     {product.image && product.image !== 'no-image' ? (
-                      <img 
-                        {...getOptimizedImageProps('product-images', product.image)}
+                      <ProgressiveImage 
+                        bucket="product-images"
+                        path={product.image}
                         alt={product.name}
-                        className="w-full h-full object-contain mix-blend-multiply dark:mix-blend-normal transition-transform duration-700 ease-out group-hover:scale-110"
+                        className="w-full h-full mix-blend-multiply dark:mix-blend-normal transition-transform duration-700 ease-out group-hover:scale-110"
+                        imageClassName="object-contain"
                       />
                     ) : (
                       <div className="w-full h-full bg-gray-100 dark:bg-stone-800 rounded-lg flex items-center justify-center">

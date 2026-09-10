@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import ProgressiveImage from './ProgressiveImage';
 
 const UrunlerHome = () => {
   const { t } = useTranslation();
@@ -39,12 +40,10 @@ const UrunlerHome = () => {
             <div key={index} className="group relative h-[500px] overflow-hidden rounded-2xl cursor-pointer">
               <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors duration-700 z-10"></div>
               {/* Product Background Image */}
-              <img 
+              <ProgressiveImage 
                 src={product.img}
                 alt={product.title}
-                loading="lazy"
-                decoding="async"
-                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
+                className="absolute inset-0 w-full h-full group-hover:scale-105 transition-transform duration-1000"
               />
               
               {/* Overlay Gradient for Text Legibility */}

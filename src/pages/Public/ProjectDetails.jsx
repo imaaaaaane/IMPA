@@ -3,8 +3,8 @@ import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, Building2, Box, Calendar, X } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { supabase } from '../../supabase';
-import OptimizedImage from '../../components/OptimizedImage';
-import { getOptimizedImageProps, getImageUrl } from '../../utils/imageUtils';
+import ProgressiveImage from '../../components/ProgressiveImage';
+import { getImageUrl } from '../../utils/imageUtils';
 
 export default function ProjectDetails() {
   const { id } = useParams();
@@ -118,9 +118,9 @@ export default function ProjectDetails() {
         className="relative w-full h-[50vh] md:h-[60vh] overflow-hidden bg-gray-100 transform-gpu"
       >
         {project.image_url ? (
-          <OptimizedImage 
-            {...getOptimizedImageProps('project-images', project.image_url)}
-            loading="eager" 
+          <ProgressiveImage 
+            bucket="project-images"
+            path={project.image_url}
             alt={project.title} 
             className="w-full h-full"
           />
@@ -215,9 +215,9 @@ export default function ProjectDetails() {
                       isFullWidth ? 'col-span-2 aspect-video' : 'col-span-1 aspect-square md:aspect-[4/3] min-h-[250px]'
                     }`}
                   >
-                    <OptimizedImage 
-                      {...getOptimizedImageProps('project-images', img)}
-                      loading="lazy" 
+                    <ProgressiveImage 
+                      bucket="project-images"
+                      path={img}
                       alt={`Gallery ${index}`} 
                       className="w-full h-full group-hover:scale-105 transition-transform duration-700"
                     />

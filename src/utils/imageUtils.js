@@ -42,3 +42,22 @@ export const getImageUrl = (bucket, path, width = 1024, quality = 80) => {
     transform: { width, quality }
   }).data.publicUrl;
 };
+
+export const getProgressiveUrls = (bucket, path) => {
+  if (!path) return { lowRes: null, highRes: null };
+  if (path.startsWith('http')) return { lowRes: path, highRes: path };
+
+  const optimizedPath = path.replace(/\.(jpg|jpeg|png)$/i, '.webp');
+
+  // Supabase Transform API supports width, format, and quality. 
+  // We simulate blur using a 20px microscopic image and CSS blur.
+  const lowRes = supabase.storage.from(bucket).getPublicUrl(optimizedPath, {
+    transform: { width: 20, quality: 20, format: 'webp' }
+  }).data.publicUrl;
+
+  const highRes = supabase.storage.from(bucket).getPublicUrl(optimizedPath, {
+    transform: { width: 1200, quality: 75, format: 'webp' }
+  }).data.publicUrl;
+
+  return { lowRes, highRes };
+};

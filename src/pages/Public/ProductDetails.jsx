@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, ChevronRight } from 'lucide-react';
 import { supabase } from '../../supabase';
-import { getOptimizedImageProps } from '../../utils/imageUtils';
+import ProgressiveImage from '../../components/ProgressiveImage';
 
 // High-end furniture placeholder images from Unsplash
 const FALLBACK_GALLERY = [
@@ -99,10 +99,11 @@ export default function ProductDetails() {
           <div className="lg:col-span-7 flex flex-col gap-6">
             {/* Main Image Frame */}
             <div className="w-full bg-white dark:bg-[#111111] aspect-[4/3] rounded-sm flex items-center justify-center overflow-hidden border border-gray-100 dark:border-stone-800 shadow-[0_2px_40px_rgb(0,0,0,0.02)]">
-              <img 
-                {...getOptimizedImageProps('product-images', activeImage)}
+              <ProgressiveImage 
+                bucket="product-images"
+                path={activeImage}
                 alt={product.name} 
-                className="w-full h-full object-cover transition-opacity duration-300"
+                className="w-full h-full"
               />
             </div>
             

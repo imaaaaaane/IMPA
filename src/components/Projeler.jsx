@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { supabase } from '../supabase';
-import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
-import { getOptimizedImageProps } from '../utils/imageUtils';
+import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
+import ProgressiveImage from './ProgressiveImage';
 
 const Projeler = () => {
   const { t } = useTranslation();
@@ -99,13 +99,11 @@ const Projeler = () => {
                 >
                   {/* Image Section */}
                   <div className="w-full relative bg-gray-200 dark:bg-stone-800 flex items-center justify-center">
-                    <img 
-                      {...getOptimizedImageProps('project-images', project.image_url)}
-                      loading={index < 2 ? "eager" : "lazy"} 
-                      width="800" 
-                      height="600" 
+                    <ProgressiveImage 
+                      bucket="project-images"
+                      path={project.image_url}
                       alt={project.title}
-                      className="w-full h-[300px] md:h-[400px] object-cover rounded-xl"
+                      className="w-full h-[300px] md:h-[400px] rounded-xl"
                     />
                   </div>
 
