@@ -50,10 +50,10 @@ export default function HakkimizdaHome() {
             loop
             muted
             playsInline
-            preload="auto"
+            preload="metadata"
             className="rounded-[2rem] shadow-2xl w-full h-[400px] object-cover"
           >
-            <source src="/hakkimizda.webm" type="video/webm" />
+            <source src="/hakkimizda-2.webm" type="video/webm" />
           </video>
         </motion.div>
 
