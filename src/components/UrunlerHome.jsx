@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-export default function UrunlerHome() {
+const UrunlerHome = () => {
   const { t } = useTranslation();
 
-  const products = [
+  const products = useMemo(() => [
     {
       title: t('product1Title'),
       subtitle: t('product1Desc'),
@@ -20,7 +20,7 @@ export default function UrunlerHome() {
       subtitle: t('product3Desc'),
       img: "/src/assets/wood-texture.webp",
     }
-  ];
+  ], [t]);
 
   return (
     <section className="py-32 px-6 md:px-12 bg-[#F5F2EB] dark:bg-[#151515] transition-colors duration-500">
@@ -39,10 +39,13 @@ export default function UrunlerHome() {
             <div key={index} className="group relative h-[500px] overflow-hidden rounded-2xl cursor-pointer">
               <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors duration-700 z-10"></div>
               {/* Product Background Image */}
-              <div 
-                className="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-1000"
-                style={{ backgroundImage: `url('${product.img}')` }}
-              ></div>
+              <img 
+                src={product.img}
+                alt={product.title}
+                loading="lazy"
+                decoding="async"
+                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
+              />
               
               {/* Overlay Gradient for Text Legibility */}
               <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1C]/90 via-[#1A1A1C]/20 to-transparent z-10"></div>
@@ -59,4 +62,6 @@ export default function UrunlerHome() {
       </div>
     </section>
   );
-}
+};
+
+export default React.memo(UrunlerHome);

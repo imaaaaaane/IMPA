@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight, Building2, Box, Calendar, X } from 'lucide-react
 import { motion } from 'framer-motion';
 import { supabase } from '../../supabase';
 import OptimizedImage from '../../components/OptimizedImage';
+import { getOptimizedImageProps, getImageUrl } from '../../utils/imageUtils';
 
 export default function ProjectDetails() {
   const { id } = useParams();
@@ -27,10 +28,7 @@ export default function ProjectDetails() {
           
           // Dynamically inject preload link for critical above-the-fold hero image
           if (projectRes.data.image_url) {
-            let optimizedPath = projectRes.data.image_url.replace(/\.(jpg|jpeg|png)$/i, '.webp');
-            const url = supabase.storage.from('project-images').getPublicUrl(optimizedPath, {
-              transform: { width: 1920, quality: 80 }
-            }).data.publicUrl;
+            const url = getImageUrl('project-images', projectRes.data.image_url, 1920, 80);
             
             const preloadLink = document.createElement('link');
             preloadLink.href = url;
@@ -65,18 +63,6 @@ export default function ProjectDetails() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [id]);
-
-  const getImageUrl = (path) => {
-    if (!path) return null;
-    if (path.startsWith('http')) return path;
-    
-    // Fix legacy data: ensure we always request the compressed .webp version
-    const optimizedPath = path.replace(/\.(jpg|jpeg|png)$/i, '.webp');
-    
-    return supabase.storage.from('project-images').getPublicUrl(optimizedPath, {
-      transform: { width: 1920, quality: 80 }
-    }).data.publicUrl;
-  };
 
   if (loading) {
     return (
@@ -133,8 +119,8 @@ export default function ProjectDetails() {
       >
         {project.image_url ? (
           <OptimizedImage 
+            {...getOptimizedImageProps('project-images', project.image_url)}
             loading="eager" 
-            src={getImageUrl(project.image_url)} 
             alt={project.title} 
             className="w-full h-full"
           />
@@ -230,8 +216,8 @@ export default function ProjectDetails() {
                     }`}
                   >
                     <OptimizedImage 
+                      {...getOptimizedImageProps('project-images', img)}
                       loading="lazy" 
-                      src={getImageUrl(img)} 
                       alt={`Gallery ${index}`} 
                       className="w-full h-full group-hover:scale-105 transition-transform duration-700"
                     />
@@ -286,7 +272,7 @@ export default function ProjectDetails() {
 
           {/* Current Image */}
           <img 
-            src={getImageUrl(galleryImages[lightboxIndex])} 
+            src={getImageUrl('project-images', galleryImages[lightboxIndex], 1920, 80)} 
             alt="Gallery Fullscreen" 
             className="max-w-[90vw] max-h-[90vh] object-contain select-none"
             onClick={(e) => e.stopPropagation()}

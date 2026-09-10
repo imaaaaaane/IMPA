@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import after1Img from '../assets/after1.webp';
@@ -10,19 +10,19 @@ import before3Img from '../assets/before3.webp';
 // =========================================================================
 // PROJECT 1: THE BLUEPRINT SLIDER (Interactive Drag Reveal)
 // =========================================================================
-function BlueprintSlider() {
+const BlueprintSlider = React.memo(function BlueprintSlider() {
   const { t } = useTranslation();
   const [sliderPosition, setSliderPosition] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef(null);
 
-  const handleMove = (clientX) => {
+  const handleMove = useCallback((clientX) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
     const percent = (x / rect.width) * 100;
     setSliderPosition(percent);
-  };
+  }, []);
 
   useEffect(() => {
     const handleMouseUp = () => setIsDragging(false);
@@ -85,13 +85,12 @@ function BlueprintSlider() {
       <div className="absolute top-6 right-6 z-20 px-5 py-2 bg-black/60 backdrop-blur-md text-white text-xs tracking-widest uppercase rounded">{t('spaces.01.after')}</div>
     </div>
   );
-}
-
+});
 
 // =========================================================================
 // PROJECT 2: HOVER LENS REVEAL (Master Yatak Odası)
 // =========================================================================
-function HoverLens() {
+const HoverLens = React.memo(function HoverLens() {
   const { t } = useTranslation();
   const containerRef = useRef(null);
   const rafRef = useRef(null);
@@ -131,16 +130,16 @@ function HoverLens() {
     };
   }, []);
 
-  const handleMouseMove = (e) => {
+  const handleMouseMove = useCallback((e) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     targetPos.current = {
       x: e.clientX - rect.left,
       y: e.clientY - rect.top,
     };
-  };
+  }, []);
 
-  const handleTouchMove = (e) => {
+  const handleTouchMove = useCallback((e) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const touch = e.touches[0];
@@ -148,7 +147,7 @@ function HoverLens() {
       x: touch.clientX - rect.left,
       y: touch.clientY - rect.top,
     };
-  };
+  }, []);
 
   return (
     <div 
@@ -204,13 +203,12 @@ function HoverLens() {
       </div>
     </div>
   );
-}
-
+});
 
 // =========================================================================
 // PROJECT 3: SCROLL FADE BUILD (Minimalist Mutfak - Video Fade)
 // =========================================================================
-function ScrollFade() {
+const ScrollFade = React.memo(function ScrollFade() {
   const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(false);
   const containerRef = useRef(null);
@@ -261,13 +259,12 @@ function ScrollFade() {
       </div>
     </div>
   );
-}
-
+});
 
 // =========================================================================
 // MAIN COMPONENT EXPORT
 // =========================================================================
-export default function BeforeAfterShowcase() {
+const BeforeAfterShowcase = React.memo(function BeforeAfterShowcase() {
   const { t } = useTranslation();
 
   return (
@@ -340,4 +337,6 @@ export default function BeforeAfterShowcase() {
       </div>
     </div>
   );
-}
+});
+
+export default BeforeAfterShowcase;

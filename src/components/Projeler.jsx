@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { supabase } from '../supabase';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
-import CinematicImage from './CinematicImage';
+import { getOptimizedImageProps } from '../utils/imageUtils';
 
 const Projeler = () => {
   const { t } = useTranslation();
@@ -12,23 +12,11 @@ const Projeler = () => {
   const [loading, setLoading] = useState(true);
   const scrollContainerRef = useRef(null);
 
-  const scroll = (direction) => {
+  const scroll = useCallback((direction) => {
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollBy({ left: direction === 'left' ? -400 : 400, behavior: 'smooth' });
     }
-  };
-
-  const getImageUrl = (path) => {
-    if (!path) return null;
-    if (path.startsWith('http')) return path;
-    
-    // Fix legacy data: ensure we always request the compressed .webp version
-    const optimizedPath = path.replace(/\.(jpg|jpeg|png)$/i, '.webp');
-    
-    return supabase.storage.from('project-images').getPublicUrl(optimizedPath, {
-      transform: { width: 1024, quality: 80 }
-    }).data.publicUrl;
-  };
+  }, []);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -52,6 +40,12 @@ const Projeler = () => {
 
     fetchProjects();
   }, []);
+
+  const displayProjects = useMemo(() => {
+    return projects
+      .filter(project => project.image_url && project.image_url.trim() !== '')
+      .slice(0, 6);
+  }, [projects]);
 
   return (
     <section id="projeler" className="py-24 bg-white dark:bg-[#111111] overflow-hidden">
@@ -97,10 +91,7 @@ const Projeler = () => {
                 ref={scrollContainerRef}
                 className="flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory scroll-smooth hide-scrollbar transform-gpu will-change-transform"
               >
-                {projects
-                  .filter(project => project.image_url && project.image_url.trim() !== '')
-                  .slice(0, 6)
-                  .map((project, index) => (
+                {displayProjects.map((project, index) => (
                 <div
                   key={project.id}
                   onClick={() => navigate(`/proje/${project.id}`)}
@@ -109,11 +100,10 @@ const Projeler = () => {
                   {/* Image Section */}
                   <div className="w-full relative bg-gray-200 dark:bg-stone-800 flex items-center justify-center">
                     <img 
+                      {...getOptimizedImageProps('project-images', project.image_url)}
                       loading={index < 2 ? "eager" : "lazy"} 
-                      decoding="async"
                       width="800" 
                       height="600" 
-                      src={getImageUrl(project.image_url)}
                       alt={project.title}
                       className="w-full h-[300px] md:h-[400px] object-cover rounded-xl"
                     />
@@ -164,4 +154,4 @@ const Projeler = () => {
   );
 };
 
-export default Projeler;
+export default React.memo(Projeler);

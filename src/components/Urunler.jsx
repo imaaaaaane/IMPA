@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 import { supabase } from '../supabase';
 import CoreExpertise from './CoreExpertise';
+import { getOptimizedImageProps } from '../utils/imageUtils';
 
 const Urunler = () => {
   const { t } = useTranslation();
@@ -10,11 +11,7 @@ const Urunler = () => {
   const [loading, setLoading] = useState(true);
   const { categorySlug } = useParams();
 
-  useEffect(() => {
-    fetchProducts();
-  }, [categorySlug]);
-
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     try {
       setLoading(true);
       let query = supabase
@@ -37,7 +34,11 @@ const Urunler = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [categorySlug]);
+
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
 
   return (
     <>
@@ -73,7 +74,8 @@ const Urunler = () => {
                 >
                   <div className="w-full h-48 flex items-center justify-center relative mb-4">
                     {product.image && product.image !== 'no-image' ? (
-                      <img loading="lazy" width="800" height="600" src={product.image}
+                      <img 
+                        {...getOptimizedImageProps('product-images', product.image)}
                         alt={product.name}
                         className="w-full h-full object-contain mix-blend-multiply dark:mix-blend-normal transition-transform duration-700 ease-out group-hover:scale-110"
                       />
@@ -102,4 +104,4 @@ const Urunler = () => {
   );
 };
 
-export default Urunler;
+export default React.memo(Urunler);

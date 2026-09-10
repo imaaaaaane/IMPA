@@ -49,9 +49,7 @@ export default function Navbar() {
         <img 
           src="/impalogo.webp" 
           alt="İMPA Logo" 
-          className={`h-10 md:h-12 w-auto object-contain cursor-pointer transition-all duration-300 ${
-            isMegaMenuOpen || isScrolled ? 'brightness-0' : 'brightness-200 contrast-200'
-          }`}
+          className="h-10 md:h-12 w-auto object-contain cursor-pointer transition-all duration-300"
         />
       </Link>
 
