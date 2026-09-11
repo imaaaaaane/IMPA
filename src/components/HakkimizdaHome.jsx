@@ -1,10 +1,31 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 export default function HakkimizdaHome() {
   const { t } = useTranslation();
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video) {
+      video.defaultMuted = true;
+      video.muted = true;
+      
+      const playVideo = () => {
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(error => {
+            console.warn("Autoplay prevented:", error);
+          });
+        }
+      };
+
+      const timeoutId = setTimeout(playVideo, 50);
+      return () => clearTimeout(timeoutId);
+    }
+  }, []);
 
   return (
 
@@ -46,7 +67,7 @@ export default function HakkimizdaHome() {
           transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1], delay: 0.4 }}
           className="h-full"
         >
-          <video src="/hakkimizda-2.webm" autoPlay muted loop playsInline className="w-full h-full min-h-[450px] md:min-h-[550px] object-cover rounded-3xl shadow-2xl" />
+          <video ref={videoRef} src="/hakkimizda-2.webm" autoPlay={true} muted={true} loop={true} playsInline={true} controls={false} preload="auto" className="w-full h-full min-h-[450px] md:min-h-[550px] object-cover rounded-3xl shadow-2xl" />
         </motion.div>
 
       </div>

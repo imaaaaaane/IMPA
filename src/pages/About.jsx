@@ -40,6 +40,27 @@ import { useTranslation } from 'react-i18next';
 
 export default function About() {
   const { t } = useTranslation();
+  const videoRef = React.useRef(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video) {
+      video.defaultMuted = true;
+      video.muted = true;
+      
+      const playVideo = () => {
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(error => {
+            console.warn("Autoplay prevented:", error);
+          });
+        }
+      };
+
+      const timeoutId = setTimeout(playVideo, 50);
+      return () => clearTimeout(timeoutId);
+    }
+  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -120,7 +141,7 @@ export default function About() {
           </div>
 
           <motion.div variants={fadeInUp} className="w-full h-full relative bg-gray-200 dark:bg-stone-800 rounded-[2rem]">
-            <video src="/hakkimizda-2.webm" autoPlay muted loop playsInline className="w-full h-full min-h-[450px] md:min-h-[550px] object-cover rounded-3xl shadow-2xl" />
+            <video ref={videoRef} src="/hakkimizda-2.webm" autoPlay={true} muted={true} loop={true} playsInline={true} controls={false} preload="auto" className="w-full h-full min-h-[450px] md:min-h-[550px] object-cover rounded-3xl shadow-2xl" />
           </motion.div>
         </motion.section>
 
