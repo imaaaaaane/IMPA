@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { supabase } from '../supabase';
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
+import { getOptimizedUrl } from '../utils/imageUtils';
 import ProgressiveImage from './ProgressiveImage';
 
 const Projeler = () => {
@@ -98,12 +99,12 @@ const Projeler = () => {
                   className="bg-gray-50 dark:bg-stone-900 rounded-2xl overflow-hidden group cursor-pointer hover:shadow-xl transition-shadow duration-300 flex flex-col min-w-[85vw] md:min-w-[400px] flex-shrink-0 snap-center transform-gpu"
                 >
                   {/* Image Section */}
-                  <div className="w-full relative bg-gray-200 dark:bg-stone-800 flex items-center justify-center">
+                  <div className="w-full relative aspect-video flex items-center justify-center">
                     <ProgressiveImage 
-                      bucket="project-images"
-                      path={project.image_url}
+                      src={getOptimizedUrl(project.image_url)}
                       alt={project.title}
-                      className="w-full h-[300px] md:h-[400px] rounded-xl"
+                      className="w-full h-full rounded-xl"
+                      isThumbnail={true}
                     />
                   </div>
 
@@ -136,15 +137,6 @@ const Projeler = () => {
               </button>
             </div>
             
-            {/* View All Button */}
-            <div className="mt-16 flex justify-center">
-              <button 
-                onClick={() => navigate('/projeler')}
-                className="px-6 py-2 border border-gray-800 text-gray-800 hover:bg-gray-800 hover:text-white transition-colors duration-300 dark:border-gray-200 dark:text-gray-200 dark:hover:bg-white dark:hover:text-black"
-              >
-                Tüm Projeleri Gör
-              </button>
-            </div>
           </>
         )}
       </div>
