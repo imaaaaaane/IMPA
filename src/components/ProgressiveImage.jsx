@@ -20,7 +20,7 @@ export default function ProgressiveImage({ bucket, path, src, alt, className, im
           observer.disconnect();
         }
       },
-      { rootMargin: '100px' }
+      { rootMargin: '0px 0px 1000px 0px' }
     );
 
     if (containerRef.current) {
@@ -35,7 +35,11 @@ export default function ProgressiveImage({ bucket, path, src, alt, className, im
   if (!finalSrc) return null;
 
   return (
-    <div ref={containerRef} className={`relative overflow-hidden flex items-center justify-center ${className} ${!loaded ? 'bg-gray-200 dark:bg-stone-800 animate-pulse' : 'bg-transparent'}`}>
+    <div 
+      ref={containerRef} 
+      className={`relative overflow-hidden flex items-center justify-center ${className} ${!loaded ? 'bg-gray-200 dark:bg-stone-800 animate-pulse' : 'bg-transparent'}`}
+      style={{ transform: 'translateZ(0)', willChange: 'transform, opacity' }}
+    >
       {inView && (
         <img
           src={finalSrc}

@@ -115,7 +115,7 @@ export default function ProjectDetails() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
-        className="relative w-full h-[50vh] md:h-[60vh] overflow-hidden bg-gray-100 transform-gpu"
+        className="relative w-full aspect-video md:h-[60vh] overflow-hidden bg-gray-100 transform-gpu"
       >
         {project.image_url ? (
           <ProgressiveImage 
@@ -194,24 +194,15 @@ export default function ProjectDetails() {
           {/* 3. Right Column - Scrolling Gallery */}
           <div className="lg:col-span-7">
             {/* Bento Box Gallery */}
-            <motion.div 
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
-              variants={{
-                visible: { transition: { staggerChildren: 0.15 } }
-              }}
-              className="grid grid-cols-2 gap-4 md:gap-6 transform-gpu"
-            >
+            <div className="grid grid-cols-2 gap-4 md:gap-6 transform-gpu">
               {galleryImages.map((img, index) => {
                 const isFullWidth = index === 0;
                 
                 return (
-                  <motion.div 
+                  <div 
                     key={index}
-                    variants={fadeUp}
                     onClick={() => setLightboxIndex(index)}
-                    className={`overflow-hidden rounded-2xl shadow-sm bg-gray-200 group transform-gpu cursor-pointer hover:opacity-90 transition-opacity duration-300 ${
+                    className={`overflow-hidden rounded-2xl shadow-sm bg-gray-100 group transform-gpu cursor-pointer hover:opacity-90 transition-opacity duration-300 ${
                       isFullWidth ? 'col-span-2 aspect-video' : 'col-span-1 aspect-square md:aspect-[4/3] min-h-[250px]'
                     }`}
                   >
@@ -220,17 +211,18 @@ export default function ProjectDetails() {
                       path={img}
                       alt={`Gallery ${index}`} 
                       className="w-full h-full group-hover:scale-105 transition-transform duration-700"
+                      isThumbnail={!isFullWidth}
                     />
-                  </motion.div>
+                  </div>
                 );
               })}
-            </motion.div>
+            </div>
           </div>
         </div>
 
         {/* Minimalist Sonraki Proje Navigation */}
         <motion.div 
-          initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
+          initial="hidden" whileInView="visible" viewport={{ once: true, margin: "0px 0px -100px 0px" }} variants={fadeUp}
           className="mt-24 pt-8 border-t border-gray-200 flex justify-end"
         >
           {nextProjectId && (
@@ -275,6 +267,8 @@ export default function ProjectDetails() {
             src={getImageUrl('project-images', galleryImages[lightboxIndex], 1920, 80)} 
             alt="Gallery Fullscreen" 
             className="max-w-[90vw] max-h-[90vh] object-contain select-none"
+            loading="lazy"
+            decoding="async"
             onClick={(e) => e.stopPropagation()}
           />
 
