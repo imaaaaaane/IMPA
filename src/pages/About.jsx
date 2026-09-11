@@ -40,6 +40,32 @@ import { useTranslation } from 'react-i18next';
 
 export default function About() {
   const { t } = useTranslation();
+  const videoRef = React.useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            videoRef.current?.play().catch(() => {});
+          } else {
+            videoRef.current?.pause();
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    if (videoRef.current) {
+      observer.observe(videoRef.current);
+    }
+
+    return () => {
+      if (videoRef.current) {
+        observer.unobserve(videoRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -98,7 +124,7 @@ export default function About() {
           className="mb-12 md:mb-16 grid grid-cols-1 md:grid-cols-2 gap-12 items-center"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
+          viewport={{ once: true, margin: "0px 0px -100px 0px" }}
           variants={staggerContainer}
         >
           <div className="flex flex-col" dir="auto">
@@ -120,7 +146,7 @@ export default function About() {
           </div>
 
           <motion.div variants={fadeInUp} className="w-full h-full relative bg-gray-200 dark:bg-stone-800 rounded-[2rem]">
-            <video src="/hakkimizda-2.webm" autoPlay loop muted playsInline preload="metadata" className="rounded-[2rem] shadow-xl w-full h-full min-h-[400px] object-cover transition-transform duration-700 ease-out hover:scale-[1.03] hover:shadow-2xl cursor-pointer" />
+            <video ref={videoRef} src="/hakkimizda-2.webm" loop muted playsInline className="w-full h-auto aspect-video object-cover rounded-3xl shadow-lg border border-gray-100" />
           </motion.div>
         </motion.section>
 
@@ -131,7 +157,7 @@ export default function About() {
           className="mb-12 md:mb-16"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
+          viewport={{ once: true, margin: "0px 0px -100px 0px" }}
           variants={staggerContainer}
         >
           <motion.h2 variants={fadeInUp} className="text-3xl md:text-5xl font-serif text-[#1A1A1C] dark:text-white transition-colors duration-500 mb-6 text-center md:text-left" dir="auto">
@@ -153,7 +179,7 @@ export default function About() {
           className="mb-12 md:mb-16 border-t border-black/10 pt-12 md:pt-16"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
+          viewport={{ once: true, margin: "0px 0px -100px 0px" }}
           variants={staggerContainer}
         >
           <motion.h2 variants={fadeInUp} className="text-sm tracking-[0.3em] font-medium uppercase text-gray-500 mb-16 text-center" dir="auto">
@@ -209,7 +235,7 @@ export default function About() {
           className="mb-12 md:mb-16 bg-[#1A1A1C]/90 backdrop-blur-xl text-[#FAF9F6] p-12 md:p-16 rounded-[2.5rem] shadow-2xl border border-white/10"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
+          viewport={{ once: true, margin: "0px 0px -100px 0px" }}
           variants={staggerContainer}
         >
           <motion.h2 variants={fadeInUp} className="text-3xl md:text-5xl font-serif mb-16 text-center" dir="auto">
@@ -239,7 +265,7 @@ export default function About() {
           className="mb-16 mt-24"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
+          viewport={{ once: true, margin: "0px 0px -100px 0px" }}
           variants={staggerContainer}
         >
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">

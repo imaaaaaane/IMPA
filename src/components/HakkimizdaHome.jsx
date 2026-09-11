@@ -5,6 +5,32 @@ import { motion } from 'framer-motion';
 
 export default function HakkimizdaHome() {
   const { t } = useTranslation();
+  const videoRef = React.useRef(null);
+
+  React.useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            videoRef.current?.play().catch(() => {});
+          } else {
+            videoRef.current?.pause();
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    if (videoRef.current) {
+      observer.observe(videoRef.current);
+    }
+
+    return () => {
+      if (videoRef.current) {
+        observer.unobserve(videoRef.current);
+      }
+    };
+  }, []);
 
   return (
 
@@ -16,7 +42,7 @@ export default function HakkimizdaHome() {
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
+            viewport={{ once: true, margin: "0px 0px -100px 0px" }}
             transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
             className="italic text-lg md:text-xl text-gray-700 dark:text-stone-400 leading-relaxed font-serif max-w-full mb-12 transition-colors duration-500"
           >
@@ -26,7 +52,7 @@ export default function HakkimizdaHome() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
+            viewport={{ once: true, margin: "0px 0px -100px 0px" }}
             transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1], delay: 0.2 }}
           >
             <Link
@@ -42,19 +68,10 @@ export default function HakkimizdaHome() {
         <motion.div
           initial={{ opacity: 0, x: 30 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
+          viewport={{ once: true, margin: "0px 0px -100px 0px" }}
           transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1], delay: 0.4 }}
         >
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="metadata"
-            className="rounded-[2rem] shadow-2xl w-full h-[400px] object-cover"
-          >
-            <source src="/hakkimizda-2.webm" type="video/webm" />
-          </video>
+          <video ref={videoRef} src="/hakkimizda-2.webm" loop muted playsInline className="w-full h-auto aspect-video object-cover rounded-3xl shadow-lg border border-gray-100" />
         </motion.div>
 
       </div>
