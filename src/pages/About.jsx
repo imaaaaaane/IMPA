@@ -40,32 +40,6 @@ import { useTranslation } from 'react-i18next';
 
 export default function About() {
   const { t } = useTranslation();
-  const videoRef = React.useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            videoRef.current?.play().catch(() => {});
-          } else {
-            videoRef.current?.pause();
-          }
-        });
-      },
-      { threshold: 0.5 }
-    );
-
-    if (videoRef.current) {
-      observer.observe(videoRef.current);
-    }
-
-    return () => {
-      if (videoRef.current) {
-        observer.unobserve(videoRef.current);
-      }
-    };
-  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -146,7 +120,7 @@ export default function About() {
           </div>
 
           <motion.div variants={fadeInUp} className="w-full h-full relative bg-gray-200 dark:bg-stone-800 rounded-[2rem]">
-            <video ref={videoRef} src="/hakkimizda-2.webm" loop muted playsInline className="w-full h-auto aspect-video object-cover rounded-3xl shadow-lg border border-gray-100" />
+            <video src="/hakkimizda-2.webm" autoPlay muted loop playsInline className="w-full h-full min-h-[450px] md:min-h-[550px] object-cover rounded-3xl shadow-2xl" />
           </motion.div>
         </motion.section>
 
