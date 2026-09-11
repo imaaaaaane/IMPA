@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import originalLogo from '../assets/impalogo2.webp';
 import { Menu, X } from 'lucide-react';
 import LanguageSwitcher from './LanguageSwitcher';
 import ThemeToggle from './ThemeToggle';
@@ -47,7 +48,7 @@ export default function Navbar() {
     >
       <Link to="/" className="relative z-10">
         <img 
-          src="/impalogo.webp" 
+          src={originalLogo} 
           alt="İMPA Logo" 
           className="h-10 md:h-12 w-auto object-contain cursor-pointer transition-all duration-300"
         />
