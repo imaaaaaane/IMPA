@@ -35,7 +35,7 @@ export default function ProgressiveImage({ bucket, path, src, alt, className, im
   if (!finalSrc) return null;
 
   return (
-    <div ref={containerRef} className={`relative overflow-hidden bg-gray-200 dark:bg-stone-800 flex items-center justify-center ${className} ${!loaded ? 'animate-pulse' : ''}`}>
+    <div ref={containerRef} className={`relative overflow-hidden flex items-center justify-center ${className} ${!loaded ? 'bg-gray-200 dark:bg-stone-800 animate-pulse' : 'bg-transparent'}`}>
       {inView && (
         <img
           src={finalSrc}
