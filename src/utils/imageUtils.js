@@ -28,9 +28,7 @@ export const getOptimizedImageProps = (bucket, path) => {
 };
 
 export const getOptimizedUrl = (rawUrl) => {
-  if (!rawUrl) return '';
-  // Route the raw Supabase URL through Weserv CDN for aggressive WebP compression
-  return `https://wsrv.nl/?url=${encodeURIComponent(rawUrl)}&w=800&output=webp&q=65`;
+  return rawUrl || '';
 };
 
 export const getImageUrl = (bucket, path, width = 1080, quality = 70) => {
