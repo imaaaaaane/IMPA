@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../utils/supabase';
+import originalLogo from '../../assets/impalogo2.webp';
 
 export default function AdminLogin() {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ export default function AdminLogin() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-[#111111] flex flex-col justify-center py-12 sm:px-6 lg:px-8 font-sans transition-colors duration-500">
       <div className="sm:mx-auto sm:w-full sm:max-w-md flex flex-col items-center">
-        <img src="/impalogo2.webp" alt="IMPA Logo" className="h-20 w-auto object-contain mb-4" />
+        <img src={originalLogo} alt="IMPA Logo" className="h-20 w-auto object-contain mb-4" />
         <h2 className="mt-4 text-center text-xl font-medium text-gray-600 dark:text-stone-400">
           Yönetim Paneli
         </h2>
