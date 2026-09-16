@@ -12,7 +12,7 @@ export default function EbatlamaCTA() {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "0px 0px -100px 0px" }}
           transition={{ duration: 0.6 }}
           className="w-16 h-16 bg-red-700/10 rounded-2xl flex items-center justify-center mb-8 border border-red-700/20 shadow-xl"
         >
@@ -22,7 +22,7 @@ export default function EbatlamaCTA() {
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "0px 0px -100px 0px" }}
           transition={{ duration: 0.6, delay: 0.1 }}
           className="text-4xl md:text-5xl font-light mb-6 tracking-tight"
         >
@@ -32,7 +32,7 @@ export default function EbatlamaCTA() {
         <motion.p 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "0px 0px -100px 0px" }}
           transition={{ duration: 0.6, delay: 0.2 }}
           className="text-lg md:text-xl text-slate-300 max-w-2xl mb-10 font-light leading-relaxed"
         >
@@ -42,7 +42,7 @@ export default function EbatlamaCTA() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "0px 0px -100px 0px" }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
           <Link 

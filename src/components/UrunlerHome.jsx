@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import ProgressiveImage from './ProgressiveImage';
+import { getOptimizedUrl } from '../utils/imageUtils';
 
 const UrunlerHome = () => {
   const { t } = useTranslation();
@@ -41,7 +42,7 @@ const UrunlerHome = () => {
               <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors duration-700 z-10"></div>
               {/* Product Background Image */}
               <ProgressiveImage 
-                src={product.img}
+                src={getOptimizedUrl(product.img)}
                 alt={product.title}
                 className="absolute inset-0 w-full h-full group-hover:scale-105 transition-transform duration-1000"
               />

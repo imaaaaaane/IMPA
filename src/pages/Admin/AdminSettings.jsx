@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { UploadCloud, CheckCircle2, AlertCircle, Trash2 } from 'lucide-react';
 import { supabase } from '../../supabase';
+import { getImageUrl } from '../../utils/image';
 
 export default function AdminSettings() {
   const [currentHeroImage, setCurrentHeroImage] = useState(null);
@@ -59,24 +60,7 @@ export default function AdminSettings() {
       const fileName = `hero_${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
       const filePath = `hero/${fileName}`;
 
-      // 1. Upload to 'project-images' bucket
-      const { data: uploadData, error: uploadError } = await supabase.storage
-        .from('project-images')
-        .upload(filePath, newImageFile);
-
-      if (uploadError) {
-        alert("Upload Error: " + uploadError.message);
-        console.error("Supabase Storage Upload Error: ", uploadError);
-        throw uploadError;
-      }
-
-      // 2. Get public URL using the returned path
-      const { data: publicUrlData } = supabase.storage
-        .from('project-images')
-        .getPublicUrl(uploadData.path);
-
-      const imageUrl = publicUrlData.publicUrl;
-      console.log("Generated Public URL: ", imageUrl);
+      const imageUrl = filePath;
 
       // 3. Update or Insert the site_settings table
       const { data: checkData, error: checkError } = await supabase
@@ -136,15 +120,7 @@ export default function AdminSettings() {
     setStatusMessage({ type: '', text: '' });
     
     try {
-      // (Optional) Try to delete old image from storage if it's from our bucket
-      if (currentHeroImage && currentHeroImage.includes('project-images/hero/')) {
-        const urlParts = currentHeroImage.split('project-images/hero/');
-        if (urlParts.length > 1) {
-          const fileName = urlParts[1].split('?')[0]; // Clean up any query params
-          const filePath = `hero/${fileName}`;
-          await supabase.storage.from('project-images').remove([filePath]);
-        }
-      }
+
 
       const defaultImage = '/heroimage.webp';
 
@@ -245,7 +221,7 @@ export default function AdminSettings() {
                         )}
                       </div>
                       <div className="w-full h-64 bg-gray-100 rounded-xl overflow-hidden border border-gray-200 shadow-inner relative">
-                        <img loading="lazy" width="800" height="600" src={currentHeroImage} 
+                        <img loading="lazy" width="800" height="600" src={getImageUrl(currentHeroImage)} 
                           alt="Current Hero" 
                           className="w-full h-full object-cover"
                         />

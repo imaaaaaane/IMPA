@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, X, UploadCloud, Search } from 'lucide-react';
 import { supabase } from '../../supabase';
+import { getImageUrl } from '../../utils/image';
 
 export default function AdminProjects() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -79,25 +80,12 @@ export default function AdminProjects() {
     setIsModalOpen(false);
   };
 
-  // Helper to upload a single file to Supabase Storage
+  // Helper to get filepath for R2
   const uploadFile = async (file) => {
     const fileExt = file.name.split('.').pop();
     const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
     const filePath = `${fileName}`;
-
-    const { error: uploadError } = await supabase.storage
-      .from('project-images')
-      .upload(filePath, file);
-
-    if (uploadError) {
-      throw uploadError;
-    }
-
-    const { data: publicUrlData } = supabase.storage
-      .from('project-images')
-      .getPublicUrl(filePath);
-
-    return publicUrlData.publicUrl;
+    return filePath;
   };
 
   const handleSubmit = async (e) => {
@@ -249,7 +237,7 @@ export default function AdminProjects() {
                     <td className="px-8 py-4">
                       <div className="w-16 h-12 bg-slate-100 rounded-md flex items-center justify-center overflow-hidden border border-slate-200">
                         {project.image_url ? (
-                          <img loading="lazy" width="800" height="600" src={project.image_url} alt={project.title} className="w-full h-full object-cover" />
+                          <img loading="lazy" decoding="async" width="800" height="600" src={getImageUrl(project.image_url)} alt={project.title} className="w-full h-full object-cover" />
                         ) : (
                           <span className="text-[9px] text-slate-400 font-medium uppercase tracking-wider">Yok</span>
                         )}
@@ -426,7 +414,7 @@ export default function AdminProjects() {
                         </div>
                       ) : currentProject.image_url ? (
                          <div className="absolute inset-0 w-full h-full">
-                            <img loading="lazy" width="800" height="600" src={currentProject.image_url} alt="Preview" className="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity" />
+                            <img loading="lazy" decoding="async" width="800" height="600" src={getImageUrl(currentProject.image_url)} alt="Preview" className="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity" />
                             <div className="absolute inset-0 flex items-center justify-center z-10">
                               <span className="px-4 py-1.5 bg-slate-900/70 backdrop-blur-sm text-white text-xs font-medium rounded-full shadow-lg">Görseli Değiştir</span>
                             </div>

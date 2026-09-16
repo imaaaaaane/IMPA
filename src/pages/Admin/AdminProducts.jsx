@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, X, UploadCloud, Search } from 'lucide-react';
 import { supabase } from '../../supabase';
+import { getImageUrl } from '../../utils/image';
 
 export default function AdminProducts() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -57,27 +58,13 @@ export default function AdminProducts() {
     try {
       let imageUrl = currentProduct.image || 'no-image';
 
-      // If a new file is selected, upload it to Supabase Storage
+      // If a new file is selected, store relative path for R2
       if (currentProduct.imageFile) {
         const file = currentProduct.imageFile;
         const fileExt = file.name.split('.').pop();
         const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
         const filePath = `${fileName}`;
-
-        const { error: uploadError } = await supabase.storage
-          .from('product-images')
-          .upload(filePath, file);
-
-        if (uploadError) {
-          throw uploadError;
-        }
-
-        // Get public URL
-        const { data: publicUrlData } = supabase.storage
-          .from('product-images')
-          .getPublicUrl(filePath);
-
-        imageUrl = publicUrlData.publicUrl;
+        imageUrl = filePath;
       }
 
       if (modalMode === 'add') {
@@ -215,7 +202,7 @@ export default function AdminProducts() {
                   <td className="px-8 py-4">
                     <div className="w-12 h-10 bg-gray-100 rounded-md flex items-center justify-center overflow-hidden border border-gray-200">
                       {product.image && product.image !== 'no-image' ? (
-                        <img loading="lazy" width="800" height="600" src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                        <img loading="lazy" decoding="async" width="800" height="600" src={getImageUrl(product.image)} alt={product.name} className="w-full h-full object-cover" />
                       ) : (
                         <span className="text-[9px] text-gray-400 font-medium uppercase tracking-wider">Yok</span>
                       )}
@@ -381,7 +368,7 @@ export default function AdminProducts() {
                     </div>
                   ) : currentProduct.image && currentProduct.image !== 'no-image' ? (
                      <div className="absolute inset-0 w-full h-full">
-                        <img loading="lazy" width="800" height="600" src={currentProduct.image} alt="Preview" className="w-full h-full object-cover opacity-40 group-hover:opacity-30 transition-opacity" />
+                        <img loading="lazy" decoding="async" width="800" height="600" src={getImageUrl(currentProduct.image)} alt="Preview" className="w-full h-full object-cover opacity-40 group-hover:opacity-30 transition-opacity" />
                         <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
                           <span className="px-3 py-1 bg-black/50 text-white text-xs rounded-full backdrop-blur-sm">Görseli Değiştir</span>
                         </div>

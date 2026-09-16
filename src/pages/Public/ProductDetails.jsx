@@ -98,7 +98,7 @@ export default function ProductDetails() {
           {/* Left Column: Media (7 cols) */}
           <div className="lg:col-span-7 flex flex-col gap-6">
             {/* Main Image Frame */}
-            <div className="w-full bg-white dark:bg-[#111111] aspect-[4/3] rounded-sm flex items-center justify-center overflow-hidden border border-gray-100 dark:border-stone-800 shadow-[0_2px_40px_rgb(0,0,0,0.02)]">
+            <div className="w-full bg-gray-100 dark:bg-stone-800 aspect-square md:aspect-[4/3] rounded-sm flex items-center justify-center overflow-hidden border border-gray-100 dark:border-stone-800 shadow-[0_2px_40px_rgb(0,0,0,0.02)]">
               <ProgressiveImage 
                 bucket="product-images"
                 path={activeImage}

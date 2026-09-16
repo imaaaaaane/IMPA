@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 import { supabase } from '../supabase';
 import CoreExpertise from './CoreExpertise';
+import { getOptimizedUrl } from '../utils/imageUtils';
 import ProgressiveImage from './ProgressiveImage';
 
 const Urunler = () => {
@@ -72,14 +73,14 @@ const Urunler = () => {
                   key={product.id}
                   className="flex-none w-[300px] h-[400px] bg-[#FAF9F6] dark:bg-stone-900 rounded-2xl snap-center flex flex-col items-center justify-between p-8 relative overflow-hidden group border border-transparent dark:border-stone-800 hover:border-gray-200 dark:hover:border-stone-700 transition-colors"
                 >
-                  <div className="w-full h-48 flex items-center justify-center relative mb-4">
+                  <div className="w-full aspect-square flex items-center justify-center relative mb-4">
                     {product.image && product.image !== 'no-image' ? (
                       <ProgressiveImage 
-                        bucket="product-images"
-                        path={product.image}
+                        src={getOptimizedUrl(product.image)}
                         alt={product.name}
-                        className="w-full h-full mix-blend-multiply dark:mix-blend-normal transition-transform duration-700 ease-out group-hover:scale-110"
+                        className="w-full h-full mix-blend-multiply dark:mix-blend-normal transition-transform duration-700 ease-out group-hover:scale-110 rounded-lg overflow-hidden"
                         imageClassName="object-contain"
+                        isThumbnail={true}
                       />
                     ) : (
                       <div className="w-full h-full bg-gray-100 dark:bg-stone-800 rounded-lg flex items-center justify-center">
