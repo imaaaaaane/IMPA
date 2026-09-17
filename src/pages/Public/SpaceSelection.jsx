@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import BeforeAfterShowcase from '../../components/BeforeAfterShowcase';
 
 import { useTranslation } from 'react-i18next';
+import { getImageUrl } from '../../utils/image';
 
 const spacesData = [
   { id: 1, titleKey: 'livingRoom', video: '/livingroom.webm' },
@@ -62,7 +63,7 @@ export default function SpaceSelection() {
                 preload="auto"
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105 z-0"
               >
-                <source src={space.video} type="video/webm" />
+                <source src={getImageUrl(space.video)} type="video/webm" />
               </video>
               
               {/* Warm Overlay (Safely stacked on top of video at z-10) */}
@@ -98,10 +99,10 @@ export default function SpaceSelection() {
                     autoPlay loop muted playsInline preload="auto"
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110"
                   >
-                    <source src={step.src} type="video/webm" />
+                    <source src={getImageUrl(step.src)} type="video/webm" />
                   </video>
                 ) : (
-                  <img loading="lazy" width="800" height="600" src={step.src} 
+                  <img loading="lazy" width="800" height="600" src={getImageUrl(step.src)} 
                     alt={step.title} 
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110"
                   />
