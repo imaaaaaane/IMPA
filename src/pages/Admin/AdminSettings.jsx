@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { UploadCloud, CheckCircle2, AlertCircle, Trash2 } from 'lucide-react';
 import { supabase } from '../../supabase';
 import { getImageUrl } from '../../utils/image';
+import { uploadFileToR2 } from '../../utils/r2upload';
 
 export default function AdminSettings() {
   const [currentHeroImage, setCurrentHeroImage] = useState(null);
   const [newImageUrl, setNewImageUrl] = useState('');
   const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [statusMessage, setStatusMessage] = useState({ type: '', text: '' }); // { type: 'success' | 'error', text: '' }
 
   useEffect(() => {
@@ -38,7 +40,22 @@ export default function AdminSettings() {
     }
   };
 
-
+  const handleFileChange = async (e) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      try {
+        setIsUploading(true);
+        setStatusMessage({ type: '', text: 'Görsel R2 sunucularına yükleniyor, lütfen bekleyin...' });
+        const uploadedFileName = await uploadFileToR2(file);
+        setNewImageUrl(uploadedFileName);
+        setStatusMessage({ type: 'success', text: 'Görsel başarıyla yüklendi. Kaydetmek için butona tıklayın.' });
+      } catch (err) {
+        setStatusMessage({ type: 'error', text: 'Görsel yüklenirken hata oluştu: ' + err.message });
+      } finally {
+        setIsUploading(false);
+      }
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -218,37 +235,51 @@ export default function AdminSettings() {
                     </div>
                   )}
 
-                  {/* Image URL Text Input */}
+                  {/* Upload Dropzone */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Cloudflare R2 Dosya Adı (Örn: heroimage.webp)
-                    </label>
-                    <input 
-                      type="text" 
-                      value={newImageUrl}
-                      onChange={(e) => setNewImageUrl(e.target.value)}
-                      disabled={isSubmitting}
-                      className="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-black focus:border-black text-gray-900 text-sm transition-colors disabled:opacity-50 disabled:bg-gray-50 shadow-sm"
-                      placeholder="Yeni görsel adı..."
-                    />
-                    {newImageUrl && (
-                      <div className="mt-4 w-full h-64 bg-gray-100 rounded-xl overflow-hidden border border-gray-200 shadow-inner relative">
-                        <img loading="lazy" width="800" height="600" src={getImageUrl(newImageUrl)} 
-                          alt="New Preview" 
-                          className="w-full h-full object-cover"
-                        />
-                        <div className="absolute top-3 right-3 bg-amber-500/90 backdrop-blur-md px-3 py-1 rounded-full text-white text-xs font-medium">
-                          Önizleme
+                    <span className="block text-sm font-medium text-gray-700 mb-3">
+                      {currentHeroImage ? 'Görseli Değiştir' : 'Yeni Görsel Yükle'}
+                    </span>
+                    <label 
+                      htmlFor="hero-upload" 
+                      className={`flex flex-col items-center justify-center w-full h-64 px-4 transition-all bg-slate-50 border-2 border-slate-200 border-dashed rounded-xl appearance-none relative overflow-hidden ${
+                        (isSubmitting || isUploading) ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:border-black/30 hover:bg-gray-50 group'
+                      }`}
+                    >
+                      {newImageUrl ? (
+                        <div className="absolute inset-0 w-full h-full">
+                          <img loading="lazy" width="800" height="600" src={getImageUrl(newImageUrl)} alt="New Preview" className="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity" />
+                          <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
+                            <span className="px-4 py-2 bg-black text-white text-sm font-medium rounded-full shadow-lg">Farklı Görsel Seç</span>
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      ) : (
+                        <div className="flex flex-col items-center space-y-3 z-10">
+                          <div className="p-4 bg-white rounded-full shadow-sm border border-slate-100 group-hover:scale-110 transition-transform">
+                            <UploadCloud className="w-8 h-8 text-slate-400 group-hover:text-black transition-colors" />
+                          </div>
+                          <span className="font-medium text-slate-600">
+                            <span className="text-black hover:underline">Dosya seçin</span> veya sürükleyin
+                          </span>
+                          <span className="text-sm text-slate-400">Yüksek çözünürlüklü JPEG, PNG veya WEBP (Önerilen: 1920x1080)</span>
+                        </div>
+                      )}
+                      <input 
+                        id="hero-upload" 
+                        type="file" 
+                        accept="image/*"
+                        className="hidden" 
+                        disabled={isSubmitting || isUploading} 
+                        onChange={handleFileChange}
+                      />
+                    </label>
                   </div>
 
                   {/* Submit Button */}
                   <div className="flex justify-end pt-4 border-t border-gray-100">
                     <button 
                       type="submit"
-                      disabled={!newImageUrl || isSubmitting}
+                      disabled={!newImageUrl || isSubmitting || isUploading}
                       className="flex items-center gap-2 px-6 py-2.5 bg-black text-white rounded-lg text-sm font-medium hover:bg-gray-900 transition-all shadow-sm hover:scale-[1.02] active:scale-95 disabled:opacity-50 disabled:hover:scale-100 disabled:cursor-not-allowed"
                     >
                       {isSubmitting && <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>}

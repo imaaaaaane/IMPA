@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, X, UploadCloud, Search } from 'lucide-react';
 import { supabase } from '../../supabase';
 import { getImageUrl } from '../../utils/image';
+import { uploadFileToR2 } from '../../utils/r2upload';
 
 export default function AdminProducts() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -11,6 +12,7 @@ export default function AdminProducts() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     fetchProducts();
@@ -49,6 +51,21 @@ export default function AdminProducts() {
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  const handleFileChange = async (e) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      try {
+        setIsUploading(true);
+        const uploadedFileName = await uploadFileToR2(file);
+        setCurrentProduct({ ...currentProduct, image: uploadedFileName });
+      } catch (err) {
+        alert('Görsel yüklenirken hata oluştu: ' + err.message);
+      } finally {
+        setIsUploading(false);
+      }
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -343,24 +360,41 @@ export default function AdminProducts() {
                 />
               </div>
 
-              {/* Image URL Text Input */}
+              {/* Image Upload */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                  Cloudflare R2 Dosya Adı (Örn: image.webp)
+                  Görsel Seç {isUploading && <span className="text-amber-500 text-xs ml-2">(Yükleniyor...)</span>}
                 </label>
-                <input 
-                  type="text" 
-                  value={currentProduct.image || ''}
-                  onChange={(e) => setCurrentProduct({...currentProduct, image: e.target.value})}
-                  disabled={isSubmitting}
-                  className="w-full px-4 py-2 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-black focus:border-black text-gray-900 text-sm transition-colors disabled:opacity-50 disabled:bg-gray-50"
-                  placeholder="urun1.webp"
-                />
-                {currentProduct.image && currentProduct.image !== 'no-image' && (
-                  <div className="mt-3 w-full h-40 bg-slate-50 dark:bg-[#0a0a0a] rounded-xl overflow-hidden border border-slate-200 dark:border-stone-800">
-                    <img loading="lazy" src={getImageUrl(currentProduct.image)} alt="Preview" className="w-full h-full object-cover" />
-                  </div>
-                )}
+                <label htmlFor="file-upload" className={`flex flex-col items-center justify-center w-full h-40 px-4 transition-all bg-slate-50 dark:bg-[#0a0a0a] border-2 border-slate-200 dark:border-stone-800 border-dashed rounded-2xl appearance-none relative overflow-hidden ${
+                  (isSubmitting || isUploading) ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:border-amber-500/50 hover:bg-amber-50/50 dark:hover:bg-amber-900/10 group'
+                }`}>
+                  {currentProduct.image && currentProduct.image !== 'no-image' ? (
+                     <div className="absolute inset-0 w-full h-full">
+                        <img loading="lazy" decoding="async" width="800" height="600" src={getImageUrl(currentProduct.image)} alt="Preview" className="w-full h-full object-cover opacity-40 group-hover:opacity-30 transition-opacity" />
+                        <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
+                          <span className="px-3 py-1 bg-black/50 text-white text-xs rounded-full backdrop-blur-sm">Görseli Değiştir</span>
+                        </div>
+                     </div>
+                  ) : (
+                    <div className="flex flex-col items-center space-y-2 z-10">
+                      <div className="p-3 bg-white dark:bg-[#161616] rounded-full shadow-sm border border-slate-100 dark:border-stone-800 group-hover:scale-110 transition-transform">
+                        <UploadCloud className="w-6 h-6 text-slate-400 group-hover:text-amber-500 transition-colors" />
+                      </div>
+                      <span className="font-medium text-slate-600 dark:text-stone-300 mt-2">
+                        <span className="text-amber-600 dark:text-amber-500 hover:underline">Dosya seçin</span> veya sürükleyin
+                      </span>
+                      <span className="text-xs text-slate-400 dark:text-stone-500">PNG, JPG, WEBP (Max 5MB)</span>
+                    </div>
+                  )}
+                  <input 
+                    id="file-upload" 
+                    type="file" 
+                    accept="image/*"
+                    className="hidden" 
+                    disabled={isSubmitting || isUploading} 
+                    onChange={handleFileChange}
+                  />
+                </label>
               </div>
 
               {/* Actions */}
@@ -375,7 +409,7 @@ export default function AdminProducts() {
                 </button>
                 <button 
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || isUploading}
                   className="flex items-center gap-2 px-5 py-2 bg-black text-white rounded-lg text-sm font-medium hover:bg-gray-900 transition-all shadow-sm hover:scale-[1.02] active:scale-95 disabled:opacity-70 disabled:hover:scale-100"
                 >
                   {isSubmitting && <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin"></div>}
