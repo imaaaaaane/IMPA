@@ -67,7 +67,7 @@ export default function HakkimizdaHome() {
           transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1], delay: 0.4 }}
           className="h-full"
         >
-          <video ref={videoRef} src="/hakkimizda-2.webm" autoPlay={true} muted={true} loop={true} playsInline={true} controls={false} preload="auto" className="w-full h-full min-h-[450px] md:min-h-[550px] object-cover rounded-3xl shadow-2xl" />
+          <video ref={videoRef} src="/hakkimizda-2.webm" autoPlay muted loop playsInline preload="auto" className="w-full h-full aspect-video object-cover rounded-3xl shadow-2xl" />
         </motion.div>
 
       </div>
