@@ -18,7 +18,7 @@ export const uploadFileToR2 = async (file) => {
   const command = new PutObjectCommand({
     Bucket: import.meta.env.VITE_R2_BUCKET_NAME,
     Key: fileName,
-    Body: file,
+    Body: new Uint8Array(await file.arrayBuffer()),
     ContentType: file.type,
   });
 
