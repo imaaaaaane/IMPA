@@ -17,8 +17,6 @@ export default function AdminProjects() {
     year: '',
     image_url: null,
     gallery: [], // array of existing URL strings
-    imageFile: null, // new main image file
-    galleryFiles: [] // new gallery files
   });
 
   const [projects, setProjects] = useState([]);
@@ -58,9 +56,7 @@ export default function AdminProjects() {
       materials: '',
       year: '',
       image_url: null, 
-      gallery: [], 
-      imageFile: null, 
-      galleryFiles: [] 
+      gallery: [] 
     });
     setIsModalOpen(true);
   };
@@ -69,8 +65,6 @@ export default function AdminProjects() {
     setModalMode('edit');
     setCurrentProject({
       ...project,
-      imageFile: null,
-      galleryFiles: [],
       gallery: project.gallery || []
     });
     setIsModalOpen(true);
@@ -80,34 +74,12 @@ export default function AdminProjects() {
     setIsModalOpen(false);
   };
 
-  // Helper to get filepath for R2
-  const uploadFile = async (file) => {
-    const fileExt = file.name.split('.').pop();
-    const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
-    const filePath = `${fileName}`;
-    return filePath;
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     
     try {
-      // 1. Handle Main Image Upload
-      let mainImageUrl = currentProject.image_url;
-      if (currentProject.imageFile) {
-        mainImageUrl = await uploadFile(currentProject.imageFile);
-      }
-
-      // 2. Handle Gallery Images Upload
-      let galleryUrls = [...currentProject.gallery];
-      if (currentProject.galleryFiles && currentProject.galleryFiles.length > 0) {
-        const uploadPromises = Array.from(currentProject.galleryFiles).map(file => uploadFile(file));
-        const newGalleryUrls = await Promise.all(uploadPromises);
-        galleryUrls = [...galleryUrls, ...newGalleryUrls];
-      }
-
-      // 3. Database Operations
+      // Database Operations
       const projectData = {
         title: currentProject.title,
         category: currentProject.category,
@@ -115,8 +87,8 @@ export default function AdminProjects() {
         client: currentProject.client,
         materials: currentProject.materials,
         year: currentProject.year,
-        image_url: mainImageUrl,
-        gallery: galleryUrls
+        image_url: currentProject.image_url,
+        gallery: Array.isArray(currentProject.gallery) ? currentProject.gallery : currentProject.gallery.split(',').map(s => s.trim()).filter(Boolean)
       };
 
       if (modalMode === 'add') {
@@ -402,91 +374,35 @@ export default function AdminProjects() {
                 {/* Row 4: Media Uploads Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   
-                  {/* Main Image Upload */}
+                  {/* Main Image Name */}
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">Ana Görsel (Kapak)</label>
-                    <label htmlFor="main-upload" className={`flex flex-col items-center justify-center w-full h-36 px-6 transition-all bg-slate-50 border-2 border-slate-200 border-dashed rounded-2xl appearance-none relative overflow-hidden ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:border-slate-400 hover:bg-slate-100 group'}`}>
-                      {currentProject.imageFile ? (
-                        <div className="flex flex-col items-center z-10 text-center">
-                          <UploadCloud className="w-8 h-8 text-slate-500 mb-2" />
-                          <span className="font-medium text-slate-800 text-sm truncate max-w-[200px]">{currentProject.imageFile.name}</span>
-                          <span className="text-xs text-slate-500 mt-1 hover:underline">Görseli Değiştir</span>
-                        </div>
-                      ) : currentProject.image_url ? (
-                         <div className="absolute inset-0 w-full h-full">
-                            <img loading="lazy" decoding="async" width="800" height="600" src={getImageUrl(currentProject.image_url)} alt="Preview" className="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity" />
-                            <div className="absolute inset-0 flex items-center justify-center z-10">
-                              <span className="px-4 py-1.5 bg-slate-900/70 backdrop-blur-sm text-white text-xs font-medium rounded-full shadow-lg">Görseli Değiştir</span>
-                            </div>
-                         </div>
-                      ) : (
-                        <div className="flex flex-col items-center space-y-2 z-10">
-                          <div className="p-2 bg-white rounded-full shadow-sm border border-slate-100 group-hover:scale-110 transition-transform">
-                            <UploadCloud className="w-5 h-5 text-slate-400 group-hover:text-slate-600 transition-colors" />
-                          </div>
-                          <span className="text-sm font-medium text-slate-600">Ana Görsel Yükle</span>
-                        </div>
-                      )}
-                      <input 
-                        id="main-upload" 
-                        type="file" 
-                        accept="image/*"
-                        className="hidden" 
-                        disabled={isSubmitting} 
-                        onChange={(e) => {
-                          if (e.target.files && e.target.files[0]) {
-                            setCurrentProject({ ...currentProject, imageFile: e.target.files[0] });
-                          }
-                        }}
-                      />
-                    </label>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Cloudflare R2 Dosya Adı (Örn: image.webp)</label>
+                    <input 
+                      type="text" 
+                      value={currentProject.image_url || ''}
+                      onChange={(e) => setCurrentProject({...currentProject, image_url: e.target.value})}
+                      disabled={isSubmitting}
+                      className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-slate-400 focus:border-slate-400 text-slate-800 text-sm transition-colors disabled:opacity-50 disabled:bg-slate-50 shadow-sm"
+                      placeholder="proje1.webp"
+                    />
+                    {currentProject.image_url && (
+                      <div className="mt-3 w-full h-36 bg-slate-100 rounded-xl overflow-hidden border border-slate-200">
+                        <img loading="lazy" src={getImageUrl(currentProject.image_url)} alt="Preview" className="w-full h-full object-cover" />
+                      </div>
+                    )}
                   </div>
 
-                  {/* Gallery Images Upload */}
+                  {/* Gallery Images Names */}
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">Galeri (Çoklu Seçim)</label>
-                    <label htmlFor="gallery-upload" className={`flex flex-col items-center justify-center w-full h-36 px-6 transition-all bg-slate-50 border-2 border-slate-200 border-dashed rounded-2xl appearance-none relative overflow-hidden ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:border-slate-400 hover:bg-slate-100 group'}`}>
-                      {currentProject.galleryFiles && currentProject.galleryFiles.length > 0 ? (
-                        <div className="flex flex-col items-center z-10 text-center">
-                          <div className="p-3 bg-white rounded-full shadow-sm border border-slate-100 mb-3">
-                            <UploadCloud className="w-6 h-6 text-slate-600" />
-                          </div>
-                          <span className="font-semibold text-slate-800 text-sm">
-                            {currentProject.galleryFiles.length} yeni görsel seçildi
-                          </span>
-                          <span className="text-xs text-slate-500 mt-2 hover:underline">Değiştir veya Ekle</span>
-                        </div>
-                      ) : (
-                        <div className="flex flex-col items-center space-y-3 z-10 text-center">
-                          <div className="p-3 bg-white rounded-full shadow-sm border border-slate-100 group-hover:scale-110 transition-transform">
-                            <UploadCloud className="w-6 h-6 text-slate-400 group-hover:text-slate-600 transition-colors" />
-                          </div>
-                          <span className="text-sm font-medium text-slate-600">
-                            Galeri Görsellerini Seç
-                          </span>
-                          {currentProject.gallery?.length > 0 ? (
-                             <span className="text-xs text-slate-500">
-                               Şu an {currentProject.gallery.length} kayıtlı görsel var<br/>Üzerine eklemek için seçin
-                             </span>
-                          ) : (
-                             <span className="text-xs text-slate-400">Birden fazla dosya seçebilirsiniz<br/>(Max 5MB/dosya)</span>
-                          )}
-                        </div>
-                      )}
-                      <input 
-                        id="gallery-upload" 
-                        type="file" 
-                        multiple
-                        accept="image/*"
-                        className="hidden" 
-                        disabled={isSubmitting} 
-                        onChange={(e) => {
-                          if (e.target.files) {
-                            setCurrentProject({ ...currentProject, galleryFiles: e.target.files });
-                          }
-                        }}
-                      />
-                    </label>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Galeri (Virgülle ayırın, Örn: g1.webp, g2.webp)</label>
+                    <textarea 
+                      value={Array.isArray(currentProject.gallery) ? currentProject.gallery.join(', ') : currentProject.gallery || ''}
+                      onChange={(e) => setCurrentProject({...currentProject, gallery: e.target.value})}
+                      disabled={isSubmitting}
+                      rows="3"
+                      className="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-slate-400 focus:border-slate-400 text-slate-800 text-sm transition-colors disabled:opacity-50 disabled:bg-slate-50 resize-y shadow-sm"
+                      placeholder="g1.webp, g2.webp, g3.webp"
+                    />
                   </div>
 
                 </div>

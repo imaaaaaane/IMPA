@@ -58,15 +58,6 @@ export default function AdminProducts() {
     try {
       let imageUrl = currentProduct.image || 'no-image';
 
-      // If a new file is selected, store relative path for R2
-      if (currentProduct.imageFile) {
-        const file = currentProduct.imageFile;
-        const fileExt = file.name.split('.').pop();
-        const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
-        const filePath = `${fileName}`;
-        imageUrl = filePath;
-      }
-
       if (modalMode === 'add') {
         const { error } = await supabase
           .from('products')
@@ -91,7 +82,7 @@ export default function AdminProducts() {
             dimensions: currentProduct.dimensions,
             material: currentProduct.material,
             category_slug: currentProduct.category_slug,
-            ...(currentProduct.imageFile && { image: imageUrl })
+            image: imageUrl
           })
           .eq('id', currentProduct.id);
           
@@ -352,51 +343,24 @@ export default function AdminProducts() {
                 />
               </div>
 
-              {/* Image Upload */}
+              {/* Image URL Text Input */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                  Görsel Seç
+                  Cloudflare R2 Dosya Adı (Örn: image.webp)
                 </label>
-                <label htmlFor="file-upload" className={`flex flex-col items-center justify-center w-full h-40 px-4 transition-all bg-slate-50 dark:bg-[#0a0a0a] border-2 border-slate-200 dark:border-stone-800 border-dashed rounded-2xl appearance-none relative overflow-hidden ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:border-amber-500/50 hover:bg-amber-50/50 dark:hover:bg-amber-900/10 group'}`}>
-                  {currentProduct.imageFile ? (
-                    <div className="flex flex-col items-center z-10">
-                      <div className="p-2 bg-amber-100 dark:bg-amber-900/30 rounded-full text-amber-600 dark:text-amber-500 mb-2">
-                        <UploadCloud className="w-6 h-6" />
-                      </div>
-                      <span className="font-medium text-slate-800 dark:text-stone-200 truncate max-w-[200px]">{currentProduct.imageFile.name}</span>
-                      <span className="text-xs text-amber-600 dark:text-amber-500 mt-1 font-medium hover:underline">Değiştir</span>
-                    </div>
-                  ) : currentProduct.image && currentProduct.image !== 'no-image' ? (
-                     <div className="absolute inset-0 w-full h-full">
-                        <img loading="lazy" decoding="async" width="800" height="600" src={getImageUrl(currentProduct.image)} alt="Preview" className="w-full h-full object-cover opacity-40 group-hover:opacity-30 transition-opacity" />
-                        <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
-                          <span className="px-3 py-1 bg-black/50 text-white text-xs rounded-full backdrop-blur-sm">Görseli Değiştir</span>
-                        </div>
-                     </div>
-                  ) : (
-                    <div className="flex flex-col items-center space-y-2 z-10">
-                      <div className="p-3 bg-white dark:bg-[#161616] rounded-full shadow-sm border border-slate-100 dark:border-stone-800 group-hover:scale-110 transition-transform">
-                        <UploadCloud className="w-6 h-6 text-slate-400 group-hover:text-amber-500 transition-colors" />
-                      </div>
-                      <span className="font-medium text-slate-600 dark:text-stone-300 mt-2">
-                        <span className="text-amber-600 dark:text-amber-500 hover:underline">Dosya seçin</span> veya sürükleyin
-                      </span>
-                      <span className="text-xs text-slate-400 dark:text-stone-500">PNG, JPG, WEBP (Max 5MB)</span>
-                    </div>
-                  )}
-                  <input 
-                    id="file-upload" 
-                    type="file" 
-                    accept="image/*"
-                    className="hidden" 
-                    disabled={isSubmitting} 
-                    onChange={(e) => {
-                      if (e.target.files && e.target.files[0]) {
-                        setCurrentProduct({ ...currentProduct, imageFile: e.target.files[0] });
-                      }
-                    }}
-                  />
-                </label>
+                <input 
+                  type="text" 
+                  value={currentProduct.image || ''}
+                  onChange={(e) => setCurrentProduct({...currentProduct, image: e.target.value})}
+                  disabled={isSubmitting}
+                  className="w-full px-4 py-2 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-black focus:border-black text-gray-900 text-sm transition-colors disabled:opacity-50 disabled:bg-gray-50"
+                  placeholder="urun1.webp"
+                />
+                {currentProduct.image && currentProduct.image !== 'no-image' && (
+                  <div className="mt-3 w-full h-40 bg-slate-50 dark:bg-[#0a0a0a] rounded-xl overflow-hidden border border-slate-200 dark:border-stone-800">
+                    <img loading="lazy" src={getImageUrl(currentProduct.image)} alt="Preview" className="w-full h-full object-cover" />
+                  </div>
+                )}
               </div>
 
               {/* Actions */}
