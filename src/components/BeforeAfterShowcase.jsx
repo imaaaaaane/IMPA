@@ -1,11 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import after1Img from '../assets/after1.webp';
-import before1Img from '../assets/before1.webp';
-import before2Img from '../assets/before2.webp';
-import after3Img from '../assets/after3.webp';
-import before3Img from '../assets/before3.webp';
+import { getImageUrl } from '../utils/image';
 
 // =========================================================================
 // PROJECT 1: THE BLUEPRINT SLIDER (Interactive Drag Reveal)
@@ -51,7 +47,7 @@ const BlueprintSlider = React.memo(function BlueprintSlider() {
       onTouchStart={(e) => { setIsDragging(true); handleMove(e.touches[0].clientX); }}
     >
       {/* BACKGROUND IMAGE (The Full, Final "AFTER" Image) */}
-      <img loading="lazy" width="800" height="600" src={after1Img} 
+      <img loading="lazy" width="800" height="600" src={getImageUrl('/after1.webp')} 
         alt="After" 
         className="absolute inset-0 w-full h-full object-cover pointer-events-none" 
       />
@@ -63,7 +59,7 @@ const BlueprintSlider = React.memo(function BlueprintSlider() {
           clipPath: `inset(0 ${100 - sliderPosition}% 0 0)`
         }}
       >
-        <img loading="lazy" width="800" height="600" src={before1Img} 
+        <img loading="lazy" width="800" height="600" src={getImageUrl('/before1.webp')} 
           alt="Before" 
           className="absolute inset-0 w-full h-full object-cover" 
         />
@@ -162,7 +158,7 @@ const HoverLens = React.memo(function HoverLens() {
       style={{ '--lens-x': '0px', '--lens-y': '0px', '--lens-r': '0px', '--lens-opacity': '0' }}
     >
       {/* Before Image (Top Visible Layer) */}
-      <img loading="lazy" width="800" height="600" src={before3Img} 
+      <img loading="lazy" width="800" height="600" src={getImageUrl('/before3.webp')} 
         alt="Before" 
         className="absolute inset-0 w-full h-full object-cover pointer-events-none" 
       />
@@ -174,7 +170,7 @@ const HoverLens = React.memo(function HoverLens() {
           clipPath: `circle(var(--lens-r, 0px) at var(--lens-x, 0px) var(--lens-y, 0px))`
         }}
       >
-        <img loading="lazy" width="800" height="600" src={after3Img} 
+        <img loading="lazy" width="800" height="600" src={getImageUrl('/after3.webp')} 
           alt="After" 
           className="absolute inset-0 w-full h-full object-cover" 
         />
@@ -231,7 +227,7 @@ const ScrollFade = React.memo(function ScrollFade() {
       className="relative w-full h-[50vh] md:h-[70vh] rounded-2xl overflow-hidden shadow-2xl bg-stone-900"
     >
       {/* Before Image (The Sketch) */}
-      <img loading="lazy" width="800" height="600" src={before2Img} 
+      <img loading="lazy" width="800" height="600" src={getImageUrl('/before2.webp')} 
         alt="Before" 
         className={`absolute inset-0 w-full h-full object-cover pointer-events-none transition-all duration-[2500ms] ease-[cubic-bezier(0.25,1,0.5,1)] ${
           isVisible ? 'opacity-0 scale-95 blur-md' : 'opacity-100 scale-100 blur-0'
@@ -245,7 +241,7 @@ const ScrollFade = React.memo(function ScrollFade() {
           isVisible ? 'opacity-100 scale-100 blur-0' : 'opacity-0 scale-110 blur-sm'
         }`}
       >
-        <source src="/after2.webm" type="video/webm" />
+        <source src={getImageUrl('/after2.webm')} type="video/webm" />
       </video>
       
       {/* Minimalist Observer Status */}
