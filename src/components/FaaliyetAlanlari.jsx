@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { getImageUrl } from '../utils/image';
 
 export default function FaaliyetAlanlari() {
   const { t } = useTranslation();
@@ -55,7 +56,7 @@ export default function FaaliyetAlanlari() {
             preload="auto"
             className="absolute inset-0 w-full h-full object-cover z-0"
           >
-            <source src="/fabric.webm" type="video/webm" />
+            <source src={getImageUrl('/fabric.webm')} type="video/webm" />
           </video>
         </div>
 

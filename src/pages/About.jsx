@@ -37,6 +37,7 @@ const staggerContainer = {
 };
 
 import { useTranslation } from 'react-i18next';
+import { getImageUrl } from '../utils/image';
 
 export default function About() {
   const { t } = useTranslation();
@@ -141,7 +142,7 @@ export default function About() {
           </div>
 
           <motion.div variants={fadeInUp} className="w-full h-full relative bg-gray-200 dark:bg-stone-800 rounded-[2rem]">
-            <video ref={videoRef} src="/hakkimizda-2.webm" autoPlay={true} muted={true} loop={true} playsInline={true} controls={false} preload="auto" className="w-full h-full min-h-[450px] md:min-h-[550px] object-cover rounded-3xl shadow-2xl" />
+            <video ref={videoRef} src={getImageUrl('/hakkimizda-2.webm')} autoPlay={true} muted={true} loop={true} playsInline={true} controls={false} preload="auto" className="w-full h-full min-h-[450px] md:min-h-[550px] object-cover rounded-3xl shadow-2xl" />
           </motion.div>
         </motion.section>
 
@@ -185,7 +186,7 @@ export default function About() {
 
             <div className="flex flex-col md:flex-row gap-12 md:gap-16 items-center">
               <motion.div variants={fadeInUp} className="w-full md:w-1/2">
-                <img src="/src/assets/lakekapak.webp" alt="İMPA Modüler" loading="lazy" width="800" height="500" className="rounded-[2rem] shadow-lg w-full h-[500px] object-cover transition-transform duration-700 ease-out hover:scale-[1.03] hover:shadow-2xl cursor-pointer" />
+                <img src={getImageUrl('/lakekapak.webp')} alt="İMPA Modüler" loading="lazy" width="800" height="500" className="rounded-[2rem] shadow-lg w-full h-[500px] object-cover transition-transform duration-700 ease-out hover:scale-[1.03] hover:shadow-2xl cursor-pointer" />
               </motion.div>
               <motion.div variants={fadeInUp} className="w-full md:w-1/2 flex flex-col gap-6 text-gray-700 dark:text-stone-400 transition-colors duration-500 font-light leading-relaxed" dir="auto">
                 <h3 className="text-2xl md:text-4xl font-serif text-[#1A1A1C] dark:text-white transition-colors duration-300 hover:text-amber-800" dir="auto">
@@ -202,7 +203,7 @@ export default function About() {
 
             <div className="flex flex-col md:flex-row-reverse gap-12 md:gap-16 items-center">
               <motion.div variants={fadeInUp} className="w-full md:w-1/2">
-                <img src="/src/assets/lake-door.webp" alt="İMPA Surface" loading="lazy" width="800" height="500" className="rounded-[2rem] shadow-lg w-full h-[500px] object-cover transition-transform duration-700 ease-out hover:scale-[1.03] hover:shadow-2xl cursor-pointer" />
+                <img src={getImageUrl('/lake-door.webp')} alt="İMPA Surface" loading="lazy" width="800" height="500" className="rounded-[2rem] shadow-lg w-full h-[500px] object-cover transition-transform duration-700 ease-out hover:scale-[1.03] hover:shadow-2xl cursor-pointer" />
               </motion.div>
               <motion.div variants={fadeInUp} className="w-full md:w-1/2 flex flex-col gap-6 text-gray-700 dark:text-stone-400 transition-colors duration-500 font-light leading-relaxed" dir="auto">
                 <h3 className="text-2xl md:text-4xl font-serif text-[#1A1A1C] dark:text-white transition-colors duration-300 hover:text-amber-800" dir="auto">
