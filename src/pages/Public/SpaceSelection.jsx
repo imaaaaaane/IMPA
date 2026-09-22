@@ -61,10 +61,9 @@ export default function SpaceSelection() {
                 muted 
                 playsInline 
                 preload="auto"
+                src={space.video}
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105 z-0"
-              >
-                <source src={space.video} type="video/webm" />
-              </video>
+              />
               
               {/* Warm Overlay (Safely stacked on top of video at z-10) */}
               <div className="absolute inset-0 bg-stone-900/40 dark:bg-stone-900/60 transition-colors duration-[800ms] ease-in-out group-hover:bg-stone-900/10 dark:group-hover:bg-stone-900/20 z-10"></div>
