@@ -56,7 +56,7 @@ export default function FaaliyetAlanlari() {
             preload="auto"
             className="absolute inset-0 w-full h-full object-cover z-0"
           >
-            <source src={getImageUrl('/fabric.webm')} type="video/webm" />
+            <source src="/fabric.webm" type="video/webm" />
           </video>
         </div>
 
