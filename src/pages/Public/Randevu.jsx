@@ -1,11 +1,50 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { supabase } from '../../utils/supabase';
 
 export default function Randevu() {
   const { t } = useTranslation();
   const location = useLocation();
   const selectedSpace = location.state?.selectedSpace || '';
+  
+  const [formData, setFormData] = useState({
+    name: '',
+    contact: '',
+    space: selectedSpace
+  });
+  const [status, setStatus] = useState('idle'); // idle, loading, success, error
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!formData.name || !formData.contact) return;
+    
+    setStatus('loading');
+    try {
+      const { error } = await supabase.from('messages').insert([
+        {
+          name: formData.name,
+          phone: formData.contact, // Since it's a general contact field, saving to phone
+          konu: `Randevu Talebi: ${formData.space || 'Genel'}`,
+          message: `${formData.name} isimli kullanıcıdan ${formData.space || 'Genel'} için randevu talebi. İletişim bilgisi: ${formData.contact}`
+        }
+      ]);
+      
+      if (error) throw error;
+      
+      setStatus('success');
+      setFormData({ name: '', contact: '', space: '' });
+      setTimeout(() => setStatus('idle'), 5000);
+    } catch (error) {
+      console.error('Error submitting form:', error.message);
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 3000);
+    }
+  };
 
   return (
     <div className="min-h-screen w-full flex flex-col lg:flex-row bg-[#FAF9F6] pt-24 lg:pt-0">
@@ -26,12 +65,15 @@ export default function Randevu() {
       <div className="w-full lg:w-1/2 bg-[#FAF9F6] p-8 md:p-16 lg:p-24 flex flex-col justify-center">
         <h3 className="text-2xl font-serif text-[#1A1A1C] mb-12">{t('randevu.formTitle')}</h3>
         
-        <form className="flex flex-col gap-10 max-w-lg">
+        <form className="flex flex-col gap-10 max-w-lg" onSubmit={handleSubmit}>
           
           <div className="relative">
             <input 
               type="text" 
               id="name"
+              required
+              value={formData.name}
+              onChange={handleChange}
               className="block w-full bg-transparent border-b border-gray-300 py-2 text-[#1A1A1C] focus:outline-none focus:border-[#1A1A1C] transition-colors peer placeholder-transparent"
               placeholder={t('randevu.name')}
             />
@@ -47,6 +89,9 @@ export default function Randevu() {
             <input 
               type="text" 
               id="contact"
+              required
+              value={formData.contact}
+              onChange={handleChange}
               className="block w-full bg-transparent border-b border-gray-300 py-2 text-[#1A1A1C] focus:outline-none focus:border-[#1A1A1C] transition-colors peer placeholder-transparent"
               placeholder={t('randevu.contact')}
             />
@@ -62,7 +107,8 @@ export default function Randevu() {
             <input 
               type="text" 
               id="space"
-              defaultValue={selectedSpace}
+              value={formData.space}
+              onChange={handleChange}
               className="block w-full bg-transparent border-b border-gray-300 py-2 text-[#1A1A1C] focus:outline-none focus:border-[#1A1A1C] transition-colors peer placeholder-transparent"
               placeholder={t('randevu.space')}
             />
@@ -75,11 +121,19 @@ export default function Randevu() {
           </div>
 
           <button 
-            type="button" 
-            className="mt-6 w-full bg-[#1A1A1C] text-[#FAF9F6] py-5 hover:bg-stone-800 hover:-translate-y-1 transition-all duration-300 tracking-[0.2em] text-xs uppercase font-medium shadow-xl shadow-black/10"
+            type="submit" 
+            disabled={status === 'loading'}
+            className="mt-6 w-full bg-[#1A1A1C] text-[#FAF9F6] py-5 hover:bg-stone-800 hover:-translate-y-1 transition-all duration-300 tracking-[0.2em] text-xs uppercase font-medium shadow-xl shadow-black/10 disabled:opacity-50 disabled:hover:translate-y-0"
           >
-            {t('randevu.submit')}
+            {status === 'loading' ? 'Gönderiliyor...' : t('randevu.submit')}
           </button>
+          
+          {status === 'success' && (
+            <p className="text-green-600 text-sm text-center">Talebiniz başarıyla alındı. Sizinle en kısa sürede iletişime geçeceğiz.</p>
+          )}
+          {status === 'error' && (
+            <p className="text-red-600 text-sm text-center">Bir hata oluştu. Lütfen daha sonra tekrar deneyin.</p>
+          )}
         </form>
       </div>
     </div>
