@@ -96,10 +96,9 @@ export default function SpaceSelection() {
                 {step.type === 'video' ? (
                   <video 
                     autoPlay loop muted playsInline preload="auto"
+                    src={step.src}
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110"
-                  >
-                    <source src={getImageUrl(step.src)} type="video/webm" />
-                  </video>
+                  />
                 ) : (
                   <img loading="lazy" width="800" height="600" src={step.src === '/architectconsultatio.webp' ? step.src : getImageUrl(step.src)} 
                     alt={step.title} 
