@@ -5,18 +5,12 @@ import BeforeAfterShowcase from '../../components/BeforeAfterShowcase';
 import { useTranslation } from 'react-i18next';
 import { getImageUrl } from '../../utils/image';
 
-import livingRoomVid from '../../assets/livingroom.webm';
-import bathroomVid from '../../assets/bathroom.webm';
-import bedroomVid from '../../assets/bedroom.webm';
-import kitchenVid from '../../assets/kitchen.webm';
-import tumevVid from '../../assets/tumev.webm';
-
 const spacesData = [
-  { id: 1, titleKey: 'livingRoom', video: livingRoomVid },
-  { id: 2, titleKey: 'bathroom', video: bathroomVid },
-  { id: 3, titleKey: 'bedroom', video: bedroomVid },
-  { id: 4, titleKey: 'kitchen', video: kitchenVid },
-  { id: 5, titleKey: 'wholeHouse', video: tumevVid }
+  { id: 1, titleKey: 'livingRoom', video: '/livingroom.webm' },
+  { id: 2, titleKey: 'bathroom', video: '/bathroom.webm' },
+  { id: 3, titleKey: 'bedroom', video: '/bedroom.webm' },
+  { id: 4, titleKey: 'kitchen', video: '/kitchen.webm' },
+  { id: 5, titleKey: 'wholeHouse', video: '' }
 ];
 
 const processSteps = [
@@ -61,15 +55,19 @@ export default function SpaceSelection() {
               className="relative flex-1 group cursor-pointer overflow-hidden transition-all duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)] hover:flex-[4] lg:hover:flex-[5]"
             >
               {/* Background Video (Locked to z-0, fully contained by absolute inset-0 and object-cover) */}
-              <video 
-                autoPlay 
-                loop 
-                muted 
-                playsInline 
-                preload="auto"
-                src={space.video}
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105 z-0"
-              />
+              {space.video ? (
+                <video 
+                  autoPlay 
+                  loop 
+                  muted 
+                  playsInline 
+                  preload="auto"
+                  src={space.video}
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105 z-0"
+                />
+              ) : (
+                <div className="absolute inset-0 w-full h-full bg-stone-800 transition-transform duration-[1.5s] ease-out group-hover:scale-105 z-0" />
+              )}
               
               {/* Warm Overlay (Safely stacked on top of video at z-10) */}
               <div className="absolute inset-0 bg-stone-900/40 dark:bg-stone-900/60 transition-colors duration-[800ms] ease-in-out group-hover:bg-stone-900/10 dark:group-hover:bg-stone-900/20 z-10"></div>
