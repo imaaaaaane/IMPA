@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { getImageUrl } from '../utils/image';
-import fabricVid from '../assets/hakkimizda-2.webm';
+import fabricVid from '../assets/fabric.webm';
 
 export default function FaaliyetAlanlari() {
   const { t } = useTranslation();
