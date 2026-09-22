@@ -63,7 +63,7 @@ export default function SpaceSelection() {
                 preload="auto"
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105 z-0"
               >
-                <source src={getImageUrl(space.video)} type="video/webm" />
+                <source src={space.video} type="video/webm" />
               </video>
               
               {/* Warm Overlay (Safely stacked on top of video at z-10) */}
