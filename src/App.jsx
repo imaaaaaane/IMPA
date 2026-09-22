@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SmoothScroll from "./components/SmoothScroll";
 import Loader from "./components/Loader";
+import ScrollToTop from "./components/ScrollToTop";
 
 // Public Pages & Layout
 import PublicLayout from "./layouts/PublicLayout";
@@ -30,6 +31,7 @@ const AdminEbatlama = lazy(() => import("./pages/Admin/AdminEbatlama"));
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <SmoothScroll>
         <Suspense fallback={<Loader />}>
           <Routes>
