@@ -5,12 +5,18 @@ import BeforeAfterShowcase from '../../components/BeforeAfterShowcase';
 import { useTranslation } from 'react-i18next';
 import { getImageUrl } from '../../utils/image';
 
+import livingRoomVid from '../../assets/livingroom.webm';
+import bathroomVid from '../../assets/bathroom.webm';
+import bedroomVid from '../../assets/bedroom.webm';
+import kitchenVid from '../../assets/kitchen.webm';
+import tumevVid from '../../assets/tumev.webm';
+
 const spacesData = [
-  { id: 1, titleKey: 'livingRoom', video: '/livingroom.webm' },
-  { id: 2, titleKey: 'bathroom', video: '/bathroom.webm' },
-  { id: 3, titleKey: 'bedroom', video: '/bedroom.webm' },
-  { id: 4, titleKey: 'kitchen', video: '/kitchen.webm' },
-  { id: 5, titleKey: 'wholeHouse', video: '/tumev.webm' }
+  { id: 1, titleKey: 'livingRoom', video: livingRoomVid },
+  { id: 2, titleKey: 'bathroom', video: bathroomVid },
+  { id: 3, titleKey: 'bedroom', video: bedroomVid },
+  { id: 4, titleKey: 'kitchen', video: kitchenVid },
+  { id: 5, titleKey: 'wholeHouse', video: tumevVid }
 ];
 
 const processSteps = [

@@ -1,25 +1,30 @@
 import React from 'react';
 
+import livingRoomVid from '../assets/livingroom.webm';
+import bathroomVid from '../assets/bathroom.webm';
+import bedroomVid from '../assets/bedroom.webm';
+import kitchenVid from '../assets/kitchen.webm';
+
 const spacesData = [
   {
     id: 1,
     title: 'Salon',
-    video: '/livingroom.webm'
+    video: livingRoomVid
   },
   {
     id: 2,
     title: 'Mutfak',
-    video: '/kitchen.webm'
+    video: kitchenVid
   },
   {
     id: 3,
     title: 'Banyo',
-    video: '/bathroom.webm'
+    video: bathroomVid
   },
   {
     id: 4,
     title: 'Yatak Odası',
-    video: '/bedroom.webm'
+    video: bedroomVid
   }
 ];
 
