@@ -4,23 +4,22 @@ const spacesData = [
   {
     id: 1,
     title: 'Salon',
-    // High-quality placeholder video URL
-    video: 'https://assets.mixkit.co/videos/preview/mixkit-set-of-plateaus-seen-from-the-sky-in-a-sunny-day-51197-large.mp4'
+    video: '/livingroom.webm'
   },
   {
     id: 2,
     title: 'Mutfak',
-    video: 'https://assets.mixkit.co/videos/preview/mixkit-tree-branches-in-the-breeze-1188-large.mp4'
+    video: '/kitchen.webm'
   },
   {
     id: 3,
     title: 'Banyo',
-    video: 'https://assets.mixkit.co/videos/preview/mixkit-waves-in-the-water-1164-large.mp4'
+    video: '/bathroom.webm'
   },
   {
     id: 4,
-    title: 'Tüm Ev',
-    video: 'https://assets.mixkit.co/videos/preview/mixkit-curvy-road-on-a-tree-covered-hill-41537-large.mp4'
+    title: 'Yatak Odası',
+    video: '/bedroom.webm'
   }
 ];
 
