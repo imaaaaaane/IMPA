@@ -102,7 +102,7 @@ export default function SpaceSelection() {
                     <source src={getImageUrl(step.src)} type="video/webm" />
                   </video>
                 ) : (
-                  <img loading="lazy" width="800" height="600" src={getImageUrl(step.src)} 
+                  <img loading="lazy" width="800" height="600" src={step.src === '/architectconsultatio.webp' ? step.src : getImageUrl(step.src)} 
                     alt={step.title} 
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110"
                   />
