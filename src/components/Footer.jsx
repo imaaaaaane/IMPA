@@ -86,9 +86,9 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center text-xs tracking-[0.2em] uppercase text-black/50 dark:text-white/50 font-medium transition-colors duration-500">
           <img src={originalLogo} alt="İMPA Logo" className="h-8 w-auto object-contain mb-4 md:mb-0 transition-all duration-500" />
           <div className="flex gap-8 mb-4 md:mb-0">
-            <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Instagram</a>
-            <a href="#" className="hover:text-black dark:hover:text-white transition-colors">LinkedIn</a>
-            <a href="#" className="hover:text-black dark:hover:text-white transition-colors">{t('footerCareer')}</a>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-white transition-colors">INSTAGRAM</a>
+            <a href="https://wa.me/" target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-white transition-colors">WHATSAPP</a>
+            <a href="mailto:" className="hover:text-black dark:hover:text-white transition-colors">E-POSTA</a>
           </div>
           <div>{t('footerArchitect.copyright')}</div>
         </div>
