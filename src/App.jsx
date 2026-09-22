@@ -27,6 +27,7 @@ const AdminProjects = lazy(() => import("./pages/Admin/AdminProjects"));
 const AdminProducts = lazy(() => import("./pages/Admin/AdminProducts"));
 const AdminSettings = lazy(() => import("./pages/Admin/AdminSettings"));
 const AdminEbatlama = lazy(() => import("./pages/Admin/AdminEbatlama"));
+const AdminMessages = lazy(() => import("./pages/Admin/AdminMessages"));
 
 export default function App() {
   return (
@@ -51,16 +52,17 @@ export default function App() {
 
             {/* Admin Routes - Separate Layout and Independent UI */}
             <Route path="/admin/login" element={<AdminLogin />} />
-            <Route path="/admin" element={<ProtectedRoute />}>
-              <Route element={<AdminLayout />}>
-                <Route index element={<AdminDashboard />} />
-                <Route path="projects" element={<AdminProjects />} />
-                <Route path="products" element={<AdminProducts />} />
-                <Route path="ebatlama" element={<AdminEbatlama />} />
-                <Route path="settings" element={<AdminSettings />} />
-                {/* Future routes: messages, etc. */}
-                <Route path="*" element={<AdminDashboard />} />
-              </Route>
+            <Route path="/admin" element={
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
+            }>
+              <Route index element={<AdminDashboard />} />
+              <Route path="projects" element={<AdminProjects />} />
+              <Route path="products" element={<AdminProducts />} />
+              <Route path="ebatlama" element={<AdminEbatlama />} />
+              <Route path="settings" element={<AdminSettings />} />
+              <Route path="messages" element={<AdminMessages />} />
             </Route>
           </Routes>
         </Suspense>
