@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { getImageUrl } from '../utils/image';
+import fabricVid from '../assets/hakkimizda-2.webm';
 
 export default function FaaliyetAlanlari() {
   const { t } = useTranslation();
@@ -49,7 +50,7 @@ export default function FaaliyetAlanlari() {
         {/* 1. J-Jiha d-L-Video (Media Side) */}
         <div className="relative w-full h-[400px] lg:h-[700px] rounded-[2rem] overflow-hidden shadow-2xl">
           <video
-            src="/fabric.webm"
+            src={fabricVid}
             autoPlay
             loop
             muted
