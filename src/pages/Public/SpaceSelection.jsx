@@ -6,11 +6,11 @@ import { useTranslation } from 'react-i18next';
 import { getImageUrl } from '../../utils/image';
 
 const spacesData = [
-  { id: 1, titleKey: 'livingRoom', video: '/livingroom.webm' },
-  { id: 2, titleKey: 'bathroom', video: '/bathroom.webm' },
-  { id: 3, titleKey: 'bedroom', video: '/bedroom.webm' },
-  { id: 4, titleKey: 'kitchen', video: '/kitchen.webm' },
-  { id: 5, titleKey: 'wholeHouse', video: '' }
+  { id: 1, titleKey: 'livingRoom', image: '/salon.webp' },
+  { id: 2, titleKey: 'bathroom', image: '/banyo.webp' },
+  { id: 3, titleKey: 'bedroom', image: '/yatakodasi.webp' },
+  { id: 4, titleKey: 'kitchen', image: '/mutfak.webp' },
+  { id: 5, titleKey: 'wholeHouse', image: '/tumev.webp' }
 ];
 
 const processSteps = [
@@ -54,15 +54,11 @@ export default function SpaceSelection() {
               onClick={() => navigate('/randevu', { state: { selectedSpace: t(`spaces.${space.titleKey}`) } })}
               className="relative flex-1 group cursor-pointer overflow-hidden transition-all duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)] hover:flex-[4] lg:hover:flex-[5]"
             >
-              {/* Background Video (Locked to z-0, fully contained by absolute inset-0 and object-cover) */}
-              {space.video ? (
-                <video 
-                  autoPlay 
-                  loop 
-                  muted 
-                  playsInline 
-                  preload="auto"
-                  src={space.video}
+              {/* Background Image (Locked to z-0, fully contained by absolute inset-0 and object-cover) */}
+              {space.image ? (
+                <img 
+                  src={space.image}
+                  alt={t(`spaces.${space.titleKey}`)}
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105 z-0"
                 />
               ) : (
