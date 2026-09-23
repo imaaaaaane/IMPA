@@ -7,7 +7,7 @@ export default function Footer() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   return (
-    <footer className="bg-white dark:bg-[#111111] pt-24 pb-12 px-6 md:px-12 relative overflow-hidden transition-colors duration-500">
+    <footer id="footer" className="bg-white dark:bg-[#111111] pt-24 pb-12 px-6 md:px-12 relative overflow-hidden transition-colors duration-500">
       
       <div className="max-w-[90rem] mx-auto relative z-10">
         

@@ -179,13 +179,12 @@ export default function Navbar() {
               {t('navEvents')}
             </Link>
             
-            <Link 
-              to="/#iletisim" 
-              onClick={(e) => handleSmoothScroll(e, 'iletisim')}
-              className="hover:text-blue-600 dark:hover:text-amber-500 transition-colors"
+            <button 
+              onClick={(e) => { e.preventDefault(); const footer = document.getElementById('footer'); if(footer) { footer.scrollIntoView({ behavior: 'smooth' }); } }}
+              className="hover:text-blue-600 dark:hover:text-amber-500 transition-colors uppercase cursor-pointer"
             >
               {t('navContact')}
-            </Link>
+            </button>
           </div>
           <div className="flex ml-4 items-center gap-4 relative z-10">
             <ThemeToggle />
@@ -235,9 +234,9 @@ export default function Navbar() {
           <a href="/#etkinlikler" onClick={(e) => { setIsMobileMenuOpen(false); handleSmoothScroll(e, 'etkinlikler'); }} className="hover:text-amber-500 transition-colors">
             {t('navEvents')}
           </a>
-          <a href="/#iletisim" onClick={(e) => { setIsMobileMenuOpen(false); handleSmoothScroll(e, 'iletisim'); }} className="hover:text-amber-500 transition-colors">
+          <button onClick={(e) => { e.preventDefault(); setIsMobileMenuOpen(false); const footer = document.getElementById('footer'); if(footer) { footer.scrollIntoView({ behavior: 'smooth' }); } }} className="hover:text-amber-500 transition-colors uppercase text-left cursor-pointer">
             {t('navContact')}
-          </a>
+          </button>
         </div>
       </div>
     </nav>
