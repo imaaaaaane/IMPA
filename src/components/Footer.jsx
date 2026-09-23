@@ -88,8 +88,8 @@ export default function Footer() {
           </Link>
           <div className="flex gap-8 mb-4 md:mb-0">
             <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-white transition-colors">INSTAGRAM</a>
-            <a href="https://wa.me/" target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-white transition-colors">WHATSAPP</a>
-            <a href="mailto:" className="hover:text-black dark:hover:text-white transition-colors">E-POSTA</a>
+            <a href="https://wa.me/905015397572" target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-white transition-colors">WHATSAPP</a>
+            <a href="mailto:impaormanurunleri@gmail.com" className="hover:text-black dark:hover:text-white transition-colors">E-POSTA</a>
           </div>
           <div>{t('footerArchitect.copyright')}</div>
         </div>
