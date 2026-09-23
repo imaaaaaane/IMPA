@@ -54,19 +54,15 @@ export default function SpaceSelection() {
               onClick={() => navigate('/randevu', { state: { selectedSpace: t(`spaces.${space.titleKey}`) } })}
               className="relative flex-1 group cursor-pointer overflow-hidden transition-all duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)] hover:flex-[4] lg:hover:flex-[5]"
             >
-              {/* Background Image (Locked to z-0, fully contained by absolute inset-0 and object-cover) */}
-              {space.image ? (
-                <img 
-                  src={space.image}
-                  alt={t(`spaces.${space.titleKey}`)}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105 z-0"
-                />
-              ) : (
-                <div className="absolute inset-0 w-full h-full bg-stone-800 transition-transform duration-[1.5s] ease-out group-hover:scale-105 z-0" />
-              )}
+              {/* Background Image */}
+              <img 
+                src={space.image}
+                alt={t(`spaces.${space.titleKey}`)}
+                className="absolute inset-0 block w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105 z-0"
+              />
               
-              {/* Warm Overlay (Safely stacked on top of video at z-10) */}
-              <div className="absolute inset-0 bg-stone-900/40 dark:bg-stone-900/60 transition-colors duration-[800ms] ease-in-out group-hover:bg-stone-900/10 dark:group-hover:bg-stone-900/20 z-10"></div>
+              {/* Gradient Overlay for Text Readability (Replaced opaque gray overlay) */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-80 group-hover:opacity-40 transition-opacity duration-[800ms] ease-in-out z-10"></div>
               
               {/* Vertical Text (Safely stacked on top of everything at z-20) */}
               <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
