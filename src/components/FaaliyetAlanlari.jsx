@@ -49,7 +49,7 @@ export default function FaaliyetAlanlari() {
         {/* 1. J-Jiha d-L-Video (Media Side) */}
         <div className="relative w-full h-[400px] lg:h-[700px] rounded-[2rem] overflow-hidden shadow-2xl">
           <video
-            src="/fabric.webm"
+            src="/fabric.mp4"
             autoPlay
             loop
             muted
