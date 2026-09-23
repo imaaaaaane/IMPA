@@ -41,6 +41,22 @@ export default function AdminMessages() {
     }
   };
 
+  const markAsRead = async (id, currentStatus) => {
+    try {
+      const { error } = await supabase
+        .from('messages')
+        .update({ is_read: !currentStatus })
+        .eq('id', id);
+        
+      if (error) throw error;
+      
+      setMessages(messages.map(m => m.id === id ? { ...m, is_read: !currentStatus } : m));
+    } catch (error) {
+      console.error('Error updating message:', error.message);
+      alert('Güncelleme işlemi başarısız: ' + error.message);
+    }
+  };
+
   const deleteMessage = async (id) => {
     if (!window.confirm('Bu mesajı silmek istediğinize emin misiniz?')) return;
     
@@ -85,35 +101,45 @@ export default function AdminMessages() {
               <div key={message.id} className="bg-gray-50 rounded-xl p-6 border border-gray-100 shadow-sm relative group">
                 <div className="flex justify-between items-start mb-4">
                   <div>
-                    <h3 className="font-semibold text-gray-900">{message.name || message.isim_soyisim}</h3>
+                    <h3 className="font-semibold text-gray-900 flex items-center gap-2">
+                      {message.name}
+                      {!message.is_read && <span className="w-2 h-2 rounded-full bg-amber-500" title="Okunmadı"></span>}
+                    </h3>
                     <p className="text-sm text-gray-500 mt-1 flex items-center gap-2">
-                      <span>📞 {message.phone || message.telefon}</span>
-                      {message.email && <span>| ✉️ {message.email}</span>}
+                      <span>📞/✉️ {message.contact_info}</span>
                     </p>
                   </div>
                   <div className="flex flex-col items-end gap-2">
                     <span className="text-xs font-medium text-gray-400 bg-white px-2 py-1 rounded shadow-sm border border-gray-100">
                       {formatDate(message.created_at)}
                     </span>
-                    <button 
-                      onClick={() => deleteMessage(message.id)}
-                      className="text-xs text-red-500 hover:text-red-700 opacity-0 group-hover:opacity-100 transition-opacity underline"
-                    >
-                      Sil
-                    </button>
+                    <div className="flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity mt-2">
+                      <button 
+                        onClick={() => markAsRead(message.id, message.is_read)}
+                        className="text-xs text-blue-500 hover:text-blue-700 underline"
+                      >
+                        {message.is_read ? 'Okunmadı İşaretle' : 'Okundu İşaretle'}
+                      </button>
+                      <button 
+                        onClick={() => deleteMessage(message.id)}
+                        className="text-xs text-red-500 hover:text-red-700 underline"
+                      >
+                        Sil
+                      </button>
+                    </div>
                   </div>
                 </div>
                 
-                {message.konu && (
+                {message.area_of_interest && (
                   <div className="mb-2">
                     <span className="text-xs font-semibold uppercase tracking-wider text-[#7A1D2D] bg-[#7A1D2D]/10 px-2 py-1 rounded">
-                      {message.konu}
+                      İlgi Alanı: {message.area_of_interest}
                     </span>
                   </div>
                 )}
                 
                 <div className="bg-white p-4 rounded-lg border border-gray-100 text-sm text-gray-700 mt-3 whitespace-pre-wrap">
-                  {message.message || message.mesaj}
+                  {message.message}
                 </div>
               </div>
             ))}

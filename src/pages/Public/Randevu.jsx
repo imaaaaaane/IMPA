@@ -28,8 +28,8 @@ export default function Randevu() {
       const { error } = await supabase.from('messages').insert([
         {
           name: formData.name,
-          phone: formData.contact, // Since it's a general contact field, saving to phone
-          konu: `Randevu Talebi: ${formData.space || 'Genel'}`,
+          contact_info: formData.contact,
+          area_of_interest: formData.space || 'Genel',
           message: `${formData.name} isimli kullanıcıdan ${formData.space || 'Genel'} için randevu talebi. İletişim bilgisi: ${formData.contact}`
         }
       ]);
