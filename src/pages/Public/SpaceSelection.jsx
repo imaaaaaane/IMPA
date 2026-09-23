@@ -18,22 +18,19 @@ const processSteps = [
     id: 1,
     number: '01.',
     keyPrefix: 'step1',
-    type: 'image',
     src: '/architectconsultatio.webp'
   },
   {
     id: 2,
     number: '02.',
     keyPrefix: 'step2',
-    type: 'video',
-    src: '/architectplan.webm'
+    src: '/proje2.webp'
   },
   {
     id: 3,
     number: '03.',
     keyPrefix: 'step3',
-    type: 'video',
-    src: '/architectwork.webm'
+    src: '/proje3.webp'
   }
 ];
 export default function SpaceSelection() {
@@ -89,18 +86,10 @@ export default function SpaceSelection() {
           {processSteps.map((step) => (
             <div key={step.id} className="group cursor-pointer">
               <div className="relative aspect-square md:aspect-[4/5] rounded-2xl overflow-hidden mb-8 shadow-md">
-                {step.type === 'video' ? (
-                  <video 
-                    autoPlay loop muted playsInline preload="auto"
-                    src={step.src}
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110"
-                  />
-                ) : (
-                  <img loading="lazy" width="800" height="600" src={step.src === '/architectconsultatio.webp' ? step.src : getImageUrl(step.src)} 
-                    alt={step.title} 
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110"
-                  />
-                )}
+                <img loading="lazy" width="800" height="600" src={step.src} 
+                  alt={t(`spaces.${step.keyPrefix}Title`)} 
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110"
+                />
               </div>
               <div className="flex gap-4 items-start">
                 <span className="text-2xl md:text-3xl font-serif text-gray-300 group-hover:text-amber-600 transition-colors duration-500">
