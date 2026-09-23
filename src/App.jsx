@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SmoothScroll from "./components/SmoothScroll";
 import Loader from "./components/Loader";
 import ScrollToTop from "./components/ScrollToTop";
+import { MessageCircle } from "lucide-react";
 
 // Public Pages & Layout
 import PublicLayout from "./layouts/PublicLayout";
@@ -11,8 +12,8 @@ const SpaceSelection = lazy(() => import("./pages/Public/SpaceSelection"));
 const Randevu = lazy(() => import("./pages/Public/Randevu"));
 const About = lazy(() => import("./pages/About"));
 const ProductDetails = lazy(() => import("./pages/Public/ProductDetails"));
+import EbatlamaForm from "./pages/Public/EbatlamaForm";
 const ProjectDetails = lazy(() => import("./pages/Public/ProjectDetails"));
-const EbatlamaForm = lazy(() => import("./pages/Public/EbatlamaForm"));
 const OrderForm = lazy(() => import("./pages/Public/OrderForm"));
 const UrunlerPage = lazy(() => import("./pages/Public/UrunlerPage"));
 
@@ -67,6 +68,19 @@ export default function App() {
           </Routes>
         </Suspense>
       </SmoothScroll>
+
+      {/* Floating WhatsApp Button */}
+      <a 
+        href="https://wa.me/905015397572" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="fixed bottom-8 right-8 bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform z-50 flex items-center justify-center cursor-pointer"
+        aria-label="WhatsApp İletişim"
+      >
+        <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+        </svg>
+      </a>
     </BrowserRouter>
   );
 }
