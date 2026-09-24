@@ -4,7 +4,7 @@ import { initReactI18next } from 'react-i18next';
 const resources = {
   tr: {
     translation: {
-      activities: { raw: { title: "HAMMADDE & ORMAN ÜRÜNLERİ", desc: "Doğanın en saf halini, sürdürülebilir yöntemlerle işliyoruz." }, mdf: { title: "ENDÜSTRİYEL MDF ÜRETİMİ", desc: "Dayanıklılık ve estetiği birleştiren yüksek kapasiteli üretim." }, modular: { title: "MODÜLER MOBİLYA ÇÖZÜMLERİ", desc: "Modern yaşam alanları için esnek ve şık tasarımlar." }, surface: { title: "LAKE VE YÜZEY TEKNOLOJİLERİ", desc: "Kusursuz dokunuşlar ve pürüzsüz yüzey bitişleri." } },
+      activities: { raw: { title: "HAMMADDE & ORMAN ÜRÜNLERİ", desc: "Doğanın en saf halini, sürdürülebilir yöntemlerle işliyoruz." }, mdf: { title: "LAKE KAPI & KAPAK ÜRETİMİ", desc: "Yüksek kalite standartlarında, estetik ve dayanıklı özel tasarım lake kapı ve mobilya kapakları üretiyoruz." }, modular: { title: "MODÜLER MOBİLYA ÇÖZÜMLERİ", desc: "Modern yaşam alanları için esnek ve şık tasarımlar." }, surface: { title: "LAKE VE YÜZEY TEKNOLOJİLERİ", desc: "Kusursuz dokunuşlar ve pürüzsüz yüzey bitişleri." } },
       coreExpertise: { subtitle: "ÜRETİM MÜKEMMELİYETİ", title: "İMPA UZMANLIĞI", btnDetails: "Detaylı Bilgi", moduler: { title: "İMPA MODÜLER", subtitle: "Güç ve Hassasiyet", desc: "Fabrika tabanlı hassas üretim gücümüzle, toplu konut ve kamu projelerinizde sınırsız konfigürasyonlar sunan modüler sistemler geliştiriyoruz. Mimari vizyonunuzu, endüstriyel kalitede gerçeğe dönüştürüyoruz.", feature1: "Toplu Konut & Proje Ölçekli Üretim", feature2: "Fabrika Tabanlı Hassas Üretim", feature3: "Sınırsız Modüler Sistemler", feature4: "Estetik, Fonksiyonel & Dayanıklı Çözümler" }, surface: { title: "İMPA SURFACE", subtitle: "Yüzeyde Mükemmeliyet", desc: "Son teknoloji üretim hatlarımızla, kusursuz yüzey kalitesine sahip lake kapı ve kapak uzmanlığımızı Türkiye'nin dört bir yanına taşıyoruz. Yüzeyde mükemmeliyet, üretimde sarsılmaz güven.", feature1: "Kusursuz Yüzey Kalitesi", feature2: "Lake Kapı & Kapak Uzmanlığı", feature3: "Uzun Ömürlü Kullanım & Dayanıklılık", feature4: "Estetik & Modern Tasarımlar" } },
       collection: { subtitle: "Koleksiyon", title: "Sizin İçin Seçtiklerimiz" },
       navbarMega: { products: "ÜRÜNLER", seating: { title: "Oturma Grupları", sofas: "Kanepeler & Koltuklar", lSofas: "L Koltuklar", armchairs: "Berjerler", tables: "Orta & Yan Sehpalar" }, dining: { title: "Yemek Odası", tables: "Yemek Masaları", chairs: "Sandalyeler", sideboards: "Konsol & Büfeler" }, bedroom: { title: "Yatak Odası", beds: "Karyola & Yataklar", wardrobes: "Gardıroplar", nightstands: "Komodinler" }, promo1: { badge: "İNDİR", title: "İMPA Katalog '26" }, promo2: { badge: "KEŞFET", title: "Yeni Koleksiyon" } },
@@ -38,8 +38,8 @@ const resources = {
       activitiesTitle: "Faaliyet Alanlarımız",
       item1Title: "HAMMADDE & ORMAN ÜRÜNLERİ",
       item1Desc: "Doğanın en saf halini, sürdürülebilir yöntemlerle işliyoruz.",
-      item2Title: "ENDÜSTRİYEL MDF ÜRETİMİ",
-      item2Desc: "Dayanıklılık ve estetiği birleştiren yüksek kapasiteli üretim.",
+      item2Title: "LAKE KAPI & KAPAK ÜRETİMİ",
+      item2Desc: "Yüksek kalite standartlarında, estetik ve dayanıklı özel tasarım lake kapı ve mobilya kapakları üretiyoruz.",
       item3Title: "MODÜLER MOBİLYA ÇÖZÜMLERİ",
       item3Desc: "Modern yaşam alanları için esnek, şık ve kalıcı tasarımlar.",
       item4Title: "LAKE KAPI & YÜZEY TEKNOLOJİLERİ",
