@@ -10,7 +10,8 @@ export default function Randevu() {
   
   const [formData, setFormData] = useState({
     name: '',
-    contact: '',
+    email: '',
+    phone: '',
     space: selectedSpace
   });
   const [status, setStatus] = useState('idle'); // idle, loading, success, error
@@ -21,23 +22,23 @@ export default function Randevu() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.contact) return;
+    if (!formData.name || !formData.email || !formData.phone) return;
     
     setStatus('loading');
     try {
       const { error } = await supabase.from('messages').insert([
         {
           name: formData.name,
-          contact_info: formData.contact,
+          contact_info: `Email: ${formData.email} | Tel: ${formData.phone}`,
           area_of_interest: formData.space || 'Genel',
-          message: `${formData.name} isimli kullanıcıdan ${formData.space || 'Genel'} için randevu talebi. İletişim bilgisi: ${formData.contact}`
+          message: `${formData.name} isimli kullanıcıdan ${formData.space || 'Genel'} için randevu talebi. Email: ${formData.email}, Tel: ${formData.phone}`
         }
       ]);
       
       if (error) throw error;
       
       setStatus('success');
-      setFormData({ name: '', contact: '', space: '' });
+      setFormData({ name: '', email: '', phone: '', space: '' });
       setTimeout(() => setStatus('idle'), 5000);
     } catch (error) {
       console.error('Error submitting form:', error.message);
@@ -87,19 +88,37 @@ export default function Randevu() {
 
           <div className="relative">
             <input 
-              type="text" 
-              id="contact"
+              type="email" 
+              id="email"
               required
-              value={formData.contact}
+              value={formData.email}
               onChange={handleChange}
               className="block w-full bg-transparent border-b border-gray-300 py-2 text-[#1A1A1C] focus:outline-none focus:border-[#1A1A1C] transition-colors peer placeholder-transparent"
-              placeholder={t('randevu.contact')}
+              placeholder="E-Posta"
             />
             <label 
-              htmlFor="contact"
+              htmlFor="email"
               className="absolute left-0 -top-5 text-xs text-gray-500 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-2 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-[#1A1A1C]"
             >
-              {t('randevu.contact')}
+              E-Posta
+            </label>
+          </div>
+
+          <div className="relative">
+            <input 
+              type="tel" 
+              id="phone"
+              required
+              value={formData.phone}
+              onChange={handleChange}
+              className="block w-full bg-transparent border-b border-gray-300 py-2 text-[#1A1A1C] focus:outline-none focus:border-[#1A1A1C] transition-colors peer placeholder-transparent"
+              placeholder="Telefon Numarası"
+            />
+            <label 
+              htmlFor="phone"
+              className="absolute left-0 -top-5 text-xs text-gray-500 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-2 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-[#1A1A1C]"
+            >
+              Telefon Numarası
             </label>
           </div>
 
