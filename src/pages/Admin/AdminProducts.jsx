@@ -9,6 +9,11 @@ export default function AdminProducts() {
   const [modalMode, setModalMode] = useState('add'); // 'add' | 'edit'
   const [currentProduct, setCurrentProduct] = useState({ name: '', description: '', dimensions: '', material: '', category_slug: '', image: null });
 
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+  const [newCategoryName, setNewCategoryName] = useState('');
+  const [newSubCategoryName, setNewSubCategoryName] = useState('');
+  const [isSubmittingCategory, setIsSubmittingCategory] = useState(false);
+
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -130,6 +135,43 @@ export default function AdminProducts() {
     }
   };
 
+  const handleCategorySubmit = async (e) => {
+    e.preventDefault();
+    if (!newCategoryName) return;
+    setIsSubmittingCategory(true);
+    try {
+      const mainName = newCategoryName.trim();
+      const subName = newSubCategoryName.trim() || mainName;
+      const slug = subName.toLowerCase().replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's').replace(/ı/g, 'i').replace(/ö/g, 'o').replace(/ç/g, 'c').replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+      
+      // Check if main category already exists
+      const existingMain = categories.find(c => c.name.toLowerCase() === mainName.toLowerCase());
+      
+      if (existingMain) {
+        // Append to existing sub_categories
+        const updatedSubCategories = [...(existingMain.sub_categories || []), { name: subName, slug }];
+        const { error } = await supabase.from('categories').update({ sub_categories: updatedSubCategories }).eq('id', existingMain.id);
+        if (error) throw error;
+      } else {
+        // Insert new category
+        const { error } = await supabase.from('categories').insert([{
+          name: mainName,
+          sub_categories: [{ name: subName, slug }]
+        }]);
+        if (error) throw error;
+      }
+      
+      await fetchCategories();
+      setIsCategoryModalOpen(false);
+      setNewCategoryName('');
+      setNewSubCategoryName('');
+    } catch (err) {
+      alert('Kategori eklenirken hata oluştu: ' + err.message);
+    } finally {
+      setIsSubmittingCategory(false);
+    }
+  };
+
   const handleDelete = async (id) => {
     if (!window.confirm('Bu ürünü silmek istediğinize emin misiniz?')) return;
     
@@ -169,16 +211,24 @@ export default function AdminProducts() {
           <p className="text-sm text-gray-500 mt-1">Tüm mobilya ve panel ürünlerini buradan yönetin.</p>
         </div>
         
-        <div className="flex items-center gap-4 w-full sm:w-auto">
+        <div className="flex items-center gap-3 w-full sm:w-auto">
           {/* Minimalist Search Bar */}
           <div className="relative hidden md:block">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
             <input 
               type="text" 
               placeholder="Ürün ara..." 
-              className="pl-9 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-black focus:border-black transition-all w-64 text-gray-900 placeholder-gray-400"
+              className="pl-9 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-black focus:border-black transition-all w-48 lg:w-64 text-gray-900 placeholder-gray-400"
             />
           </div>
+
+          <button 
+            onClick={() => setIsCategoryModalOpen(true)}
+            className="flex items-center justify-center gap-2 bg-white text-gray-700 border border-gray-200 px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-gray-50 transition-all shadow-sm hover:scale-[1.02] active:scale-95 w-full sm:w-auto"
+          >
+            <Plus size={16} />
+            Yeni Kategori Ekle
+          </button>
 
           <button 
             onClick={openAddModal}
@@ -431,6 +481,80 @@ export default function AdminProducts() {
                 >
                   {isSubmitting && <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin"></div>}
                   {isSubmitting ? 'Kaydediliyor...' : 'Kaydet'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Category Add Modal */}
+      {isCategoryModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
+          <div 
+            className="absolute inset-0 bg-black/20 backdrop-blur-[2px] transition-opacity" 
+            onClick={() => setIsCategoryModalOpen(false)}
+          ></div>
+          
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm overflow-hidden relative z-10 border border-gray-100 animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex justify-between items-center px-6 py-5 border-b border-gray-100">
+              <h3 className="text-lg font-semibold text-gray-900 tracking-tight">Yeni Kategori Ekle</h3>
+              <button 
+                onClick={() => setIsCategoryModalOpen(false)}
+                disabled={isSubmittingCategory}
+                className="p-1.5 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors disabled:opacity-50"
+              >
+                <X size={18} strokeWidth={2} />
+              </button>
+            </div>
+
+            <form onSubmit={handleCategorySubmit} className="p-6 space-y-5">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                  Ana Kategori Adı
+                </label>
+                <input 
+                  type="text" 
+                  value={newCategoryName}
+                  onChange={(e) => setNewCategoryName(e.target.value)}
+                  required
+                  disabled={isSubmittingCategory}
+                  className="w-full px-4 py-2 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-black focus:border-black text-gray-900 text-sm transition-colors disabled:opacity-50 disabled:bg-gray-50"
+                  placeholder="Örn: OFİS"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                  Alt Kategori Adı (Opsiyonel)
+                </label>
+                <input 
+                  type="text" 
+                  value={newSubCategoryName}
+                  onChange={(e) => setNewSubCategoryName(e.target.value)}
+                  disabled={isSubmittingCategory}
+                  className="w-full px-4 py-2 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-black focus:border-black text-gray-900 text-sm transition-colors disabled:opacity-50 disabled:bg-gray-50"
+                  placeholder="Örn: Makam Takımları"
+                />
+                <p className="text-xs text-gray-500 mt-1">Boş bırakılırsa ana kategori adıyla aynı olur.</p>
+              </div>
+
+              <div className="pt-2 flex justify-end gap-3 mt-6">
+                <button 
+                  type="button"
+                  onClick={() => setIsCategoryModalOpen(false)}
+                  disabled={isSubmittingCategory}
+                  className="px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors disabled:opacity-50"
+                >
+                  İptal
+                </button>
+                <button 
+                  type="submit"
+                  disabled={isSubmittingCategory || !newCategoryName.trim()}
+                  className="flex items-center gap-2 px-5 py-2 bg-black text-white rounded-lg text-sm font-medium hover:bg-gray-900 transition-all shadow-sm hover:scale-[1.02] active:scale-95 disabled:opacity-70 disabled:hover:scale-100"
+                >
+                  {isSubmittingCategory && <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin"></div>}
+                  {isSubmittingCategory ? 'Kaydediliyor...' : 'Kaydet'}
                 </button>
               </div>
             </form>

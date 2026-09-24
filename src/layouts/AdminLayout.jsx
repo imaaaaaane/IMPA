@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, Outlet, useNavigate, Link } from 'react-router-dom';
-import { LayoutDashboard, FolderKanban, Package, Tags, Mail, Scissors, Settings, LogOut } from 'lucide-react';
+import { LayoutDashboard, FolderKanban, Package, Mail, Scissors, Settings, LogOut } from 'lucide-react';
 import { supabase } from '../utils/supabase';
 
 export default function AdminLayout() {
@@ -77,24 +77,6 @@ export default function AdminLayout() {
               <>
                 <Package size={16} strokeWidth={isActive ? 2.5 : 2} />
                 Ürünler
-              </>
-            )}
-          </NavLink>
-
-          <NavLink
-            to="/admin/categories"
-            className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
-                isActive 
-                  ? 'bg-[#7A1D2D] text-white shadow-sm' 
-                  : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'
-              }`
-            }
-          >
-            {({ isActive }) => (
-              <>
-                <Tags size={16} strokeWidth={isActive ? 2.5 : 2} />
-                Kategoriler
               </>
             )}
           </NavLink>
