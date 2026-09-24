@@ -29,6 +29,7 @@ const AdminProducts = lazy(() => import("./pages/Admin/AdminProducts"));
 const AdminSettings = lazy(() => import("./pages/Admin/AdminSettings"));
 const AdminEbatlama = lazy(() => import("./pages/Admin/AdminEbatlama"));
 const AdminMessages = lazy(() => import("./pages/Admin/AdminMessages"));
+const AdminCategories = lazy(() => import("./pages/Admin/AdminCategories"));
 
 export default function App() {
   return (
@@ -64,6 +65,7 @@ export default function App() {
               <Route path="ebatlama" element={<AdminEbatlama />} />
               <Route path="settings" element={<AdminSettings />} />
               <Route path="messages" element={<AdminMessages />} />
+              <Route path="categories" element={<AdminCategories />} />
             </Route>
           </Routes>
         </Suspense>

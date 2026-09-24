@@ -10,13 +10,27 @@ export default function AdminProducts() {
   const [currentProduct, setCurrentProduct] = useState({ name: '', description: '', dimensions: '', material: '', category_slug: '', image: null });
 
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     fetchProducts();
+    fetchCategories();
   }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('categories')
+        .select('*');
+      if (error) throw error;
+      if (data) setCategories(data);
+    } catch (error) {
+      console.error('Error fetching categories:', error.message);
+    }
+  };
 
   const fetchProducts = async () => {
     try {
@@ -323,10 +337,13 @@ export default function AdminProducts() {
                   className="w-full px-4 py-2 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-black focus:border-black text-gray-900 text-sm transition-colors disabled:opacity-50 disabled:bg-gray-50 appearance-none"
                 >
                   <option value="">Seçiniz...</option>
-                  <option value="makam-takimlari">Makam Takımları</option>
-                  <option value="toplanti-masalari">Toplantı Masaları</option>
-                  <option value="depolama-dolaplar">Depolama & Dolaplar</option>
-                  <option value="tv-uniteleri-konsol">TV Üniteleri & Konsol</option>
+                  {categories.map(cat => 
+                    cat.sub_categories?.map(sub => (
+                      <option key={sub.slug} value={sub.slug}>
+                        {cat.name} {'>'} {sub.name}
+                      </option>
+                    ))
+                  )}
                 </select>
               </div>
 

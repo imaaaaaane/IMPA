@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Menu, X } from 'lucide-react';
 import LanguageSwitcher from './LanguageSwitcher';
 import ThemeToggle from './ThemeToggle';
+import { supabase } from '../utils/supabase';
 
 export default function Navbar() {
   const { t } = useTranslation();
@@ -11,8 +12,18 @@ export default function Navbar() {
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const { data, error } = await supabase.from('categories').select('*').order('created_at', { ascending: true });
+        if (!error && data) setCategories(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchCategories();
     const handleScroll = () => {
       setIsScrolled((prev) => {
         const next = window.scrollY > 50;
@@ -82,29 +93,28 @@ export default function Navbar() {
                   
                   {/* Left Side: 60% */}
                   <div className="w-[60%] grid grid-cols-3 gap-12">
-                    {/* Col 1 */}
-                    <div className="space-y-6 text-[#1A1A1C] dark:text-white">
-                      <h4 className="font-semibold tracking-[0.2em] mb-6">OFİS</h4>
-                      <ul className="space-y-4 font-light text-gray-500 dark:text-stone-400 normal-case tracking-normal text-[13px]">
-                        <li><Link to="/urunler/makam-takimlari" className="hover:text-black dark:hover:text-white transition-colors block">Makam Takımları</Link></li>
-                        <li><Link to="/urunler/toplanti-masalari" className="hover:text-black dark:hover:text-white transition-colors block">Toplantı Masaları</Link></li>
-                      </ul>
-                    </div>
-                    {/* Col 2 */}
-                    <div className="space-y-6 text-[#1A1A1C] dark:text-white">
-                      <h4 className="font-semibold tracking-[0.2em] mb-6">EV & DEPOLAMA</h4>
-                      <ul className="space-y-4 font-light text-gray-500 dark:text-stone-400 normal-case tracking-normal text-[13px]">
-                        <li><Link to="/urunler/depolama-dolaplar" className="hover:text-black dark:hover:text-white transition-colors block">Depolama & Dolaplar</Link></li>
-                        <li><Link to="/urunler/tv-uniteleri-konsol" className="hover:text-black dark:hover:text-white transition-colors block">TV Üniteleri & Konsol</Link></li>
-                      </ul>
-                    </div>
-                    {/* Col 3 */}
-                    <div className="space-y-6 text-[#1A1A1C] dark:text-white">
-                      <h4 className="font-semibold tracking-[0.2em] mb-6">DİĞER</h4>
-                      <ul className="space-y-4 font-light text-gray-500 dark:text-stone-400 normal-case tracking-normal text-[13px]">
-                        <li><Link to="/urunler" className="hover:text-black dark:hover:text-white transition-colors block">Tüm Ürünler</Link></li>
-                      </ul>
-                    </div>
+                    {categories.slice(0, 3).map((cat) => (
+                      <div key={cat.id} className="space-y-6 text-[#1A1A1C] dark:text-white">
+                        <h4 className="font-semibold tracking-[0.2em] mb-6 uppercase">{cat.name}</h4>
+                        <ul className="space-y-4 font-light text-gray-500 dark:text-stone-400 normal-case tracking-normal text-[13px]">
+                          {cat.sub_categories?.map(sub => (
+                            <li key={sub.slug}>
+                              <Link to={`/urunler/${sub.slug}`} className="hover:text-black dark:hover:text-white transition-colors block" onClick={() => setIsMegaMenuOpen(false)}>
+                                {sub.name}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                    {categories.length < 3 && (
+                      <div className="space-y-6 text-[#1A1A1C] dark:text-white">
+                        <h4 className="font-semibold tracking-[0.2em] mb-6">DİĞER</h4>
+                        <ul className="space-y-4 font-light text-gray-500 dark:text-stone-400 normal-case tracking-normal text-[13px]">
+                          <li><Link to="/urunler" className="hover:text-black dark:hover:text-white transition-colors block" onClick={() => setIsMegaMenuOpen(false)}>Tüm Ürünler</Link></li>
+                        </ul>
+                      </div>
+                    )}
                   </div>
 
                   {/* Right Side: 40% */}
