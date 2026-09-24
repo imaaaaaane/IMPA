@@ -190,7 +190,7 @@ export default function Navbar() {
             </Link>
             
             <button 
-              onClick={(e) => { e.preventDefault(); const footer = document.getElementById('footer'); if(footer) { footer.scrollIntoView({ behavior: 'smooth' }); } }}
+              onClick={(e) => { e.preventDefault(); window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); }}
               className="hover:text-blue-600 dark:hover:text-amber-500 transition-colors uppercase cursor-pointer"
             >
               {t('navContact')}
@@ -244,7 +244,7 @@ export default function Navbar() {
           <a href="/#etkinlikler" onClick={(e) => { setIsMobileMenuOpen(false); handleSmoothScroll(e, 'etkinlikler'); }} className="hover:text-amber-500 transition-colors">
             {t('navEvents')}
           </a>
-          <button onClick={(e) => { e.preventDefault(); setIsMobileMenuOpen(false); const footer = document.getElementById('footer'); if(footer) { footer.scrollIntoView({ behavior: 'smooth' }); } }} className="hover:text-amber-500 transition-colors uppercase text-left cursor-pointer">
+          <button onClick={(e) => { e.preventDefault(); setIsMobileMenuOpen(false); window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); }} className="hover:text-amber-500 transition-colors uppercase text-left cursor-pointer">
             {t('navContact')}
           </button>
         </div>

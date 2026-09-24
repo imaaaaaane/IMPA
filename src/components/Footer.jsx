@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, Link } from 'react-router-dom';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Instagram, MessageCircle, Mail } from 'lucide-react';
 
 export default function Footer() {
   const { t } = useTranslation();
@@ -83,13 +83,19 @@ export default function Footer() {
 
         {/* Footer Bottom */}
         <div className="flex flex-col md:flex-row justify-between items-center text-xs tracking-[0.2em] uppercase text-black/50 dark:text-white/50 font-medium transition-colors duration-500">
-          <Link to="/">
-            <img src="/IMPA_LOGO-removebg-preview.png" alt="İMPA Logo" className="h-8 w-auto object-contain mb-4 md:mb-0 transition-all duration-500" />
+          <Link to="/" className="block">
+            <img src="/IMPA_LOGO-removebg-preview.png" alt="İMPA Logo" className="w-40 sm:w-48 h-auto object-contain mb-4 md:mb-0 transition-all duration-500" />
           </Link>
           <div className="flex gap-8 mb-4 md:mb-0">
-            <a href="https://www.instagram.com/impamobilya?stkn=bTV4M2ZjeWp5bmRz&utm_source=qr" target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-white transition-colors">INSTAGRAM</a>
-            <a href="https://wa.me/905015397572" target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-white transition-colors">WHATSAPP</a>
-            <a href="mailto:impaormanurunleri@gmail.com" className="hover:text-black dark:hover:text-white transition-colors">E-POSTA</a>
+            <a href="https://www.instagram.com/impamobilya?stkn=bTV4M2ZjeWp5bmRz&utm_source=qr" target="_blank" rel="noopener noreferrer" className="hover:scale-110 hover:text-gray-500 dark:hover:text-gray-400 transition-all" aria-label="Instagram">
+              <Instagram size={24} strokeWidth={1.5} />
+            </a>
+            <a href="https://wa.me/905015397572" target="_blank" rel="noopener noreferrer" className="hover:scale-110 hover:text-gray-500 dark:hover:text-gray-400 transition-all" aria-label="WhatsApp">
+              <MessageCircle size={24} strokeWidth={1.5} />
+            </a>
+            <a href="mailto:impaormanurunleri@gmail.com" className="hover:scale-110 hover:text-gray-500 dark:hover:text-gray-400 transition-all" aria-label="Email">
+              <Mail size={24} strokeWidth={1.5} />
+            </a>
           </div>
           <div>{t('footerArchitect.copyright')}</div>
         </div>
