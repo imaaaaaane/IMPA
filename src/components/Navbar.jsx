@@ -56,11 +56,11 @@ export default function Navbar() {
           : 'bg-transparent text-white'
       }`}
     >
-      <Link to="/" className="relative z-10 block">
+      <Link to="/" className="relative z-10 block flex items-center h-full">
         <img 
           src="/IMPA_LOGO-removebg-preview.png" 
           alt="İMPA Logo" 
-          className="w-48 sm:w-56 md:w-64 h-auto object-contain cursor-pointer transition-all duration-300"
+          className="w-32 md:w-40 h-auto object-contain cursor-pointer transition-all duration-300"
         />
       </Link>
 
