@@ -87,7 +87,7 @@ export default function Footer() {
             <img src="/IMPA_LOGO-removebg-preview.png" alt="İMPA Logo" className="h-8 w-auto object-contain mb-4 md:mb-0 transition-all duration-500" />
           </Link>
           <div className="flex gap-8 mb-4 md:mb-0">
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-white transition-colors">INSTAGRAM</a>
+            <a href="https://www.instagram.com/impamobilya?stkn=bTV4M2ZjeWp5bmRz&utm_source=qr" target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-white transition-colors">INSTAGRAM</a>
             <a href="https://wa.me/905015397572" target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-white transition-colors">WHATSAPP</a>
             <a href="mailto:impaormanurunleri@gmail.com" className="hover:text-black dark:hover:text-white transition-colors">E-POSTA</a>
           </div>
