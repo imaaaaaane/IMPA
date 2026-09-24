@@ -84,7 +84,7 @@ export default function Footer() {
         {/* Footer Bottom */}
         <div className="flex flex-col md:flex-row justify-between items-center text-xs tracking-[0.2em] uppercase text-black/50 dark:text-white/50 font-medium transition-colors duration-500">
           <Link to="/" className="block">
-            <img src="/IMPA_LOGO-removebg-preview.png" alt="İMPA Logo" className="w-40 sm:w-48 h-auto object-contain mb-4 md:mb-0 transition-all duration-500" />
+            <img src="/IMPA_LOGO-removebg-preview.png" alt="İMPA Logo" className="h-16 w-auto object-contain mb-4 md:mb-0 transition-all duration-500" />
           </Link>
           <div className="flex gap-8 mb-4 md:mb-0">
             <a href="https://www.instagram.com/impamobilya?stkn=bTV4M2ZjeWp5bmRz&utm_source=qr" target="_blank" rel="noopener noreferrer" className="hover:scale-110 hover:text-gray-500 dark:hover:text-gray-400 transition-all" aria-label="Instagram">

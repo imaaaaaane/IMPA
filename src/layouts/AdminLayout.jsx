@@ -20,7 +20,7 @@ export default function AdminLayout() {
         {/* Logo Section */}
         <div className="pt-8 pb-8 px-8 flex flex-col items-center justify-center">
           <Link to="/" className="block">
-            <img src="/IMPA_LOGO-removebg-preview.png" alt="IMPA Admin Logo" className="w-32 md:w-40 h-auto object-contain" />
+            <img src="/IMPA_LOGO-removebg-preview.png" alt="IMPA Admin Logo" className="h-16 w-auto object-contain" />
           </Link>
         </div>
 
