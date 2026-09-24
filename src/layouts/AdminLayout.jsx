@@ -1,8 +1,7 @@
 import React from 'react';
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate, Link } from 'react-router-dom';
 import { LayoutDashboard, FolderKanban, Package, Mail, Scissors, Settings, LogOut } from 'lucide-react';
 import { supabase } from '../utils/supabase';
-import logo from '../assets/impalogo2.webp';
 
 export default function AdminLayout() {
   const navigate = useNavigate();
@@ -20,7 +19,9 @@ export default function AdminLayout() {
         
         {/* Logo Section */}
         <div className="pt-8 pb-8 px-8 flex flex-col items-center justify-center">
-          <img src={logo} alt="IMPA Admin Logo" className="h-16 w-auto object-contain" />
+          <Link to="/">
+            <img src="/IMPA_LOGO-removebg-preview.png" alt="IMPA Admin Logo" className="h-16 w-auto object-contain" />
+          </Link>
         </div>
 
         {/* Navigation */}

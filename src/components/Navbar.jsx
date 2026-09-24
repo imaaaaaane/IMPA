@@ -47,7 +47,7 @@ export default function Navbar() {
     >
       <Link to="/" className="relative z-10">
         <img 
-          src="/impalogo2.jpg" 
+          src="/IMPA_LOGO-removebg-preview.png" 
           alt="İMPA Logo" 
           className="h-10 md:h-12 w-auto object-contain cursor-pointer transition-all duration-300"
         />
