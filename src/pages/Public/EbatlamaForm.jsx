@@ -190,8 +190,8 @@ const EbatlamaForm = () => {
             </Link>
 
             {/* Clickable Logo */}
-            <Link to="/">
-              <img src="/IMPA_LOGO-removebg-preview.png" alt="IMPA Logo" className="h-16 w-auto object-contain" />
+            <Link to="/" className="block">
+              <img src="/IMPA_LOGO-removebg-preview.png" alt="IMPA Logo" className="w-48 sm:w-56 md:w-64 h-auto object-contain mx-auto" />
             </Link>
           </div>
           

@@ -19,8 +19,8 @@ export default function AdminLayout() {
         
         {/* Logo Section */}
         <div className="pt-8 pb-8 px-8 flex flex-col items-center justify-center">
-          <Link to="/">
-            <img src="/IMPA_LOGO-removebg-preview.png" alt="IMPA Admin Logo" className="h-16 w-auto object-contain" />
+          <Link to="/" className="block">
+            <img src="/IMPA_LOGO-removebg-preview.png" alt="IMPA Admin Logo" className="w-48 sm:w-56 md:w-64 h-auto object-contain" />
           </Link>
         </div>
 
@@ -151,7 +151,7 @@ export default function AdminLayout() {
       {/* Main Content Area */}
       <main className="flex-1 ml-64 print:ml-0 min-h-screen flex flex-col items-center">
         {/* Minimal Header */}
-        <header className="w-full max-w-6xl h-20 flex items-center justify-end px-8 print:hidden">
+        <header className="w-full max-w-6xl py-4 min-h-[5rem] flex items-center justify-end px-8 print:hidden">
           <div className="flex items-center gap-3 cursor-pointer group">
             <div className="flex flex-col items-end">
               <span className="text-sm font-semibold text-gray-900 group-hover:text-black transition-colors">IMPA ADMIN</span>
