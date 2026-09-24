@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, Link } from 'react-router-dom';
-import { ArrowUpRight, Instagram, MessageCircle, Mail } from 'lucide-react';
+import { ArrowUpRight, MessageCircle, Mail } from 'lucide-react';
 
 export default function Footer() {
   const { t } = useTranslation();
@@ -88,7 +88,21 @@ export default function Footer() {
           </Link>
           <div className="flex gap-8 mb-4 md:mb-0">
             <a href="https://www.instagram.com/impamobilya?stkn=bTV4M2ZjeWp5bmRz&utm_source=qr" target="_blank" rel="noopener noreferrer" className="hover:scale-110 hover:text-gray-500 dark:hover:text-gray-400 transition-all" aria-label="Instagram">
-              <Instagram size={24} strokeWidth={1.5} />
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                width="24" 
+                height="24" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="1.5" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              >
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
             </a>
             <a href="https://wa.me/905015397572" target="_blank" rel="noopener noreferrer" className="hover:scale-110 hover:text-gray-500 dark:hover:text-gray-400 transition-all" aria-label="WhatsApp">
               <MessageCircle size={24} strokeWidth={1.5} />
