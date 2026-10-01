@@ -132,21 +132,15 @@ export default function AdminProjects() {
     }
   };
 
-  const handleGalleryOrderChange = (e, currentIndex) => {
-    let newIndex = parseInt(e.target.value) - 1;
+  const handleGalleryDragEnd = (result) => {
+    if (!result.destination) return;
     let gallery = Array.isArray(currentProject.gallery) 
       ? [...currentProject.gallery] 
       : (currentProject.gallery ? currentProject.gallery.split(',').map(s => s.trim()).filter(Boolean) : []);
       
-    if (isNaN(newIndex)) return;
-    if (newIndex < 0) newIndex = 0;
-    if (newIndex >= gallery.length) newIndex = gallery.length - 1;
-    
-    if (newIndex !== currentIndex) {
-      const [item] = gallery.splice(currentIndex, 1);
-      gallery.splice(newIndex, 0, item);
-      setCurrentProject({ ...currentProject, gallery });
-    }
+    const [item] = gallery.splice(result.source.index, 1);
+    gallery.splice(result.destination.index, 0, item);
+    setCurrentProject({ ...currentProject, gallery });
   };
 
   const handleGalleryImageDelete = (index) => {
@@ -539,66 +533,83 @@ export default function AdminProjects() {
                       : (currentProject.gallery ? currentProject.gallery.split(',').map(s => s.trim()).filter(Boolean) : []);
                     
                     return (
-                      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                        {galleryArray.map((imgUrl, index) => (
-                          <div key={index} className="relative group bg-slate-100 rounded-xl overflow-hidden border border-slate-200 flex flex-col aspect-square shadow-sm">
-                            
-                            {/* Header for Number Input & Actions */}
-                            <div className="absolute top-0 left-0 w-full p-2 bg-gradient-to-b from-black/60 to-transparent z-10 flex justify-between items-start opacity-100 transition-opacity">
-                              <input 
-                                type="number"
-                                min="1"
-                                max={galleryArray.length}
-                                value={index + 1}
-                                onChange={(e) => handleGalleryOrderChange(e, index)}
-                                className="w-10 h-6 text-[11px] text-center rounded bg-white/95 border-0 focus:ring-2 focus:ring-amber-500 text-slate-800 font-bold shadow-sm"
-                                title="Sıralamayı Değiştir"
-                              />
-                              <div className="flex gap-1">
-                                {/* Edit/Replace */}
-                                <label className="cursor-pointer p-1.5 bg-white/95 hover:bg-white rounded text-slate-600 hover:text-amber-600 transition-colors shadow-sm" title="Görseli Değiştir">
-                                  <Edit2 size={12} strokeWidth={2.5} />
-                                  <input 
-                                    type="file" 
-                                    accept="image/*" 
-                                    className="hidden" 
-                                    onChange={(e) => handleGalleryImageReplace(e, index)} 
-                                    disabled={isSubmitting || isUploading} 
-                                  />
-                                </label>
-                                {/* Delete */}
-                                <button 
-                                  type="button" 
-                                  onClick={() => handleGalleryImageDelete(index)} 
-                                  className="p-1.5 bg-white/95 hover:bg-white rounded text-slate-600 hover:text-red-600 transition-colors shadow-sm"
-                                  title="Görseli Sil"
-                                >
-                                  <Trash2 size={12} strokeWidth={2.5} />
-                                </button>
-                              </div>
+                      <DragDropContext onDragEnd={handleGalleryDragEnd}>
+                        <Droppable droppableId="modal-gallery" direction="horizontal">
+                          {(provided) => (
+                            <div 
+                              {...provided.droppableProps} 
+                              ref={provided.innerRef}
+                              className="flex flex-wrap gap-4"
+                            >
+                              {galleryArray.map((imgUrl, index) => (
+                                <Draggable key={imgUrl} draggableId={imgUrl} index={index}>
+                                  {(provided, snapshot) => (
+                                    <div 
+                                      ref={provided.innerRef}
+                                      {...provided.draggableProps}
+                                      className={`relative group bg-slate-100 rounded-xl overflow-hidden border flex flex-col aspect-square shadow-sm w-[calc(50%-0.5rem)] md:w-[calc(25%-0.75rem)] lg:w-[calc(20%-0.8rem)] ${snapshot.isDragging ? 'shadow-lg border-amber-500 z-50' : 'border-slate-200'}`}
+                                    >
+                                      
+                                      {/* Header for Actions & Drag Handle */}
+                                      <div className="absolute top-0 left-0 w-full p-2 bg-gradient-to-b from-black/60 to-transparent z-10 flex justify-between items-start opacity-100 transition-opacity">
+                                        <div 
+                                          {...provided.dragHandleProps}
+                                          className="p-1.5 bg-white/95 hover:bg-white rounded text-slate-600 hover:text-slate-900 transition-colors shadow-sm cursor-grab active:cursor-grabbing"
+                                          title="Sürükle ve Bırak"
+                                        >
+                                          <GripVertical size={14} strokeWidth={2.5} />
+                                        </div>
+                                        <div className="flex gap-1">
+                                          {/* Edit/Replace */}
+                                          <label className="cursor-pointer p-1.5 bg-white/95 hover:bg-white rounded text-slate-600 hover:text-amber-600 transition-colors shadow-sm" title="Görseli Değiştir">
+                                            <Edit2 size={12} strokeWidth={2.5} />
+                                            <input 
+                                              type="file" 
+                                              accept="image/*" 
+                                              className="hidden" 
+                                              onChange={(e) => handleGalleryImageReplace(e, index)} 
+                                              disabled={isSubmitting || isUploading} 
+                                            />
+                                          </label>
+                                          {/* Delete */}
+                                          <button 
+                                            type="button" 
+                                            onClick={() => handleGalleryImageDelete(index)} 
+                                            className="p-1.5 bg-white/95 hover:bg-white rounded text-slate-600 hover:text-red-600 transition-colors shadow-sm"
+                                            title="Görseli Sil"
+                                          >
+                                            <Trash2 size={12} strokeWidth={2.5} />
+                                          </button>
+                                        </div>
+                                      </div>
+              
+                                      {/* Image Preview */}
+                                      <img loading="lazy" decoding="async" src={getImageUrl(imgUrl)} alt={`Gallery ${index + 1}`} className="w-full h-full object-cover" />
+                                    </div>
+                                  )}
+                                </Draggable>
+                              ))}
+                              {provided.placeholder}
+                              
+                              {/* Yeni Seç Placeholder Box */}
+                              <label className="relative group bg-white rounded-xl border-2 border-dashed border-slate-200 hover:border-slate-400 hover:bg-slate-50 transition-all flex flex-col items-center justify-center aspect-square cursor-pointer shadow-sm w-[calc(50%-0.5rem)] md:w-[calc(25%-0.75rem)] lg:w-[calc(20%-0.8rem)]">
+                                <div className="p-2.5 bg-slate-50 rounded-full shadow-sm border border-slate-100 group-hover:scale-110 transition-transform mb-2">
+                                  <Plus className="w-5 h-5 text-slate-400 group-hover:text-slate-600 transition-colors" />
+                                </div>
+                                <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Yeni Seç</span>
+                                <input 
+                                  type="file" 
+                                  multiple 
+                                  accept="image/*" 
+                                  className="hidden" 
+                                  disabled={isSubmitting || isUploading} 
+                                  onChange={handleGalleryImagesChange}
+                                />
+                              </label>
                             </div>
-    
-                            {/* Image Preview */}
-                            <img loading="lazy" decoding="async" src={getImageUrl(imgUrl)} alt={`Gallery ${index + 1}`} className="w-full h-full object-cover" />
-                          </div>
-                        ))}
-                        
-                        {/* Yeni Seç Placeholder Box */}
-                        <label className="relative group bg-white rounded-xl border-2 border-dashed border-slate-200 hover:border-slate-400 hover:bg-slate-50 transition-all flex flex-col items-center justify-center aspect-square cursor-pointer shadow-sm">
-                          <div className="p-2.5 bg-slate-50 rounded-full shadow-sm border border-slate-100 group-hover:scale-110 transition-transform mb-2">
-                            <Plus className="w-5 h-5 text-slate-400 group-hover:text-slate-600 transition-colors" />
-                          </div>
-                          <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Yeni Seç</span>
-                          <input 
-                            type="file" 
-                            multiple 
-                            accept="image/*" 
-                            className="hidden" 
-                            disabled={isSubmitting || isUploading} 
-                            onChange={handleGalleryImagesChange}
-                          />
-                        </label>
-                      </div>
+                          )}
+                        </Droppable>
+                      </DragDropContext>
                     );
                   })()}
                 </div>
