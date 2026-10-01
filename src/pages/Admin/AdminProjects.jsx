@@ -132,6 +132,54 @@ export default function AdminProjects() {
     }
   };
 
+  const handleGalleryOrderChange = (e, currentIndex) => {
+    let newIndex = parseInt(e.target.value) - 1;
+    let gallery = Array.isArray(currentProject.gallery) 
+      ? [...currentProject.gallery] 
+      : (currentProject.gallery ? currentProject.gallery.split(',').map(s => s.trim()).filter(Boolean) : []);
+      
+    if (isNaN(newIndex)) return;
+    if (newIndex < 0) newIndex = 0;
+    if (newIndex >= gallery.length) newIndex = gallery.length - 1;
+    
+    if (newIndex !== currentIndex) {
+      const [item] = gallery.splice(currentIndex, 1);
+      gallery.splice(newIndex, 0, item);
+      setCurrentProject({ ...currentProject, gallery });
+    }
+  };
+
+  const handleGalleryImageDelete = (index) => {
+    if (!window.confirm('Bu görseli galeriden silmek istediğinize emin misiniz?')) return;
+    let gallery = Array.isArray(currentProject.gallery) 
+      ? [...currentProject.gallery] 
+      : (currentProject.gallery ? currentProject.gallery.split(',').map(s => s.trim()).filter(Boolean) : []);
+    
+    gallery.splice(index, 1);
+    setCurrentProject({ ...currentProject, gallery });
+  };
+
+  const handleGalleryImageReplace = async (e, index) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      try {
+        setIsUploading(true);
+        const uploadedFileName = await uploadFileToR2(file);
+        let gallery = Array.isArray(currentProject.gallery) 
+          ? [...currentProject.gallery] 
+          : (currentProject.gallery ? currentProject.gallery.split(',').map(s => s.trim()).filter(Boolean) : []);
+          
+        gallery[index] = uploadedFileName;
+        setCurrentProject({ ...currentProject, gallery });
+      } catch (err) {
+        alert('Görsel güncellenirken hata oluştu: ' + err.message);
+      } finally {
+        setIsUploading(false);
+        e.target.value = '';
+      }
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -480,38 +528,79 @@ export default function AdminProjects() {
                       />
                     </label>
                   </div>
+                </div>
 
-                  {/* Gallery Images Upload */}
-                  <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">Galeri (Çoklu Seçim) {isUploading && <span className="text-amber-500 text-xs">(Yükleniyor...)</span>}</label>
-                    <label htmlFor="gallery-upload" className={`flex flex-col items-center justify-center w-full h-36 px-6 transition-all bg-slate-50 border-2 border-slate-200 border-dashed rounded-2xl appearance-none relative overflow-hidden ${(isSubmitting || isUploading) ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:border-slate-400 hover:bg-slate-100 group'}`}>
-                      <div className="flex flex-col items-center space-y-3 z-10 text-center">
-                        <div className="p-3 bg-white rounded-full shadow-sm border border-slate-100 group-hover:scale-110 transition-transform">
-                          <UploadCloud className="w-6 h-6 text-slate-400 group-hover:text-slate-600 transition-colors" />
-                        </div>
-                        <span className="text-sm font-medium text-slate-600">
-                          Galeri Görsellerini Seç
-                        </span>
-                        {currentProject.gallery?.length > 0 ? (
-                            <span className="text-xs text-slate-500">
-                              Şu an {currentProject.gallery.length} kayıtlı görsel var<br/>Üzerine eklemek için seçin
-                            </span>
-                        ) : (
-                            <span className="text-xs text-slate-400">Birden fazla dosya seçebilirsiniz<br/>(Max 5MB/dosya)</span>
-                        )}
+                {/* Row 5: Gallery Preview Grid */}
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Galeri Görselleri {isUploading && <span className="text-amber-500 text-xs ml-2">(Yükleniyor...)</span>}</label>
+                  {(() => {
+                    const galleryArray = Array.isArray(currentProject.gallery) 
+                      ? currentProject.gallery 
+                      : (currentProject.gallery ? currentProject.gallery.split(',').map(s => s.trim()).filter(Boolean) : []);
+                    
+                    return (
+                      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                        {galleryArray.map((imgUrl, index) => (
+                          <div key={index} className="relative group bg-slate-100 rounded-xl overflow-hidden border border-slate-200 flex flex-col aspect-square shadow-sm">
+                            
+                            {/* Header for Number Input & Actions */}
+                            <div className="absolute top-0 left-0 w-full p-2 bg-gradient-to-b from-black/60 to-transparent z-10 flex justify-between items-start opacity-100 transition-opacity">
+                              <input 
+                                type="number"
+                                min="1"
+                                max={galleryArray.length}
+                                value={index + 1}
+                                onChange={(e) => handleGalleryOrderChange(e, index)}
+                                className="w-10 h-6 text-[11px] text-center rounded bg-white/95 border-0 focus:ring-2 focus:ring-amber-500 text-slate-800 font-bold shadow-sm"
+                                title="Sıralamayı Değiştir"
+                              />
+                              <div className="flex gap-1">
+                                {/* Edit/Replace */}
+                                <label className="cursor-pointer p-1.5 bg-white/95 hover:bg-white rounded text-slate-600 hover:text-amber-600 transition-colors shadow-sm" title="Görseli Değiştir">
+                                  <Edit2 size={12} strokeWidth={2.5} />
+                                  <input 
+                                    type="file" 
+                                    accept="image/*" 
+                                    className="hidden" 
+                                    onChange={(e) => handleGalleryImageReplace(e, index)} 
+                                    disabled={isSubmitting || isUploading} 
+                                  />
+                                </label>
+                                {/* Delete */}
+                                <button 
+                                  type="button" 
+                                  onClick={() => handleGalleryImageDelete(index)} 
+                                  className="p-1.5 bg-white/95 hover:bg-white rounded text-slate-600 hover:text-red-600 transition-colors shadow-sm"
+                                  title="Görseli Sil"
+                                >
+                                  <Trash2 size={12} strokeWidth={2.5} />
+                                </button>
+                              </div>
+                            </div>
+    
+                            {/* Image Preview */}
+                            <img loading="lazy" decoding="async" src={getImageUrl(imgUrl)} alt={`Gallery ${index + 1}`} className="w-full h-full object-cover" />
+                          </div>
+                        ))}
+                        
+                        {/* Yeni Seç Placeholder Box */}
+                        <label className="relative group bg-white rounded-xl border-2 border-dashed border-slate-200 hover:border-slate-400 hover:bg-slate-50 transition-all flex flex-col items-center justify-center aspect-square cursor-pointer shadow-sm">
+                          <div className="p-2.5 bg-slate-50 rounded-full shadow-sm border border-slate-100 group-hover:scale-110 transition-transform mb-2">
+                            <Plus className="w-5 h-5 text-slate-400 group-hover:text-slate-600 transition-colors" />
+                          </div>
+                          <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Yeni Seç</span>
+                          <input 
+                            type="file" 
+                            multiple 
+                            accept="image/*" 
+                            className="hidden" 
+                            disabled={isSubmitting || isUploading} 
+                            onChange={handleGalleryImagesChange}
+                          />
+                        </label>
                       </div>
-                      <input 
-                        id="gallery-upload" 
-                        type="file" 
-                        multiple
-                        accept="image/*"
-                        className="hidden" 
-                        disabled={isSubmitting || isUploading} 
-                        onChange={handleGalleryImagesChange}
-                      />
-                    </label>
-                  </div>
-
+                    );
+                  })()}
                 </div>
 
               </div>
