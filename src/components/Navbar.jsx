@@ -78,7 +78,7 @@ export default function Navbar() {
               onMouseLeave={() => setIsMegaMenuOpen(false)}
             >
               <div className="py-4 cursor-pointer flex items-center">
-                <Link to="/products" className="hover:text-blue-600 dark:hover:text-amber-500 transition-colors">
+                <Link to="/urunler" className="hover:text-blue-600 dark:hover:text-amber-500 transition-colors">
                   {t('navbarMega.products')}
                 </Link>
               </div>
@@ -120,7 +120,7 @@ export default function Navbar() {
                   {/* Right Side: 40% */}
                   <div className="w-[40%] flex gap-6">
                     {/* Promo Card 1 */}
-                    <Link to="/products" className="group/card relative flex-1 rounded-xl overflow-hidden block aspect-[4/5] bg-gray-100 shadow-md">
+                    <Link to="/urunler" className="group/card relative flex-1 rounded-xl overflow-hidden block aspect-[4/5] bg-gray-100 shadow-md">
                       <img loading="lazy" width="800" height="600" src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=800" alt="Katalog" className="absolute inset-0 w-full h-full object-cover group-hover/card:scale-110 transition-transform duration-[1500ms] ease-out" />
                       <div className="absolute inset-0 bg-black/40 group-hover/card:bg-black/50 transition-colors duration-500"></div>
                       <div className="absolute inset-0 p-6 flex flex-col justify-end text-white">
@@ -134,7 +134,7 @@ export default function Navbar() {
                       </div>
                     </Link>
                     {/* Promo Card 2 */}
-                    <Link to="/products" className="group/card relative flex-1 rounded-xl overflow-hidden block aspect-[4/5] bg-gray-100 shadow-md">
+                    <Link to="/urunler" className="group/card relative flex-1 rounded-xl overflow-hidden block aspect-[4/5] bg-gray-100 shadow-md">
                       <img loading="lazy" width="800" height="600" src="https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&q=80&w=800" alt="Koleksiyon" className="absolute inset-0 w-full h-full object-cover group-hover/card:scale-110 transition-transform duration-[1500ms] ease-out" />
                       <div className="absolute inset-0 bg-black/20 group-hover/card:bg-black/30 transition-colors duration-500"></div>
                       <div className="absolute inset-0 p-6 flex flex-col justify-end text-white">
@@ -232,7 +232,7 @@ export default function Navbar() {
           <Link to="/about" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-amber-500 transition-colors">
             {t('navAbout')}
           </Link>
-          <Link to="/products" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-amber-500 transition-colors">
+          <Link to="/urunler" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-amber-500 transition-colors">
             {t('navbarMega.products')}
           </Link>
           <a href="/#projeler" onClick={(e) => { setIsMobileMenuOpen(false); handleSmoothScroll(e, 'projeler'); }} className="hover:text-amber-500 transition-colors">
