@@ -80,7 +80,7 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 1 }}
               animate={{ opacity: imageLoaded ? 0 : 1 }}
-              transition={{ duration: 1.5, ease: "easeInOut" }}
+              transition={{ duration: 2.5, ease: "easeInOut" }}
               className="absolute inset-0 w-full h-full bg-black pointer-events-none"
             />
           </>
