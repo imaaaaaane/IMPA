@@ -158,12 +158,12 @@ export default function ProjectDetails() {
         )}
       </motion.div>
 
-      {/* Main Content Layout - Sticky Sidebar Grid */}
+      {/* Main Content Layout - Stacked Vertically */}
       <main className="max-w-7xl mx-auto px-6 md:px-12 pt-16 lg:pt-24">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+        <div className="flex flex-col gap-16 items-start">
           
-          {/* 2. Left Column - Sticky Content */}
-          <div className="lg:col-span-5 lg:sticky lg:top-12">
+          {/* 2. Top Content */}
+          <div className="w-full">
             <motion.div 
               initial="hidden" animate="visible" variants={fadeUp}
               className="flex flex-col transform-gpu"
@@ -218,10 +218,10 @@ export default function ProjectDetails() {
             </motion.div>
           </div>
 
-          {/* 3. Right Column - Scrolling Gallery */}
-          <div className="lg:col-span-7">
-            {/* Bento Box Gallery */}
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 transform-gpu">
+          {/* 3. Bottom Section - Full Width Gallery */}
+          <div className="w-full">
+            {/* Gallery Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 transform-gpu">
               {galleryImages.map((img, index) => {
                 return (
                   <div 
@@ -232,7 +232,7 @@ export default function ProjectDetails() {
                     <img 
                       src={getFullR2Url(img)}
                       alt={`Gallery ${index}`} 
-                      className="w-full h-full aspect-[4/3] rounded-lg object-cover group-hover:scale-105 transition-transform duration-700"
+                      className="w-full h-auto rounded-lg object-cover group-hover:scale-105 transition-transform duration-700"
                       loading="lazy"
                     />
                   </div>
