@@ -76,11 +76,11 @@ export default function Hero() {
               onLoad={() => setImageLoaded(true)}
               className="absolute inset-0 w-full h-full object-cover"
             />
-            {/* 10-Second Cinematic Reveal Overlay */}
+            {/* Fast Cinematic Reveal Overlay */}
             <motion.div
               initial={{ opacity: 1 }}
               animate={{ opacity: imageLoaded ? 0 : 1 }}
-              transition={{ duration: 10, ease: "easeInOut" }}
+              transition={{ duration: 1.5, ease: "easeInOut" }}
               className="absolute inset-0 w-full h-full bg-black pointer-events-none"
             />
           </>
