@@ -83,9 +83,28 @@ export default function ProjectDetails() {
     );
   }
 
+  // Safely parse gallery images
+  let parsedGallery = [];
+  if (Array.isArray(project.gallery)) {
+    parsedGallery = project.gallery;
+  } else if (typeof project.gallery === 'string') {
+    let cleanStr = project.gallery.trim();
+    if (cleanStr.startsWith('{') && cleanStr.endsWith('}')) {
+      cleanStr = cleanStr.slice(1, -1);
+    }
+    if (cleanStr.startsWith('[') && cleanStr.endsWith(']')) {
+      try {
+        parsedGallery = JSON.parse(cleanStr);
+      } catch (e) {}
+    }
+    if (parsedGallery.length === 0 && cleanStr) {
+      parsedGallery = cleanStr.split(',').map(s => s.trim().replace(/^"|"$/g, '')).filter(Boolean);
+    }
+  }
+
   // Fallback images if gallery is empty
-  const galleryImages = project.gallery && project.gallery.length > 0 
-    ? project.gallery 
+  const galleryImages = parsedGallery.length > 0 
+    ? parsedGallery 
     : [
         'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&fm=webp&fit=crop&w=1600&q=80',
         'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?ixlib=rb-4.0.3&fm=webp&fit=crop&w=800&q=80',
