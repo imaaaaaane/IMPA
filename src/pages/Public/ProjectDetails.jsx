@@ -82,6 +82,15 @@ export default function ProjectDetails() {
       </div>
     );
   }
+  
+  console.log('Project Data:', project);
+
+  const r2BaseUrl = (import.meta.env.VITE_R2_PUBLIC_URL || '').replace(/\/+$/, '');
+  const getFullR2Url = (imageName) => {
+    if (!imageName) return '';
+    if (imageName.startsWith('http')) return imageName;
+    return `${r2BaseUrl}/${imageName.replace(/^\/+/, '')}`;
+  };
 
   // Safely parse gallery images
   let parsedGallery = [];
@@ -137,11 +146,10 @@ export default function ProjectDetails() {
         className="relative w-full aspect-video md:h-[60vh] overflow-hidden bg-gray-100 transform-gpu"
       >
         {project.image_url ? (
-          <ProgressiveImage 
-            bucket="project-images"
-            path={project.image_url}
+          <img 
+            src={getFullR2Url(project.image_url)}
             alt={project.title} 
-            className="w-full h-full"
+            className="w-full h-full object-cover"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
@@ -221,11 +229,11 @@ export default function ProjectDetails() {
                     onClick={() => setLightboxIndex(index)}
                     className="overflow-hidden rounded-lg shadow-sm bg-gray-100 group transform-gpu cursor-pointer hover:opacity-90 transition-opacity duration-300 w-full"
                   >
-                    <ProgressiveImage 
-                      bucket="project-images"
-                      path={img}
+                    <img 
+                      src={getFullR2Url(img)}
                       alt={`Gallery ${index}`} 
-                      className="w-full h-auto rounded-lg object-cover group-hover:scale-105 transition-transform duration-700"
+                      className="w-full h-full aspect-[4/3] rounded-lg object-cover group-hover:scale-105 transition-transform duration-700"
+                      loading="lazy"
                     />
                   </div>
                 );
