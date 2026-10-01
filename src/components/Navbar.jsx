@@ -50,17 +50,17 @@ export default function Navbar() {
 
   return (
     <nav 
-      className={`fixed top-0 w-full z-[100] transition-all duration-300 ease-in-out flex justify-between items-center px-8 md:px-16 py-4 text-xs tracking-[0.2em] uppercase ${
+      className={`fixed top-0 w-full z-[100] transition-all duration-300 ease-in-out flex justify-between items-center px-8 md:px-16 h-[72px] text-xs tracking-[0.2em] uppercase ${
         isMegaMenuOpen || isScrolled
           ? 'bg-white text-gray-900 shadow-md'
           : 'bg-transparent text-white'
       }`}
     >
-      <Link to="/" className="relative z-10 block flex items-center h-full">
+      <Link to="/" className="relative z-10 flex items-center h-full">
         <img 
           src="/IMPA_LOGO-removebg-preview.png" 
           alt="İMPA Logo" 
-          className="h-24 w-auto object-contain cursor-pointer transition-all duration-300"
+          className="h-10 md:h-12 w-auto object-contain cursor-pointer transition-transform duration-300 scale-[1.35] origin-left"
         />
       </Link>
 
