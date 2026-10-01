@@ -81,13 +81,18 @@ export default function Footer() {
           
         </div>
 
+        {/* Massive Logo */}
+        <div className="w-full flex justify-center mb-16 px-4 pointer-events-none select-none">
+          <img src="/IMPA_LOGO-removebg-preview.png" alt="İMPA Logo" className="w-full max-w-4xl h-auto object-contain opacity-90 dark:opacity-80" />
+        </div>
+
         {/* Footer Bottom */}
-        <div className="flex flex-col md:flex-row justify-between items-center text-xs tracking-[0.2em] uppercase text-black/50 dark:text-white/50 font-medium transition-colors duration-500">
-          <Link to="/" className="block">
-            <img src="/IMPA_LOGO-removebg-preview.png" alt="İMPA Logo" className="h-16 w-auto object-contain mb-4 md:mb-0 transition-all duration-500" />
-          </Link>
-          <div className="flex gap-8 mb-4 md:mb-0">
-            <a href="https://www.instagram.com/impamobilya?stkn=bTV4M2ZjeWp5bmRz&utm_source=qr" target="_blank" rel="noopener noreferrer" className="hover:scale-110 hover:text-gray-500 dark:hover:text-gray-400 transition-all" aria-label="Instagram">
+        <div className="flex flex-col md:flex-row justify-between items-center text-xs tracking-[0.2em] uppercase text-black/50 dark:text-white/50 font-medium transition-colors duration-500 border-t border-gray-100 dark:border-white/10 pt-8">
+          <div className="order-2 md:order-1 mt-6 md:mt-0">
+            {t('footerArchitect.copyright')}
+          </div>
+          <div className="flex gap-10 order-1 md:order-2">
+            <a href="https://www.instagram.com/impamobilya?stkn=bTV4M2ZjeWp5bmRz&utm_source=qr" target="_blank" rel="noopener noreferrer" className="hover:scale-125 hover:text-amber-600 dark:hover:text-amber-500 transition-all duration-300" aria-label="Instagram">
               <svg 
                 xmlns="http://www.w3.org/2000/svg" 
                 width="24" 
@@ -104,14 +109,13 @@ export default function Footer() {
                 <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
               </svg>
             </a>
-            <a href="https://wa.me/905015397572" target="_blank" rel="noopener noreferrer" className="hover:scale-110 hover:text-gray-500 dark:hover:text-gray-400 transition-all" aria-label="WhatsApp">
+            <a href="https://wa.me/905015397572" target="_blank" rel="noopener noreferrer" className="hover:scale-125 hover:text-amber-600 dark:hover:text-amber-500 transition-all duration-300" aria-label="WhatsApp">
               <MessageCircle size={24} strokeWidth={1.5} />
             </a>
-            <a href="mailto:impaormanurunleri@gmail.com" className="hover:scale-110 hover:text-gray-500 dark:hover:text-gray-400 transition-all" aria-label="Email">
+            <a href="mailto:impaormanurunleri@gmail.com" className="hover:scale-125 hover:text-amber-600 dark:hover:text-amber-500 transition-all duration-300" aria-label="Email">
               <Mail size={24} strokeWidth={1.5} />
             </a>
           </div>
-          <div>{t('footerArchitect.copyright')}</div>
         </div>
       </div>
     </footer>
