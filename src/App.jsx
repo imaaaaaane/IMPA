@@ -14,6 +14,7 @@ const About = lazy(() => import("./pages/About"));
 const ProductDetails = lazy(() => import("./pages/Public/ProductDetails"));
 import EbatlamaForm from "./pages/Public/EbatlamaForm";
 const ProjectDetails = lazy(() => import("./pages/Public/ProjectDetails"));
+const ProjelerPage = lazy(() => import("./pages/Public/ProjelerPage"));
 const OrderForm = lazy(() => import("./pages/Public/OrderForm"));
 const UrunlerPage = lazy(() => import("./pages/Public/UrunlerPage"));
 
@@ -45,6 +46,7 @@ export default function App() {
               <Route path="/about" element={<About />} />
               <Route path="/urun/:id" element={<ProductDetails />} />
               <Route path="/proje/:id" element={<ProjectDetails />} />
+              <Route path="/projeler" element={<ProjelerPage />} />
               <Route path="/ebatlama" element={<EbatlamaForm />} />
               <Route path="/siparis-ver" element={<OrderForm />} />
               <Route path="/urunler/:categorySlug?" element={<UrunlerPage />} />

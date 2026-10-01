@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { supabase } from '../supabase';
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
@@ -137,6 +137,15 @@ const Projeler = () => {
               </button>
             </div>
             
+            <div className="mt-16 flex justify-center w-full">
+              <Link 
+                to="/projeler"
+                className="group flex items-center justify-center gap-3 px-8 py-4 bg-gray-900 text-white dark:bg-white dark:text-gray-900 rounded-full text-sm tracking-wider uppercase font-medium hover:scale-105 transition-transform duration-300 shadow-xl"
+              >
+                Tüm Projeleri İncele
+                <ArrowRight size={18} className="transform group-hover:translate-x-1 transition-transform duration-300" />
+              </Link>
+            </div>
           </>
         )}
       </div>
