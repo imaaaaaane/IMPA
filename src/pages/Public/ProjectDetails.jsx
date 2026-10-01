@@ -19,7 +19,7 @@ export default function ProjectDetails() {
         setLoading(true);
         const [projectRes, allProjectsRes] = await Promise.all([
           supabase.from('projects').select('*').eq('id', id).single(),
-          supabase.from('projects').select('id').order('created_at', { ascending: false })
+          supabase.from('projects').select('id').order('order_index', { ascending: true })
         ]);
 
         if (projectRes.error) throw projectRes.error;

@@ -22,7 +22,7 @@ export default function UrunlerPage() {
         const { data, error } = await supabase
           .from('products')
           .select('*')
-          .order('created_at', { ascending: false });
+          .order('order_index', { ascending: true });
 
         if (error) throw error;
         

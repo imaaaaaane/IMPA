@@ -18,7 +18,7 @@ const Urunler = () => {
       let query = supabase
         .from('products')
         .select('*')
-        .order('created_at', { ascending: false });
+        .order('order_index', { ascending: true });
 
       if (categorySlug) {
         query = query.eq('category_slug', categorySlug);

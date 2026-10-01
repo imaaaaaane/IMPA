@@ -26,7 +26,7 @@ const Projeler = () => {
         const { data, error } = await supabase
           .from('projects')
           .select('*')
-          .order('created_at', { ascending: false });
+          .order('order_index', { ascending: true });
 
         if (error) throw error;
         if (data) {

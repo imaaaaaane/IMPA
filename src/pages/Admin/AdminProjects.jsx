@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Edit2, Trash2, X, UploadCloud, Search } from 'lucide-react';
+import { Plus, Edit2, Trash2, X, UploadCloud, Search, GripVertical } from 'lucide-react';
+import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { supabase } from '../../supabase';
 import { getImageUrl } from '../../utils/image';
 import { uploadFileToR2 } from '../../utils/r2upload';
@@ -35,7 +36,7 @@ export default function AdminProjects() {
       const { data, error } = await supabase
         .from('projects')
         .select('*')
-        .order('created_at', { ascending: false });
+        .order('order_index', { ascending: true });
         
       if (error) throw error;
       if (data) {
@@ -61,6 +62,26 @@ export default function AdminProjects() {
       gallery: [] 
     });
     setIsModalOpen(true);
+  };
+
+  const handleDragEnd = async (result) => {
+    if (!result.destination) return;
+    const items = Array.from(projects);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+    
+    setProjects(items);
+
+    try {
+      await Promise.all(
+        items.map((item, index) =>
+          supabase.from('projects').update({ order_index: index }).eq('id', item.id)
+        )
+      );
+    } catch (err) {
+      console.error(err);
+      alert('Sıralama güncellenirken hata oluştu: ' + err.message);
+    }
   };
 
   const openEditModal = (project) => {
@@ -214,76 +235,95 @@ export default function AdminProjects() {
       {/* Data Table */}
       <div className="flex-1 bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col overflow-hidden">
         <div className="flex-1 overflow-x-auto">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="border-b border-slate-100 text-[11px] uppercase tracking-[0.1em] text-slate-400 font-semibold bg-slate-50/50">
-                <th className="px-8 py-5 font-semibold">Görsel</th>
-                <th className="px-8 py-5 font-semibold">Proje Adı</th>
-                <th className="px-8 py-5 font-semibold">Kategori</th>
-                <th className="px-8 py-5 font-semibold">Eklenme Tarihi</th>
-                <th className="px-8 py-5 text-right font-semibold">İşlemler</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-50 text-sm">
-              {loading ? (
-                <tr>
-                  <td colSpan="5" className="px-8 py-16 text-center text-slate-500">
-                    <div className="flex justify-center items-center gap-3 text-sm">
-                      <div className="w-4 h-4 border-2 border-slate-300 border-t-slate-800 rounded-full animate-spin"></div>
-                      Yükleniyor...
-                    </div>
-                  </td>
+          <DragDropContext onDragEnd={handleDragEnd}>
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="border-b border-slate-100 text-[11px] uppercase tracking-[0.1em] text-slate-400 font-semibold bg-slate-50/50">
+                  <th className="px-4 py-5 w-10"></th>
+                  <th className="px-8 py-5 font-semibold">Görsel</th>
+                  <th className="px-8 py-5 font-semibold">Proje Adı</th>
+                  <th className="px-8 py-5 font-semibold">Kategori</th>
+                  <th className="px-8 py-5 font-semibold">Eklenme Tarihi</th>
+                  <th className="px-8 py-5 text-right font-semibold">İşlemler</th>
                 </tr>
-              ) : projects.length === 0 ? (
-                <tr>
-                  <td colSpan="5" className="px-8 py-16 text-center text-slate-500 text-sm">
-                    Kayıtlı proje bulunamadı. Lütfen yeni bir proje ekleyin.
-                  </td>
-                </tr>
-              ) : (
-                projects.map((project) => (
-                  <tr key={project.id} className="hover:bg-slate-50/80 transition-colors duration-150 group">
-                    <td className="px-8 py-4">
-                      <div className="w-16 h-12 bg-slate-100 rounded-md flex items-center justify-center overflow-hidden border border-slate-200">
-                        {project.image_url ? (
-                          <img loading="lazy" decoding="async" width="800" height="600" src={getImageUrl(project.image_url)} alt={project.title} className="w-full h-full object-cover" />
-                        ) : (
-                          <span className="text-[9px] text-slate-400 font-medium uppercase tracking-wider">Yok</span>
-                        )}
-                      </div>
-                    </td>
-                    <td className="px-8 py-4 font-medium text-slate-800">
-                      {project.title}
-                    </td>
-                    <td className="px-8 py-4 text-slate-500">
-                      {project.category}
-                    </td>
-                    <td className="px-8 py-4 text-slate-500">
-                      {formatDate(project.created_at)}
-                    </td>
-                    <td className="px-8 py-4 text-right">
-                      <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                        <button 
-                          onClick={() => openEditModal(project)}
-                          className="p-1.5 text-slate-400 hover:text-slate-800 rounded-md hover:bg-slate-200/50 transition-colors"
-                          title="Düzenle"
-                        >
-                          <Edit2 size={16} />
-                        </button>
-                        <button 
-                          onClick={() => handleDelete(project.id)}
-                          className="p-1.5 text-slate-400 hover:text-red-600 rounded-md hover:bg-red-50 transition-colors"
-                          title="Sil"
-                        >
-                          <Trash2 size={16} />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+              </thead>
+              <Droppable droppableId="projects">
+                {(provided) => (
+                  <tbody {...provided.droppableProps} ref={provided.innerRef} className="divide-y divide-slate-50 text-sm">
+                    {loading ? (
+                      <tr>
+                        <td colSpan="6" className="px-8 py-16 text-center text-slate-500">
+                          <div className="flex justify-center items-center gap-3 text-sm">
+                            <div className="w-4 h-4 border-2 border-slate-300 border-t-slate-800 rounded-full animate-spin"></div>
+                            Yükleniyor...
+                          </div>
+                        </td>
+                      </tr>
+                    ) : projects.length === 0 ? (
+                      <tr>
+                        <td colSpan="6" className="px-8 py-16 text-center text-slate-500 text-sm">
+                          Kayıtlı proje bulunamadı. Lütfen yeni bir proje ekleyin.
+                        </td>
+                      </tr>
+                    ) : (
+                      projects.map((project, index) => (
+                        <Draggable key={project.id} draggableId={project.id.toString()} index={index}>
+                          {(provided, snapshot) => (
+                            <tr 
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              className={`hover:bg-slate-50/80 transition-colors duration-150 group ${snapshot.isDragging ? 'bg-white shadow-lg relative z-10' : ''}`}
+                            >
+                              <td className="px-4 py-4 cursor-grab active:cursor-grabbing text-slate-400 hover:text-slate-800" {...provided.dragHandleProps}>
+                                <GripVertical size={16} />
+                              </td>
+                              <td className="px-8 py-4">
+                                <div className="w-16 h-12 bg-slate-100 rounded-md flex items-center justify-center overflow-hidden border border-slate-200">
+                                  {project.image_url ? (
+                                    <img loading="lazy" decoding="async" width="800" height="600" src={getImageUrl(project.image_url)} alt={project.title} className="w-full h-full object-cover" />
+                                  ) : (
+                                    <span className="text-[9px] text-slate-400 font-medium uppercase tracking-wider">Yok</span>
+                                  )}
+                                </div>
+                              </td>
+                              <td className="px-8 py-4 font-medium text-slate-800">
+                                {project.title}
+                              </td>
+                              <td className="px-8 py-4 text-slate-500">
+                                {project.category}
+                              </td>
+                              <td className="px-8 py-4 text-slate-500">
+                                {formatDate(project.created_at)}
+                              </td>
+                              <td className="px-8 py-4 text-right">
+                                <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                                  <button 
+                                    onClick={() => openEditModal(project)}
+                                    className="p-1.5 text-slate-400 hover:text-slate-800 rounded-md hover:bg-slate-200/50 transition-colors"
+                                    title="Düzenle"
+                                  >
+                                    <Edit2 size={16} />
+                                  </button>
+                                  <button 
+                                    onClick={() => handleDelete(project.id)}
+                                    className="p-1.5 text-slate-400 hover:text-red-600 rounded-md hover:bg-red-50 transition-colors"
+                                    title="Sil"
+                                  >
+                                    <Trash2 size={16} />
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          )}
+                        </Draggable>
+                      ))
+                    )}
+                    {provided.placeholder}
+                  </tbody>
+                )}
+              </Droppable>
+            </table>
+          </DragDropContext>
         </div>
         <div className="px-8 py-4 border-t border-slate-100 bg-slate-50/50 flex justify-between items-center text-xs text-slate-500 font-medium shrink-0">
           <span>{projects.length} sonuç listeleniyor</span>
