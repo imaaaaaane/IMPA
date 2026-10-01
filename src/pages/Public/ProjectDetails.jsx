@@ -194,24 +194,19 @@ export default function ProjectDetails() {
           {/* 3. Right Column - Scrolling Gallery */}
           <div className="lg:col-span-7">
             {/* Bento Box Gallery */}
-            <div className="grid grid-cols-2 gap-4 md:gap-6 transform-gpu">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 transform-gpu">
               {galleryImages.map((img, index) => {
-                const isFullWidth = index === 0;
-                
                 return (
                   <div 
                     key={index}
                     onClick={() => setLightboxIndex(index)}
-                    className={`overflow-hidden rounded-2xl shadow-sm bg-gray-100 group transform-gpu cursor-pointer hover:opacity-90 transition-opacity duration-300 ${
-                      isFullWidth ? 'col-span-2 aspect-video' : 'col-span-1 aspect-square md:aspect-[4/3] min-h-[250px]'
-                    }`}
+                    className="overflow-hidden rounded-lg shadow-sm bg-gray-100 group transform-gpu cursor-pointer hover:opacity-90 transition-opacity duration-300 w-full"
                   >
                     <ProgressiveImage 
                       bucket="project-images"
                       path={img}
                       alt={`Gallery ${index}`} 
-                      className="w-full h-full group-hover:scale-105 transition-transform duration-700"
-                      isThumbnail={!isFullWidth}
+                      className="w-full h-auto rounded-lg object-cover group-hover:scale-105 transition-transform duration-700"
                     />
                   </div>
                 );
