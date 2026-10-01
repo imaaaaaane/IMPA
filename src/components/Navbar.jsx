@@ -60,7 +60,7 @@ export default function Navbar() {
         <img 
           src="/IMPA_LOGO-removebg-preview.png" 
           alt="İMPA Logo" 
-          className="h-14 md:h-[72px] w-auto object-contain cursor-pointer transition-all duration-300"
+          className="h-16 md:h-[76px] w-auto object-contain cursor-pointer transition-all duration-300"
         />
       </Link>
 
